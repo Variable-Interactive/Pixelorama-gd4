@@ -108,7 +108,7 @@ func draw_start(position: Vector2) -> void:
 			_move_content = true
 			if selection_node.is_moving_content:
 				for image in _get_selected_draw_images():
-					image.blit_rect_mask(
+					image.blit_mask(
 						selection_node.preview_image,
 						selection_node.preview_image,
 						Rect2(Vector2.ZERO, project.selection_map.get_size()),
@@ -125,7 +125,7 @@ func draw_start(position: Vector2) -> void:
 			else:
 				selection_node.transform_content_start()
 				for image in _get_selected_draw_images():
-					image.blit_rect_mask(
+					image.blit_mask(
 						selection_node.preview_image,
 						selection_node.preview_image,
 						Rect2(Vector2.ZERO, project.selection_map.get_size()),

@@ -1,9 +1,10 @@
-[gd_scene load_steps=49 format=3 uid="uid://do5nm0mx2ob8i"]
+[gd_scene load_steps=27 format=3 uid="uid://do5nm0mx2ob8i"]
 
 [ext_resource type="PackedScene" path="res://src/UI/Tools/Tools.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://src/UI/Canvas/CanvasPreview.tscn" id="2"]
 [ext_resource type="Script" path="res://src/UI/Tabs.gd" id="3"]
 [ext_resource type="Script" path="res://src/UI/Canvas/Rulers/VerticalRuler.gd" id="4"]
+[ext_resource type="Resource" uid="uid://fb750m6bmu7l" path="res://assets/layouts/default.tres" id="4_3l7c6"]
 [ext_resource type="PackedScene" path="res://src/UI/Nodes/TransparentChecker.tscn" id="5"]
 [ext_resource type="Script" path="res://src/UI/Canvas/Rulers/HorizontalRuler.gd" id="6"]
 [ext_resource type="Script" path="res://src/UI/Canvas/CameraMovement.gd" id="7"]
@@ -12,16 +13,13 @@
 [ext_resource type="PackedScene" path="res://src/UI/GlobalToolOptions/GlobalToolOptions.tscn" id="10"]
 [ext_resource type="PackedScene" path="res://src/UI/ReferenceImages/ReferencesPanel.tscn" id="11"]
 [ext_resource type="PackedScene" path="res://src/UI/PerspectiveEditor/PerspectiveEditor.tscn" id="12"]
-[ext_resource type="Script" path="res://addons/dockable_container/layout.gd" id="14"]
 [ext_resource type="PackedScene" path="res://src/UI/CanvasPreviewContainer/CanvasPreviewContainer.tscn" id="16"]
 [ext_resource type="PackedScene" path="res://src/UI/ColorPickers/ColorPickers.tscn" id="17"]
 [ext_resource type="PackedScene" uid="uid://bduffmpkg1gd6" path="res://src/UI/Timeline/AnimationTimeline.tscn" id="18"]
 [ext_resource type="PackedScene" path="res://src/UI/Canvas/Canvas.tscn" id="19"]
 [ext_resource type="PackedScene" path="res://src/Palette/PalettePanel.tscn" id="20"]
 [ext_resource type="Script" path="res://src/UI/ViewportContainer.gd" id="23"]
-[ext_resource type="Script" path="res://addons/dockable_container/layout_split.gd" id="27"]
 [ext_resource type="Script" path="res://addons/dockable_container/dockable_container.gd" id="35"]
-[ext_resource type="Script" path="res://addons/dockable_container/layout_panel.gd" id="36"]
 [ext_resource type="Script" path="res://src/UI/UI.gd" id="37"]
 [ext_resource type="Shader" path="res://src/Shaders/UITransparency.gdshader" id="38"]
 
@@ -32,172 +30,14 @@ shader_parameter/screen_resolution = Vector2(1280, 720)
 shader_parameter/position = Vector2(100, 100)
 shader_parameter/size = Vector2(100, 100)
 
-[sub_resource type="Resource" id="1"]
-resource_name = "TabBar"
-script = ExtResource("36")
-names = PackedStringArray("Tools", "Perspective Editor")
-current_tab = 0
-
-[sub_resource type="Resource" id="8"]
-resource_name = "TabBar"
-script = ExtResource("36")
-names = PackedStringArray("Main Canvas")
-current_tab = 0
-
-[sub_resource type="Resource" id="28"]
-resource_name = "TabBar"
-script = ExtResource("36")
-names = PackedStringArray("Second Canvas")
-current_tab = 0
-
-[sub_resource type="Resource" id="29"]
-resource_name = "Split"
-script = ExtResource("27")
-direction = 0
-percent = 0.980952
-first = SubResource("8")
-second = SubResource("28")
-
-[sub_resource type="Resource" id="9"]
-resource_name = "TabBar"
-script = ExtResource("36")
-names = PackedStringArray("Animation Timeline")
-current_tab = 0
-
-[sub_resource type="Resource" id="10"]
-resource_name = "Split"
-script = ExtResource("27")
-direction = 1
-percent = 0.90625
-first = SubResource("29")
-second = SubResource("9")
-
-[sub_resource type="Resource" id="11"]
-resource_name = "TabBar"
-script = ExtResource("36")
-names = PackedStringArray("Canvas Preview", "RefCounted Images")
-current_tab = 0
-
-[sub_resource type="Resource" id="20"]
-resource_name = "TabBar"
-script = ExtResource("36")
-names = PackedStringArray("Color Pickers")
-current_tab = 0
-
-[sub_resource type="Resource" id="30"]
-resource_name = "TabBar"
-script = ExtResource("36")
-names = PackedStringArray("Global Tool Options")
-current_tab = 0
-
-[sub_resource type="Resource" id="31"]
-resource_name = "Split"
-script = ExtResource("27")
-direction = 1
-percent = 0.5
-first = SubResource("20")
-second = SubResource("30")
-
-[sub_resource type="Resource" id="21"]
-resource_name = "Split"
-script = ExtResource("27")
-direction = 1
-percent = 0.911765
-first = SubResource("11")
-second = SubResource("31")
-
-[sub_resource type="Resource" id="22"]
-resource_name = "TabBar"
-script = ExtResource("36")
-names = PackedStringArray("Left Tool Options")
-current_tab = 0
-
-[sub_resource type="Resource" id="23"]
-resource_name = "TabBar"
-script = ExtResource("36")
-names = PackedStringArray("Right Tool Options")
-current_tab = 0
-
-[sub_resource type="Resource" id="24"]
-resource_name = "Split"
-script = ExtResource("27")
-direction = 0
-percent = 0.5
-first = SubResource("22")
-second = SubResource("23")
-
-[sub_resource type="Resource" id="13"]
-resource_name = "TabBar"
-script = ExtResource("36")
-names = PackedStringArray("Palettes")
-current_tab = 0
-
-[sub_resource type="Resource" id="14"]
-resource_name = "Split"
-script = ExtResource("27")
-direction = 1
-percent = 0.754808
-first = SubResource("24")
-second = SubResource("13")
-
-[sub_resource type="Resource" id="15"]
-resource_name = "Split"
-script = ExtResource("27")
-direction = 1
-percent = 0.332031
-first = SubResource("21")
-second = SubResource("14")
-
-[sub_resource type="Resource" id="16"]
-resource_name = "Split"
-script = ExtResource("27")
-direction = 0
-percent = 0.855
-first = SubResource("10")
-second = SubResource("15")
-
-[sub_resource type="Resource" id="5"]
-resource_name = "Split"
-script = ExtResource("27")
-direction = 0
-percent = 0.0
-first = SubResource("1")
-second = SubResource("16")
-
-[sub_resource type="Resource" id="32"]
-resource_name = "Layout"
-script = ExtResource("14")
-root = SubResource("5")
-hidden_tabs = {
-"Second Canvas": true
-}
-
 [sub_resource type="ShaderMaterial" id="2"]
 shader = ExtResource("9")
-shader_parameter/size = Vector2(0, 0)
-shader_parameter/alpha = 1.0
-shader_parameter/color1 = Color(0.7, 0.7, 0.7, 1)
-shader_parameter/color2 = Color(1, 1, 1, 1)
-shader_parameter/offset = Vector2(0, 0)
-shader_parameter/scale = Vector2(0, 0)
-shader_parameter/rect_size = Vector2(0, 0)
-shader_parameter/follow_movement = false
-shader_parameter/follow_scale = false
 
 [sub_resource type="ShaderMaterial" id="27"]
 shader = ExtResource("8")
 
 [sub_resource type="ShaderMaterial" id="3"]
 shader = ExtResource("9")
-shader_parameter/size = Vector2(0, 0)
-shader_parameter/alpha = 1.0
-shader_parameter/color1 = Color(0.7, 0.7, 0.7, 1)
-shader_parameter/color2 = Color(1, 1, 1, 1)
-shader_parameter/offset = Vector2(0, 0)
-shader_parameter/scale = Vector2(0, 0)
-shader_parameter/rect_size = Vector2(0, 0)
-shader_parameter/follow_movement = false
-shader_parameter/follow_scale = false
 
 [node name="UI" type="Panel"]
 material = SubResource("26")
@@ -215,8 +55,7 @@ anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("35")
-tabs_visible = false
-layout = SubResource("32")
+layout = ExtResource("4_3l7c6")
 
 [node name="Tools" parent="DockableContainer" instance=ExtResource("1")]
 layout_mode = 2
@@ -271,7 +110,7 @@ script = ExtResource("23")
 
 [node name="SubViewport" type="SubViewport" parent="DockableContainer/Main Canvas/ViewportandVerticalRuler/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(2, 8)
+size = Vector2i(861, 591)
 render_target_update_mode = 4
 
 [node name="TransparentChecker" parent="DockableContainer/Main Canvas/ViewportandVerticalRuler/SubViewportContainer/SubViewport" instance=ExtResource("5")]
@@ -304,7 +143,7 @@ script = ExtResource("23")
 
 [node name="SubViewport" type="SubViewport" parent="DockableContainer/Second Canvas"]
 handle_input_locally = false
-size = Vector2i(2, 342)
+size = Vector2i(2, 2)
 render_target_update_mode = 0
 
 [node name="TransparentChecker" parent="DockableContainer/Second Canvas/SubViewport" instance=ExtResource("5")]

@@ -10,7 +10,7 @@ var _hidden_menu_list: PackedStringArray
 
 
 func _ready() -> void:
-	rect_min_size = Vector2(128, 256)
+	custom_minimum_size = Vector2(128, 256)
 	
 	_hidden_menu_button.text = "Visible nodes"
 	add_child(_hidden_menu_button)
@@ -20,7 +20,7 @@ func _ready() -> void:
 	_hidden_menu_popup.connect(&"id_pressed", self._on_hidden_menu_popup_id_pressed)
 	
 	_container.clone_layout_on_ready = false
-	_container.rect_min_size = rect_min_size
+	_container.custom_minimum_size = custom_minimum_size
 	
 	var original_container: DockableContainer = get_edited_object()
 	var value = original_container.get(get_edited_property())

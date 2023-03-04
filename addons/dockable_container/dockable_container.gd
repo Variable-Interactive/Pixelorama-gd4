@@ -13,13 +13,13 @@ const Layout = preload("layout.gd")
 	set(value):
 		# TODO: Manually copy the code from this method.
 		set_tab_align(value)
-@export var use_hidden_tabs_for_min_size: bool:
+@export var use_hidden_tabs_for_custom_minimum_size: bool:
 	get:
 		# TODO: Manually copy the code from this method.
 		return get_use_hidden_tabs_for_min_size()
 	set(value):
 		# TODO: Manually copy the code from this method.
-		set_use_hidden_tabs_for_min_size(value)
+		set_use_hidden_tabs_for_custom_minimum_size(value)
 @export var rearrange_group: int = 0
 @export var layout: Resource = Layout.new():
 	get:
@@ -56,7 +56,7 @@ func _ready() -> void:
 	
 	_drag_n_drop_panel.name = "_drag_n_drop_panel"
 	_drag_n_drop_panel.mouse_filter = MOUSE_FILTER_PASS
-	_drag_n_drop_panel.set_drag_forwarding(self)
+	_drag_n_drop_panel.set_drag_forwarding(Callable(), Callable(self,"_can_drop_data_fw"), Callable(self, "_drop_data_fw"))
 	_drag_n_drop_panel.visible = false
 	super.add_child(_drag_n_drop_panel)
 	
@@ -92,16 +92,16 @@ func _input(event: InputEvent) -> void:
 		fit_child_in_rect(_drag_n_drop_panel, panel.get_child_rect())
 
 
-func add_child(node: Node, legible_unique_name: bool = false) -> void:
-	super.add_child(node, legible_unique_name)
-	_drag_n_drop_panel.raise()
+func add_child(node: Node, legible_unique_name: bool = false, internal: InternalMode = 0) -> void:
+	super.add_child(node, legible_unique_name, internal)
+	_drag_n_drop_panel.move_to_front()
 	_track_and_add_node(node)
 
 
 func add_child_below_node(node: Node, child_node: Node, legible_unique_name: bool = false) -> void:
 	#super.add_child_below_node(node, child_node, legible_unique_name)
 	super.add_sibling(child_node, legible_unique_name)
-	_drag_n_drop_panel.raise()
+	_drag_n_drop_panel.move_to_front()
 	_track_and_add_node(child_node)
 
 
@@ -110,12 +110,15 @@ func remove_child(node: Node) -> void:
 	_untrack_node(node)
 
 
-func _can_drop_data_fw(position: Vector2, data, from_control) -> bool:
-	return from_control == _drag_n_drop_panel and data is Dictionary and data.get("type") == "tabc_element"
+#func _can_drop_data_fw(position: Vector2, data, from_control) -> bool:
+#	return from_control == _drag_n_drop_panel and data is Dictionary and data.get("type") == "tabc_element"
+func _can_drop_data_fw(position: Vector2, data: Dictionary) -> bool:
+	return data is Dictionary and data.get("type") == "tabc_element"
 
 
-func _drop_data_fw(position: Vector2, data, from_control) -> void:
-	assert(from_control == _drag_n_drop_panel, "FIXME")
+#func _drop_data_fw(position: Vector2, data, from_control) -> void:
+func _drop_data_fw(position: Vector2, data) -> void:
+#	assert(from_control == _drag_n_drop_panel, "FIXME")
 	
 	var from_node: DockablePanel = get_node(data.from_path)
 	if _drag_panel == null or (from_node == _drag_panel and _drag_panel.get_child_count() == 1):
@@ -181,11 +184,11 @@ func get_tab_align() -> int:
 	return _tab_align # REMOVED _
 
 
-func set_use_hidden_tabs_for_min_size(value: bool) -> void:
+func set_use_hidden_tabs_for_custom_minimum_size(value: bool) -> void:
 	_use_hidden_tabs_for_min_size = value
 	for i in range(1, _panel_container.get_child_count()):
 		var panel = _panel_container.get_child(i)
-		panel.use_hidden_tabs_for_min_size = value
+		panel.use_hidden_tabs_for_custom_minimum_size = value
 
 
 func get_use_hidden_tabs_for_min_size() -> bool:
@@ -242,9 +245,9 @@ func _track_node(node: Node) -> bool:
 	_children_names[node] = node.name
 	_children_names[node.name] = node
 	if not node.is_connected("renamed", Callable(self, "_on_child_renamed")):
-		node.connect("renamed", Callable(self, "_on_child_renamed"), [node])
+		node.connect("renamed", Callable(self, "_on_child_renamed").bindv([node]))
 	if not node.is_connected("tree_exiting", Callable(self, "_untrack_node")):
-		node.connect("tree_exiting", Callable(self, "_untrack_node"), [node])
+		node.connect("tree_exiting", Callable(self, "_untrack_node").bindv([node]))
 	return true
 
 
@@ -272,12 +275,12 @@ func _resort() -> void:
 	if _panel_container.get_index() != 0:
 		move_child(_panel_container, 0)
 	if _drag_n_drop_panel.get_index() < get_child_count() - 1:
-		_drag_n_drop_panel.raise()
+		_drag_n_drop_panel.move_to_front()
 	
 	if _layout_dirty:
 		_update_layout_with_children()
 	
-	var rect = Rect2(Vector2.ZERO, rect_size)
+	var rect = Rect2(Vector2.ZERO, size)
 	fit_child_in_rect(_panel_container, rect)
 	_panel_container.fit_child_in_rect(_split_container, rect)
 	
@@ -368,7 +371,7 @@ func _get_panel(idx: int) -> DockablePanel:
 	panel.use_hidden_tabs_for_min_size = _use_hidden_tabs_for_min_size
 	panel.set_tabs_rearrange_group(max(0, rearrange_group))
 	_panel_container.add_child(panel)
-	panel.connect("tab_layout_changed", Callable(self, "_on_panel_tab_layout_changed"), [panel])
+	panel.connect("tab_layout_changed", Callable(self, "_on_panel_tab_layout_changed").bindv([panel]))
 	return panel
 
 

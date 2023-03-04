@@ -108,7 +108,7 @@ func _draw_brush_image(image: Image, src_rect: Rect2, dst: Vector2) -> void:
 
 		var images := _get_selected_draw_images()
 		for draw_image in images:
-			draw_image.blit_rect_mask(_clear_image, image, src_rect, dst)
+			draw_image.blit_mask(_clear_image, image, src_rect, dst)
 	else:
 		false # image.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 		for xx in image.get_size().x:

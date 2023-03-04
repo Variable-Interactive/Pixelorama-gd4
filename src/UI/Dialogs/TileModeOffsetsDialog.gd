@@ -107,7 +107,7 @@ func _on_TileModeOffsetsDialog_popup_hide() -> void:
 	Global.dialog_open(false)
 
 
-func _on_TileModeOffsetsDialog_item_rect_changed():
+func _on_TileModeOffsetsDialog_item_changed():
 	if tile_mode:
 		update_preview()
 

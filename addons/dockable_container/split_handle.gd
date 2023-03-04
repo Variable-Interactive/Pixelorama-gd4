@@ -29,7 +29,7 @@ func _draw() -> void:
 	if not icon or (autohide and not _mouse_hovering):
 		return
 	
-	draw_texture(icon, (rect_size - icon.get_size()) * 0.5 )
+	draw_texture(icon, (size - icon.get_size()) * 0.5 )
 
 
 func _gui_input(event: InputEvent) -> void:

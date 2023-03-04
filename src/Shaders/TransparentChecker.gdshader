@@ -7,7 +7,7 @@ uniform vec4 color1 : source_color = vec4(0.7, 0.7, 0.7, 1.0);
 uniform vec4 color2 : source_color = vec4(1.0);
 uniform vec2 offset = vec2(0.0);
 uniform vec2 scale = vec2(0.0);
-uniform vec2 rect_size = vec2(0.0);
+uniform vec2 size = vec2(0.0);
 uniform bool follow_movement = false;
 uniform bool follow_scale = false;
 
@@ -17,7 +17,7 @@ void fragment() {
 		if (!follow_movement)
 			ref_pos /= scale;
 		else
-			ref_pos = UV * rect_size;
+			ref_pos = UV * size;
 	}
 	else if (follow_movement)
 		ref_pos -= mod(offset, size * 2.0);

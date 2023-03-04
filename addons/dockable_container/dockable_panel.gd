@@ -33,15 +33,15 @@ func _exit_tree() -> void:
 
 func track_nodes(nodes: Array, new_leaf: Layout.LayoutPanel) -> void:
 	_leaf = null  # avoid using previous leaf in tab_changed signals
-	var min_size = min(nodes.size(), get_child_count())
+	var custom_minimum_size = min(nodes.size(), get_child_count())
 	# remove spare children
-	for i in range(min_size, get_child_count()):
-		var child = get_child(min_size)
+	for i in range(custom_minimum_size, get_child_count()):
+		var child = get_child(custom_minimum_size)
 		child.reference_to = null
 		remove_child(child)
 		child.queue_free()
 	# add missing children
-	for i in range(min_size, nodes.size()):
+	for i in range(custom_minimum_size, nodes.size()):
 		var ref_control = ReferenceControl.new()
 		add_child(ref_control)
 	assert(nodes.size() == get_child_count(), "FIXME")
@@ -55,7 +55,7 @@ func track_nodes(nodes: Array, new_leaf: Layout.LayoutPanel) -> void:
 
 func get_child_rect() -> Rect2:
 	var control = get_current_tab_control()
-	return Rect2(rect_position + control.rect_position, control.rect_size)
+	return Rect2(position + control.position, control.size)
 
 
 func set_leaf(value: Layout.LayoutPanel) -> void:

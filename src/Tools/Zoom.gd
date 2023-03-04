@@ -53,13 +53,13 @@ func draw_start(position: Vector2) -> void:
 	var viewport_rect := Rect2(
 		Global.main_viewport.global_position, Global.main_viewport.size
 	)
-	var viewport_rect_2 := Rect2(
+	var viewport_2 := Rect2(
 		Global.second_viewport.global_position, Global.second_viewport.size
 	)
 
 	if viewport_rect.has_point(mouse_pos):
 		Global.camera.zoom_camera(_zoom_mode * 2 - 1)
-	elif viewport_rect_2.has_point(mouse_pos):
+	elif viewport_2.has_point(mouse_pos):
 		Global.camera2.zoom_camera(_zoom_mode * 2 - 1)
 
 

@@ -11,9 +11,9 @@ var is_pasting := false
 var big_bounding_rectangle := Rect2() : set = _big_bounding_rectangle_changed
 
 var temp_rect := Rect2()
-var rect_aspect_ratio := 0.0
-var temp_rect_size := Vector2.ZERO
-var temp_rect_pivot := Vector2.ZERO
+var aspect_ratio := 0.0
+var temp_size := Vector2.ZERO
+var temp_pivot := Vector2.ZERO
 
 var original_big_bounding_rectangle := Rect2()
 var original_preview_image := Image.new()
@@ -132,9 +132,9 @@ func _input(event: InputEvent) -> void:
 						var pos := temp_rect.position.y
 						temp_rect.position.y = temp_rect.end.y
 						temp_rect.end.y = pos
-				rect_aspect_ratio = abs(temp_rect.size.y / temp_rect.size.x)
-				temp_rect_size = temp_rect.size
-				temp_rect_pivot = (
+				aspect_ratio = abs(temp_rect.size.y / temp_rect.size.x)
+				temp_size = temp_rect.size
+				temp_pivot = (
 					temp_rect.position
 					+ ((temp_rect.end - temp_rect.position) / 2).floor()
 				)
@@ -258,26 +258,26 @@ func _big_bounding_rectangle_changed(value: Rect2) -> void:
 
 
 func _update_gizmos() -> void:
-	var rect_pos: Vector2 = big_bounding_rectangle.position
-	var rect_end: Vector2 = big_bounding_rectangle.end
+	var pos: Vector2 = big_bounding_rectangle.position
+	var end: Vector2 = big_bounding_rectangle.end
 	var size: Vector2 = Vector2.ONE * Global.camera.zoom * 10
 	# Clockwise, starting from top-left corner
-	gizmos[0].rect = Rect2(rect_pos - size, size)
+	gizmos[0].rect = Rect2(pos - size, size)
 	gizmos[1].rect = Rect2(
-		Vector2((rect_end.x + rect_pos.x - size.x) / 2, rect_pos.y - size.y), size
+		Vector2((end.x + pos.x - size.x) / 2, pos.y - size.y), size
 	)
-	gizmos[2].rect = Rect2(Vector2(rect_end.x, rect_pos.y - size.y), size)
-	gizmos[3].rect = Rect2(Vector2(rect_end.x, (rect_end.y + rect_pos.y - size.y) / 2), size)
-	gizmos[4].rect = Rect2(rect_end, size)
-	gizmos[5].rect = Rect2(Vector2((rect_end.x + rect_pos.x - size.x) / 2, rect_end.y), size)
-	gizmos[6].rect = Rect2(Vector2(rect_pos.x - size.x, rect_end.y), size)
+	gizmos[2].rect = Rect2(Vector2(end.x, pos.y - size.y), size)
+	gizmos[3].rect = Rect2(Vector2(end.x, (end.y + pos.y - size.y) / 2), size)
+	gizmos[4].rect = Rect2(end, size)
+	gizmos[5].rect = Rect2(Vector2((end.x + pos.x - size.x) / 2, end.y), size)
+	gizmos[6].rect = Rect2(Vector2(pos.x - size.x, end.y), size)
 	gizmos[7].rect = Rect2(
-		Vector2(rect_pos.x - size.x, (rect_end.y + rect_pos.y - size.y) / 2), size
+		Vector2(pos.x - size.x, (end.y + pos.y - size.y) / 2), size
 	)
 
 	# Rotation gizmo (temp)
 #	gizmos[8].rect = Rect2(
-#		Vector2((rect_end.x + rect_pos.x - size.x) / 2, rect_pos.y - size.y - (size.y * 2)), size
+#		Vector2((end.x + pos.x - size.x) / 2, pos.y - size.y - (size.y * 2)), size
 #	)
 	queue_redraw()
 
@@ -301,12 +301,12 @@ func _gizmo_resize() -> void:
 	if Input.is_action_pressed("shape_center"):
 		# Code inspired from https://github.com/GDQuest/godot-open-rpg
 		if dir.x != 0 and dir.y != 0:  # Border gizmos
-			temp_rect.size = ((canvas.current_pixel - temp_rect_pivot) * 2.0 * dir)
+			temp_rect.size = ((canvas.current_pixel - temp_pivot) * 2.0 * dir)
 		elif dir.y == 0:  # Center left and right gizmos
-			temp_rect.size.x = (canvas.current_pixel.x - temp_rect_pivot.x) * 2.0 * dir.x
+			temp_rect.size.x = (canvas.current_pixel.x - temp_pivot.x) * 2.0 * dir.x
 		elif dir.x == 0:  # Center top and bottom gizmos
-			temp_rect.size.y = (canvas.current_pixel.y - temp_rect_pivot.y) * 2.0 * dir.y
-		temp_rect = Rect2(-1.0 * temp_rect.size / 2 + temp_rect_pivot, temp_rect.size)
+			temp_rect.size.y = (canvas.current_pixel.y - temp_pivot.y) * 2.0 * dir.y
+		temp_rect = Rect2(-1.0 * temp_rect.size / 2 + temp_pivot, temp_rect.size)
 	else:
 		_resize_rect(canvas.current_pixel, dir)
 
@@ -317,14 +317,14 @@ func _gizmo_resize() -> void:
 			# Needed in order for resizing to work properly in negative sizes
 			if sign(size) != sign(temp_rect.size.x):
 				size = abs(size) if temp_rect.size.x > 0 else -abs(size)
-			temp_rect.size.x = size / rect_aspect_ratio
+			temp_rect.size.x = size / aspect_ratio
 
 		else:  # The rest of the corners
 			var size := temp_rect.size.x
 			# Needed in order for resizing to work properly in negative sizes
 			if sign(size) != sign(temp_rect.size.y):
 				size = abs(size) if temp_rect.size.y > 0 else -abs(size)
-			temp_rect.size.y = size * rect_aspect_ratio
+			temp_rect.size.y = size * aspect_ratio
 
 		# Inspired by the solution answered in https://stackoverflow.com/a/50271547
 		if dir == Vector2(-1, -1):  # Top left corner
@@ -350,7 +350,7 @@ func _resize_rect(pos: Vector2, dir: Vector2) -> void:
 		temp_rect.position.x = pos.x
 		temp_rect.end.x = end_x
 	else:
-		temp_rect.size.x = temp_rect_size.x
+		temp_rect.size.x = temp_size.x
 
 	if dir.y > 0:
 		temp_rect.size.y = pos.y - temp_rect.position.y
@@ -359,7 +359,7 @@ func _resize_rect(pos: Vector2, dir: Vector2) -> void:
 		temp_rect.position.y = pos.y
 		temp_rect.end.y = end_y
 	else:
-		temp_rect.size.y = temp_rect_size.y
+		temp_rect.size.y = temp_size.y
 
 
 func resize_selection() -> void:
@@ -523,7 +523,7 @@ func transform_content_confirm() -> void:
 			if temp_rect.size.y < 0:
 				src.flip_y()
 
-		cel_image.blit_rect_mask(
+		cel_image.blit_mask(
 			src,
 			src,
 			Rect2(Vector2.ZERO, project.selection_map.get_size()),
@@ -557,7 +557,7 @@ func transform_content_cancel() -> void:
 	for cel in _get_selected_draw_cels():
 		var cel_image: Image = cel.get_image()
 		if !is_pasting:
-			cel_image.blit_rect_mask(
+			cel_image.blit_mask(
 				cel.transformed_content,
 				cel.transformed_content,
 				Rect2(Vector2.ZERO, Global.current_project.selection_map.get_size()),
@@ -816,7 +816,7 @@ func delete(selected_cels := true) -> void:
 		# In case the selection map is bigger than the canvas
 		selection_map_copy.crop(project.size.x, project.size.y)
 		for image in images:
-			image.blit_rect_mask(
+			image.blit_mask(
 				blank, selection_map_copy, big_bounding_rectangle, big_bounding_rectangle.position
 			)
 	else:
@@ -940,7 +940,7 @@ func _get_preview_image() -> void:
 	for cel in _get_selected_draw_cels():
 		var cel_image: Image = cel.get_image()
 		cel.transformed_content = _get_selected_image(cel_image)
-		cel_image.blit_rect_mask(
+		cel_image.blit_mask(
 			clear_image,
 			cel.transformed_content,
 			Rect2(Vector2.ZERO, project.selection_map.get_size()),

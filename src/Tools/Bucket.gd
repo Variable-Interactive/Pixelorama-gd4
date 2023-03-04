@@ -253,7 +253,7 @@ func fill_in_selection() -> void:
 			# In case the selection map is bigger than the canvas
 			selection_map_copy.crop(project.size.x, project.size.y)
 			for image in images:
-				image.blit_rect_mask(filler, selection_map_copy, rect, rect.position)
+				image.blit_mask(filler, selection_map_copy, rect, rect.position)
 		else:
 			for image in images:
 				image.fill(tool_slot.color)

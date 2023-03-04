@@ -49,8 +49,8 @@ func get_reference_to() -> Control:
 
 
 func _reposition_reference() -> void:
-	_reference_to.rect_global_position = rect_global_position
-	_reference_to.rect_size = rect_size
+	_reference_to.global_position = global_position
+	_reference_to.size = size
 
 
 func _on_reference_to_renamed() -> void:

@@ -112,7 +112,7 @@ func _setup_application_window_size() -> void:
 	if OS.get_name() == "HTML5":
 		return
 	# Set a minimum window size to prevent UI elements from collapsing on each other.
-	get_window().min_size = Vector2(1024, 576)
+	get_window().custom_minimum_size = Vector2(1024, 576)
 
 	# Restore the window position/size if values are present in the configuration cache
 	if Global.config_cache.has_section_key("window", "screen"):

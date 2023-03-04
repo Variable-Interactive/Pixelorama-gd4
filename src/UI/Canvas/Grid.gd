@@ -74,8 +74,8 @@ func _draw_isometric_grid(target_rect: Rect2) -> void:
 	)
 	while y < target_rect.size.y:
 		var start: Vector2 = target_rect.position + Vector2(0, y)
-		var cells_to_rect_bounds: float = min(max_cell_count.x, y / cell_size.y)
-		var end: Vector2 = start + cells_to_rect_bounds * per_cell_offset
+		var cells_to_bounds: float = min(max_cell_count.x, y / cell_size.y)
+		var end: Vector2 = start + cells_to_bounds * per_cell_offset
 		grid_multiline_points.push_back(start)
 		grid_multiline_points.push_back(end)
 		y += cell_size.y
@@ -84,8 +84,8 @@ func _draw_isometric_grid(target_rect: Rect2) -> void:
 	var x: float = (y - target_rect.size.y) / cell_size.y * cell_size.x
 	while x < target_rect.size.x:
 		var start: Vector2 = target_rect.position + Vector2(x, target_rect.size.y)
-		var cells_to_rect_bounds: float = min(max_cell_count.y, max_cell_count.x - x / cell_size.x)
-		var end: Vector2 = start + cells_to_rect_bounds * per_cell_offset
+		var cells_to_bounds: float = min(max_cell_count.y, max_cell_count.x - x / cell_size.x)
+		var end: Vector2 = start + cells_to_bounds * per_cell_offset
 		grid_multiline_points.push_back(start)
 		grid_multiline_points.push_back(end)
 		x += cell_size.x
@@ -97,8 +97,8 @@ func _draw_isometric_grid(target_rect: Rect2) -> void:
 	y = fposmod(origin_offset.y - cell_size.y * (0.5 + origin_offset.x / cell_size.x), cell_size.y)
 	while y < target_rect.size.y:
 		var start: Vector2 = target_rect.position + Vector2(0, y)
-		var cells_to_rect_bounds: float = min(max_cell_count.x, max_cell_count.y - y / cell_size.y)
-		var end: Vector2 = start + cells_to_rect_bounds * per_cell_offset
+		var cells_to_bounds: float = min(max_cell_count.x, max_cell_count.y - y / cell_size.y)
+		var end: Vector2 = start + cells_to_bounds * per_cell_offset
 		grid_multiline_points.push_back(start)
 		grid_multiline_points.push_back(end)
 		y += cell_size.y
@@ -107,8 +107,8 @@ func _draw_isometric_grid(target_rect: Rect2) -> void:
 	x = fposmod(origin_offset.x - cell_size.x * (0.5 + origin_offset.y / cell_size.y), cell_size.x)
 	while x < target_rect.size.x:
 		var start: Vector2 = target_rect.position + Vector2(x, 0)
-		var cells_to_rect_bounds: float = min(max_cell_count.y, max_cell_count.x - x / cell_size.x)
-		var end: Vector2 = start + cells_to_rect_bounds * per_cell_offset
+		var cells_to_bounds: float = min(max_cell_count.y, max_cell_count.x - x / cell_size.x)
+		var end: Vector2 = start + cells_to_bounds * per_cell_offset
 		grid_multiline_points.push_back(start)
 		grid_multiline_points.push_back(end)
 		x += cell_size.x
