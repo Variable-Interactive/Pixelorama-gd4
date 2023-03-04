@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://d2lgmdhidcnbw"]
 
-[ext_resource path="res://src/Tools/BaseTool.gd" type="Script" id=1]
-[ext_resource path="res://src/UI/Nodes/ValueSlider.tscn" type="PackedScene" id=2]
+[ext_resource type="Script" path="res://src/Tools/BaseTool.gd" id="1"]
+[ext_resource type="PackedScene" path="res://src/UI/Nodes/ValueSlider.tscn" id="2"]
 
 [node name="ToolOptions" type="VBoxContainer"]
 offset_left = 7.0
@@ -9,49 +9,34 @@ offset_top = 7.0
 offset_right = 123.0
 offset_bottom = 65.0
 size_flags_horizontal = 3
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-offset_right = 116.0
-offset_bottom = 4.0
-custom_minimum_size = Vector2( 0, 4 )
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
 
 [node name="Label" type="Label" parent="."]
-offset_top = 8.0
-offset_right = 116.0
-offset_bottom = 22.0
-theme_type_variation = "Header"
+layout_mode = 2
+theme_type_variation = &"Header"
 text = "Tool Name"
-align = 1
-autowrap = true
 
 [node name="SpacingMode" type="CheckBox" parent="."]
 visible = false
-offset_top = 26.0
-offset_right = 116.0
-offset_bottom = 50.0
+layout_mode = 2
 text = "Spacing"
 
 [node name="StrokeGap" type="VBoxContainer" parent="."]
 visible = false
-offset_top = 26.0
-offset_right = 116.0
-offset_bottom = 78.0
+layout_mode = 2
 
-[node name="SpacingX" parent="StrokeGap" instance=ExtResource( 2 )]
-offset_right = 116.0
-__meta__ = {
-"_editor_description_": ""
-}
+[node name="SpacingX" parent="StrokeGap" instance=ExtResource("2")]
+layout_mode = 2
+theme_type_variation = &"ValueSlider"
 prefix = "Gap X:"
 suffix = "px"
 
-[node name="SpacingY" parent="StrokeGap" instance=ExtResource( 2 )]
-offset_top = 28.0
-offset_right = 116.0
-offset_bottom = 52.0
-__meta__ = {
-"_editor_description_": ""
-}
+[node name="SpacingY" parent="StrokeGap" instance=ExtResource("2")]
+layout_mode = 2
+theme_type_variation = &"ValueSlider"
 prefix = "Gap Y:"
 suffix = "px"

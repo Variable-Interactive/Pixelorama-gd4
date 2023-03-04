@@ -9,7 +9,7 @@ var _displace_origin := false
 var _thickness := 1
 
 
-func _init():
+func _init() -> void:
 	_drawer.color_op = Drawer.ColorOp.new()
 	update_indicator()
 
@@ -61,7 +61,7 @@ func set_config(config: Dictionary) -> void:
 
 func update_config() -> void:
 	super.update_config()
-	$FillCheckbox.button_pressed = _fill
+	$FillCheckbox.pressed = _fill
 	$ThicknessSlider.value = _thickness
 
 
@@ -155,9 +155,9 @@ func draw_preview() -> void:
 func _draw_shape(origin: Vector2, dest: Vector2) -> void:
 	var rect := _get_result_rect(origin, dest)
 	var points := _get_points(rect.size)
-	prepare_undo("Draw Shape3D")
+	prepare_undo("Draw Shape")
 	for point in points:
-		# Reset drawer every time because pixel perfect sometimes breaks the @tool
+		# Reset drawer every time because pixel perfect sometimes breaks the tool
 		_drawer.reset()
 		# Draw each point offsetted based on the shape's thickness
 		draw_tool(rect.position + point - Vector2(0.5, 0.5) * (_thickness - 1))
