@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cfml3vy8r4x3q"]
+[gd_scene load_steps=3 format=3 uid="uid://d2e2662g2sdk8"]
 
-[ext_resource type="PackedScene" uid="uid://3a85lgxynvyv" path="res://src/Tools/Draw.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://src/Tools/Draw.tscn" id="1"]
 [ext_resource type="Script" path="res://src/Tools/Pencil.gd" id="3"]
 
 [node name="ToolOptions" instance=ExtResource("1")]

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" path="res://src/UI/Canvas/CanvasPreview.tscn" id="2"]
 [ext_resource type="Script" path="res://src/UI/Tabs.gd" id="3"]
 [ext_resource type="Script" path="res://src/UI/Canvas/Rulers/VerticalRuler.gd" id="4"]
-[ext_resource type="Resource" uid="uid://fb750m6bmu7l" path="res://assets/layouts/default.tres" id="4_3l7c6"]
+[ext_resource type="Resource" uid="uid://bgtve8utysgiu" path="res://assets/layouts/tallscreen.tres" id="4_yvvsy"]
 [ext_resource type="PackedScene" path="res://src/UI/Nodes/TransparentChecker.tscn" id="5"]
 [ext_resource type="Script" path="res://src/UI/Canvas/Rulers/HorizontalRuler.gd" id="6"]
 [ext_resource type="Script" path="res://src/UI/Canvas/CameraMovement.gd" id="7"]
@@ -32,12 +32,30 @@ shader_parameter/size = Vector2(100, 100)
 
 [sub_resource type="ShaderMaterial" id="2"]
 shader = ExtResource("9")
+shader_parameter/size = 10.0
+shader_parameter/alpha = 1.0
+shader_parameter/color1 = Color(0.7, 0.7, 0.7, 1)
+shader_parameter/color2 = Color(1, 1, 1, 1)
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/scale = Vector2(0, 0)
+shader_parameter/rect_size = Vector2(0, 0)
+shader_parameter/follow_movement = false
+shader_parameter/follow_scale = false
 
 [sub_resource type="ShaderMaterial" id="27"]
 shader = ExtResource("8")
 
 [sub_resource type="ShaderMaterial" id="3"]
 shader = ExtResource("9")
+shader_parameter/size = 10.0
+shader_parameter/alpha = 1.0
+shader_parameter/color1 = Color(0.7, 0.7, 0.7, 1)
+shader_parameter/color2 = Color(1, 1, 1, 1)
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/scale = Vector2(0, 0)
+shader_parameter/rect_size = Vector2(0, 0)
+shader_parameter/follow_movement = false
+shader_parameter/follow_scale = false
 
 [node name="UI" type="Panel"]
 material = SubResource("26")
@@ -55,9 +73,10 @@ anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("35")
-layout = ExtResource("4_3l7c6")
+layout = ExtResource("4_yvvsy")
 
 [node name="Tools" parent="DockableContainer" instance=ExtResource("1")]
+visible = false
 layout_mode = 2
 
 [node name="Main Canvas" type="VBoxContainer" parent="DockableContainer"]
@@ -110,7 +129,7 @@ script = ExtResource("23")
 
 [node name="SubViewport" type="SubViewport" parent="DockableContainer/Main Canvas/ViewportandVerticalRuler/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(861, 591)
+size = Vector2i(1260, 665)
 render_target_update_mode = 4
 
 [node name="TransparentChecker" parent="DockableContainer/Main Canvas/ViewportandVerticalRuler/SubViewportContainer/SubViewport" instance=ExtResource("5")]
@@ -156,18 +175,23 @@ zoom = Vector2(0.15, 0.15)
 script = ExtResource("7")
 
 [node name="Animation Timeline" parent="DockableContainer" instance=ExtResource("18")]
+visible = false
 layout_mode = 2
 
 [node name="Canvas Preview" parent="DockableContainer" instance=ExtResource("16")]
+visible = false
 layout_mode = 2
 
 [node name="Color Pickers" parent="DockableContainer" instance=ExtResource("17")]
+visible = false
 layout_mode = 2
 
 [node name="Global Tool Options" parent="DockableContainer" instance=ExtResource("10")]
+visible = false
 layout_mode = 2
 
 [node name="Left Tool Options" type="ScrollContainer" parent="DockableContainer"]
+visible = false
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 
@@ -178,6 +202,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Right Tool Options" type="ScrollContainer" parent="DockableContainer"]
+visible = false
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 
@@ -188,6 +213,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Palettes" parent="DockableContainer" instance=ExtResource("20")]
+visible = false
 layout_mode = 2
 
 [node name="RefCounted Images" parent="DockableContainer" instance=ExtResource("11")]

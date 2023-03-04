@@ -1,18 +1,11 @@
 [gd_scene load_steps=4 format=3 uid="uid://3a85lgxynvyv"]
 
 [ext_resource type="PackedScene" path="res://src/UI/Nodes/ValueSlider.tscn" id="1"]
-[ext_resource type="PackedScene" path="res://src/Tools/BaseTool.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://d2lgmdhidcnbw" path="res://src/Tools/BaseTool.tscn" id="2"]
 [ext_resource type="Script" path="res://src/Tools/Draw.gd" id="3"]
 
 [node name="ToolOptions" instance=ExtResource("2")]
 script = ExtResource("3")
-
-[node name="ColorRect" parent="." index="0"]
-layout_mode = 2
-
-[node name="Label" parent="." index="1"]
-layout_mode = 2
-theme_type_variation = &"Header"
 
 [node name="Brush" type="HBoxContainer" parent="." index="2"]
 layout_mode = 2
@@ -49,20 +42,6 @@ layout_mode = 2
 tooltip_text = "0: Color from the brush itself, 100: the currently selected color"
 theme_type_variation = &"ValueSlider"
 prefix = "Brush color from:"
-
-[node name="SpacingMode" parent="." index="4"]
-layout_mode = 2
-
-[node name="StrokeGap" parent="." index="5"]
-layout_mode = 2
-
-[node name="SpacingX" parent="StrokeGap" index="0"]
-layout_mode = 2
-theme_type_variation = &"ValueSlider"
-
-[node name="SpacingY" parent="StrokeGap" index="1"]
-layout_mode = 2
-theme_type_variation = &"ValueSlider"
 
 [connection signal="pressed" from="Brush/Type" to="." method="_on_BrushType_pressed"]
 [connection signal="value_changed" from="Brush/BrushSize" to="." method="_on_BrushSize_value_changed"]
