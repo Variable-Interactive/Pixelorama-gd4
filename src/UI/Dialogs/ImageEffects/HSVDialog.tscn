@@ -1,0 +1,126 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/UI/Dialogs/ImageEffects/HSVDialog.gd" type="Script" id=1]
+[ext_resource path="res://src/UI/Nodes/TransparentChecker.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/UI/Nodes/ValueSlider.tscn" type="PackedScene" id=3]
+
+[node name="HSVDialog" type="ConfirmationDialog"]
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 349.0
+offset_bottom = 415.0
+custom_minimum_size = Vector2( 348, 416 )
+window_title = "Adjust HSV"
+resizable = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 340.0
+offset_bottom = 380.0
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer"]
+offset_right = 332.0
+offset_bottom = 232.0
+size_flags_vertical = 3
+
+[node name="Preview" type="TextureRect" parent="VBoxContainer/AspectRatioContainer"]
+offset_left = 50.0
+offset_right = 282.0
+offset_bottom = 232.0
+custom_minimum_size = Vector2( 200, 200 )
+expand = true
+stretch_mode = 5
+
+[node name="TransparentChecker" parent="VBoxContainer/AspectRatioContainer/Preview" instance=ExtResource( 2 )]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="LiveSettings" type="HBoxContainer" parent="VBoxContainer"]
+offset_top = 236.0
+offset_right = 332.0
+offset_bottom = 260.0
+alignment = 1
+
+[node name="LiveCheckbox" type="CheckBox" parent="VBoxContainer/LiveSettings"]
+offset_left = 112.0
+offset_right = 220.0
+offset_bottom = 24.0
+mouse_default_cursor_shape = 2
+pressed = true
+text = "Live Preview"
+
+[node name="WaitTime" parent="VBoxContainer" instance=ExtResource( 3 )]
+visible = false
+offset_top = 236.0
+offset_right = 332.0
+offset_bottom = 260.0
+min_value = 1.0
+max_value = 1000.0
+value = 200.0
+editable = false
+prefix = "Preview delay:"
+suffix = "ms"
+
+[node name="HueSlider" parent="VBoxContainer" instance=ExtResource( 3 )]
+offset_top = 264.0
+offset_right = 332.0
+offset_bottom = 288.0
+min_value = -180.0
+max_value = 180.0
+prefix = "Hue:"
+
+[node name="SaturationSlider" parent="VBoxContainer" instance=ExtResource( 3 )]
+offset_top = 292.0
+offset_right = 332.0
+offset_bottom = 316.0
+min_value = -100.0
+prefix = "Saturation:"
+
+[node name="ValueSlider" parent="VBoxContainer" instance=ExtResource( 3 )]
+offset_top = 320.0
+offset_right = 332.0
+offset_bottom = 344.0
+min_value = -100.0
+prefix = "Value:"
+
+[node name="AffectHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+offset_top = 348.0
+offset_right = 332.0
+offset_bottom = 372.0
+
+[node name="SelectionCheckBox" type="CheckBox" parent="VBoxContainer/AffectHBoxContainer"]
+offset_right = 164.0
+offset_bottom = 24.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+pressed = true
+text = "Only affect selection"
+
+[node name="AffectOptionButton" type="OptionButton" parent="VBoxContainer/AffectHBoxContainer"]
+offset_left = 168.0
+offset_right = 332.0
+offset_bottom = 24.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+text = "Selected cels"
+items = [ "Selected cels", null, false, 0, null, "Current frame", null, false, 1, null, "All frames", null, false, 2, null, "All projects", null, false, 3, null ]
+selected = 0
+
+[node name="WaitApply" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="toggled" from="VBoxContainer/LiveSettings/LiveCheckbox" to="." method="_on_LiveCheckbox_toggled"]
+[connection signal="value_changed" from="VBoxContainer/WaitTime" to="." method="_on_WaitTime_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/HueSlider" to="." method="_on_HueSlider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/SaturationSlider" to="." method="_on_SaturationSlider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/ValueSlider" to="." method="_on_ValueSlider_value_changed"]
+[connection signal="timeout" from="WaitApply" to="." method="_on_WaitApply_timeout"]
