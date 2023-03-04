@@ -178,12 +178,12 @@ func update_mask(can_skip := true) -> void:
 		if _mask:
 			_mask = PackedFloat32Array()
 		return
-	var size: Vector2 = Global.current_project.size
+	var p_size: Vector2 = Global.current_project.size
 	_is_mask_size_zero = false
 	# Faster than zeroing PoolByteArray directly.
 	# See: https://github.com/Orama-Interactive/Pixelorama/pull/439
 	var nulled_array := []
-	nulled_array.resize(size.x * size.y)
+	nulled_array.resize(p_size.x * p_size.y)
 	_mask = PackedFloat32Array(nulled_array)
 
 
@@ -295,18 +295,18 @@ func _prepare_circle_tool(fill: bool) -> void:
 
 # Make sure to always have invoked _prepare_tool() before this. This computes the coordinates to be
 # drawn if it can (except for the generic brush, when it's actually drawing them)
-func _draw_tool(position: Vector2) -> PackedVector2Array:
+func _draw_tool(pos: Vector2) -> PackedVector2Array:
 	if !Global.current_project.layers[Global.current_project.current_layer].can_layer_get_drawn():
 		return PackedVector2Array()  # empty fallback
 	match _brush.type:
 		Brushes.PIXEL:
-			return _compute_draw_tool_pixel(position)
+			return _compute_draw_tool_pixel(pos)
 		Brushes.CIRCLE:
-			return _compute_draw_tool_circle(position, false)
+			return _compute_draw_tool_circle(pos, false)
 		Brushes.FILLED_CIRCLE:
-			return _compute_draw_tool_circle(position, true)
+			return _compute_draw_tool_circle(pos, true)
 		_:
-			draw_tool_brush(position)
+			draw_tool_brush(pos)
 	return PackedVector2Array()  # empty fallback
 
 
@@ -342,9 +342,9 @@ func draw_fill_gap(start: Vector2, end: Vector2) -> void:
 
 
 # Compute the array of coordinates that should be drawn
-func _compute_draw_tool_pixel(position: Vector2) -> PackedVector2Array:
+func _compute_draw_tool_pixel(pos: Vector2) -> PackedVector2Array:
 	var result := PackedVector2Array()
-	var start := position - Vector2.ONE * (_brush_size_dynamics >> 1)
+	var start := pos - Vector2.ONE * (_brush_size_dynamics >> 1)
 	var end := start + Vector2.ONE * _brush_size_dynamics
 	for y in range(start.y, end.y):
 		for x in range(start.x, end.x):
@@ -353,17 +353,17 @@ func _compute_draw_tool_pixel(position: Vector2) -> PackedVector2Array:
 
 
 # Compute the array of coordinates that should be drawn
-func _compute_draw_tool_circle(position: Vector2, fill := false) -> PackedVector2Array:
-	var size := Vector2(_brush_size_dynamics, _brush_size_dynamics)
-	var pos = position - (size / 2).floor()
+func _compute_draw_tool_circle(pos: Vector2, fill := false) -> PackedVector2Array:
+	var b_size := Vector2(_brush_size_dynamics, _brush_size_dynamics)
+	var central_point = pos - (b_size / 2).floor()
 	if _circle_tool_shortcut:
-		return _draw_tool_circle_from_map(position)
+		return _draw_tool_circle_from_map(pos)
 
 	var result := PackedVector2Array()
 	if fill:
-		result = DrawingAlgos.get_ellipse_points_filled(pos, size)
+		result = DrawingAlgos.get_ellipse_points_filled(central_point, b_size)
 	else:
-		result = DrawingAlgos.get_ellipse_points(pos, size)
+		result = DrawingAlgos.get_ellipse_points(central_point, b_size)
 	return result
 
 
