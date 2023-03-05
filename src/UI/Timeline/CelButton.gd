@@ -194,7 +194,7 @@ func _delete_cel_content() -> void:
 	project.undo_redo.commit_action()
 
 
-func _get_drag_data(_position) -> Variant:
+func _get_drag_data(_position):
 	var button := Button.new()
 	button.size = size
 	button.theme = Global.control.theme

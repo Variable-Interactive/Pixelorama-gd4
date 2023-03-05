@@ -130,10 +130,10 @@ func calculate_frames(project := Global.current_project) -> Array:
 		frames = project.frames.duplicate()
 
 	if direction == AnimationDirection.BACKWARDS:
-		frames.invert()
+		frames.reverse()
 	elif direction == AnimationDirection.PING_PONG:
 		var inverted_frames := frames.duplicate()
-		inverted_frames.invert()
+		inverted_frames.reverse()
 		inverted_frames.remove_at(0)
 		frames.append_array(inverted_frames)
 	return frames
@@ -143,11 +143,10 @@ func export_processed_images(
 	ignore_overwrites: bool, export_dialog: ConfirmationDialog, project := Global.current_project
 ) -> bool:
 	# Stop export if directory path or file name are not valid
-	var dir := Directory.new()
-	if not dir.dir_exists(project.directory_path) or not project.file_name.is_valid_filename():
-		if not dir.dir_exists(project.directory_path) and project.file_name.is_valid_filename():
+	if not DirAccess.dir_exists_absolute(project.directory_path) or not project.file_name.is_valid_filename():
+		if not DirAccess.dir_exists_absolute(project.directory_path) and project.file_name.is_valid_filename():
 			export_dialog.open_path_validation_alert_popup(0)
-		elif not project.file_name.is_valid_filename() and dir.dir_exists(project.directory_path):
+		elif not project.file_name.is_valid_filename() and DirAccess.dir_exists_absolute(project.directory_path):
 			export_dialog.open_path_validation_alert_popup(1)
 		else:
 			export_dialog.open_path_validation_alert_popup()
@@ -165,14 +164,12 @@ func export_processed_images(
 		# If the user wants to create a new directory for each animation tag then check
 		# if directories exist, and create them if not
 		if multiple_files and new_dir_for_each_frame_tag:
-			var frame_tag_directory := Directory.new()
-			if not frame_tag_directory.dir_exists(export_path.get_base_dir()):
-				frame_tag_directory.open(project.directory_path)
+			if not DirAccess.dir_exists_absolute(export_path.get_base_dir()):
+				var frame_tag_directory := DirAccess.open(project.directory_path)
 				frame_tag_directory.make_dir(export_path.get_base_dir().get_file())
 
 		if not ignore_overwrites:  # Check if the files already exist
-			var file_check: File = File.new()
-			if file_check.file_exists(export_path):
+			if FileAccess.file_exists(export_path):
 				if not paths_of_existing_files.is_empty():
 					paths_of_existing_files += "\n"
 				paths_of_existing_files += export_path
@@ -187,7 +184,7 @@ func export_processed_images(
 		# Stops the function until the user decides if they want to overwrite
 		await export_dialog.resume_export_function
 		if stop_export:  # User decided to stop export
-			return
+			return false
 
 	scale_processed_images()
 
@@ -212,7 +209,7 @@ func export_processed_images(
 	else:
 		for i in range(processed_images.size()):
 			if OS.get_name() == "HTML5":
-				JavaScript.download_buffer(
+				JavaScriptBridge.download_buffer(
 					processed_images[i].save_png_to_buffer(),
 					export_paths[i].get_file(),
 					"image/png"
@@ -269,10 +266,9 @@ func export_animated(args: Dictionary) -> void:
 	)
 
 	if OS.get_name() == "HTML5":
-		JavaScript.download_buffer(file_data, args["export_paths"][0], exporter.mime_type)
+		JavaScriptBridge.download_buffer(file_data, args["export_paths"][0], exporter.mime_type)
 	else:
-		var file: File = File.new()
-		file.open(args["export_paths"][0], File.WRITE)
+		var file := FileAccess.open(args["export_paths"][0], FileAccess.WRITE)
 		file.store_buffer(file_data)
 		file.close()
 	export_dialog.toggle_export_progress_popup(false)
@@ -343,16 +339,16 @@ func create_export_path(multifile: bool, project: Project, frame: int = 0) -> St
 			if new_dir_for_each_frame_tag:
 				# Add frame tag if frame has one
 				# (frame - start_id + 1) Makes frames id to start from 1 in each frame tag directory
-				path += "_" + frame_tag_dir + "_" + String(frame - start_id + 1)
+				path += "_" + frame_tag_dir + "_" + str(frame - start_id + 1)
 				return project.directory_path.path_join(frame_tag_dir).path_join(
 					path + file_format_string(project.file_format)
 				)
 			else:
 				# Add frame tag if frame has one
 				# (frame - start_id + 1) Makes frames id to start from 1 in each frame tag
-				path += "_" + frame_tag_dir + "_" + String(frame - start_id + 1)
+				path += "_" + frame_tag_dir + "_" + str(frame - start_id + 1)
 		else:
-			path += "_" + String(frame)
+			path += "_" + str(frame)
 
 	return project.directory_path.path_join(path + file_format_string(project.file_format))
 

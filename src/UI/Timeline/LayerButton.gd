@@ -184,7 +184,7 @@ func _select_current_layer() -> void:
 	Global.current_project.change_cel(-1, layer)
 
 
-func _get_drag_data(_position) -> Variant:
+func _get_drag_data(_position):
 	var layers := range(
 		layer - Global.current_project.layers[layer].get_child_count(true), layer + 1
 	)

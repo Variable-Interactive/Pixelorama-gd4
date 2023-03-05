@@ -80,7 +80,7 @@ func _save_palette(palette: Palette) -> String:
 	# Save palette
 	var save_path = palettes_write_path.path_join(palette.resource_name) + ".tres"
 	palette.resource_path = save_path
-	var err = ResourceSaver.save(save_path, palette)
+	var err = ResourceSaver.save(palette, save_path)
 	if err != OK:
 		Global.notification_label("Failed to save palette")
 	return save_path
@@ -212,8 +212,7 @@ func current_palette_edit(name: String, comment: String, width: int, height: int
 
 
 func _delete_palette(path: String) -> void:
-	var dir = Directory.new()
-	dir.remove_at(path)
+	DirAccess.remove_absolute(path)
 	palettes.erase(path)
 
 
@@ -330,8 +329,8 @@ func _load_palettes() -> void:
 
 	# Iterate backwards, so any palettes defined in default files
 	# get overwritten by those of the same name in user files
-	search_locations.invert()
-	priority_ordered_files.invert()
+	search_locations.reverse()
+	priority_ordered_files.reverse()
 	var default_palette_name = Global.config_cache.get_value(
 		"data", "last_palette", DEFAULT_PALETTE_NAME
 	)
@@ -395,13 +394,14 @@ func _get_palette_priority_file_map(looking_paths: Array) -> Array:
 # Get the palette files in a single directory.
 # if it does not exist, return []
 func _get_palette_files(path: String) -> Array:
-	var dir := Directory.new()
 	var results = []
 
-	if not dir.dir_exists(path):
+	if not DirAccess.dir_exists_absolute(path):
 		return []
 
-	dir.open(path)
+	var dir := DirAccess.open(path)
+	dir.include_hidden = true  # alternative of skip_hidden: bool = false in Godot 3.x
+	dir.include_navigational = true  # alternative of include_hidden: bool = false in Godot 3.x
 	dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 
 	while true:
@@ -439,16 +439,14 @@ func import_palette_from_path(path: String) -> void:
 	var palette: Palette = null
 	match path.to_lower().get_extension():
 		"gpl":
-			var file = File.new()
-			if file.file_exists(path):
-				file.open(path, File.READ)
+			if FileAccess.file_exists(path):
+				var file = FileAccess.open(path, FileAccess.READ)
 				var text = file.get_as_text()
 				file.close()
 				palette = _import_gpl(path, text)
 		"pal":
-			var file = File.new()
-			if file.file_exists(path):
-				file.open(path, File.READ)
+			if FileAccess.file_exists(path):
+				var file = FileAccess.open(path, FileAccess.READ)
 				var text = file.get_as_text()
 				file.close()
 				palette = _import_pal_palette(path, text)
@@ -458,9 +456,8 @@ func import_palette_from_path(path: String) -> void:
 			if !err:
 				palette = _import_image_palette(path, image)
 		"json":
-			var file = File.new()
-			if file.file_exists(path):
-				file.open(path, File.READ)
+			if FileAccess.file_exists(path):
+				var file = FileAccess.open(path, FileAccess.READ)
 				var text = file.get_as_text()
 				file.close()
 				palette = _import_json_palette(text)

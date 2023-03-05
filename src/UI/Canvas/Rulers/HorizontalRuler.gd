@@ -78,7 +78,7 @@ func _draw() -> void:
 			draw_string(
 				font,
 				Vector2(position.x + RULER_WIDTH + 2, font.get_height() - 4),
-				str(snapped(val, 0.1))
+				str(snappedf(val, 0.1))
 			)
 		else:
 			if j % minor_subdivision == 0:

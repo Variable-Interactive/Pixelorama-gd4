@@ -7,19 +7,15 @@ var invert_shader: Shader = preload("res://src/Shaders/Invert.gdshader")
 func is_pixel_selected(pixel: Vector2) -> bool:
 	if pixel.x < 0 or pixel.y < 0 or pixel.x >= get_width() or pixel.y >= get_height():
 		return false
-	lock()
 	var selected: bool = get_pixelv(pixel).a > 0
-	unlock()
 	return selected
 
 
 func select_pixel(pixel: Vector2, select := true) -> void:
-	lock()
 	if select:
 		set_pixelv(pixel, Color(1, 1, 1, 1))
 	else:
 		set_pixelv(pixel, Color(0))
-	unlock()
 
 
 func select_all() -> void:
@@ -44,7 +40,7 @@ func move_bitmap_values(project, move_offset := true) -> void:
 	var selection_end: Vector2 = selection_node.big_bounding_rectangle.end
 
 	var selection_rect := get_used_rect()
-	var smaller_image := get_rect(selection_rect)
+	var smaller_image := get_region(selection_rect)
 	clear()
 	var dst := selection_position
 	var x_diff = selection_end.x - size.x
@@ -87,7 +83,7 @@ func resize_bitmap_values(project, new_size: Vector2, flip_x: bool, flip_y: bool
 	new_bitmap_size.x = max(size.x, abs(selection_position.x) + new_size.x)
 	new_bitmap_size.y = max(size.y, abs(selection_position.y) + new_size.y)
 	var selection_rect := get_used_rect()
-	var smaller_image := get_rect(selection_rect)
+	var smaller_image := get_region(selection_rect)
 	if selection_position.x <= 0:
 		project.selection_offset.x = selection_position.x
 		dst.x = 0

@@ -118,9 +118,10 @@ func _ready() -> void:
 	set_process_input(multiple_menu_accelerators)
 
 	# Load shortcut profiles
-	var profile_dir := Directory.new()
-	profile_dir.make_dir(PROFILES_PATH)
-	profile_dir.open(PROFILES_PATH)
+	DirAccess.make_dir_absolute(PROFILES_PATH)
+	var profile_dir := DirAccess.open(PROFILES_PATH)
+	profile_dir.include_hidden = true  # alternative of skip_hidden: bool = false in Godot 3.x
+	profile_dir.include_navigational = true  # alternative of include_hidden: bool = false in Godot 3.x
 	profile_dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	var file_name = profile_dir.get_next()
 	while file_name != "":
@@ -143,8 +144,9 @@ func _ready() -> void:
 	for profile in profiles:
 		profile.fill_bindings()
 
-	var l18n_dir := Directory.new()
-	l18n_dir.open(TRANSLATIONS_PATH)
+	var l18n_dir := DirAccess.open(TRANSLATIONS_PATH)
+	l18n_dir.include_hidden = true  # alternative of skip_hidden: bool = false in Godot 3.x
+	l18n_dir.include_navigational = true  # alternative of include_hidden: bool = false in Godot 3.x
 	l18n_dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	file_name = l18n_dir.get_next()
 	while file_name != "":

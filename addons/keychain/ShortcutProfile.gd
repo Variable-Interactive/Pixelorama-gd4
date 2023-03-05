@@ -1,9 +1,9 @@
 class_name ShortcutProfile
 extends Resource
 
-@export var name: String := ""
-@export var customizable: bool := true
-@export var bindings: Dictionary := {}
+@export var name: String = ""
+@export var customizable: bool = true
+@export var bindings: Dictionary = {}
 
 
 func _init():
@@ -31,7 +31,7 @@ func change_action(action: String) -> void:
 func save() -> bool:
 	if !customizable:
 		return false
-	var err := ResourceSaver.save(resource_path, self)
+	var err := ResourceSaver.save(self, resource_path)
 	if err != OK:
 		print("Error saving shortcut profile %s. Error code: %s" % [resource_path, err])
 		return false
