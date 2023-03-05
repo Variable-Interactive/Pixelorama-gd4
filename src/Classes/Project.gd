@@ -59,8 +59,8 @@ var animation_tag_node = preload("res://src/UI/Timeline/AnimationTagUI.tscn")
 func _init(_frames := [],_name := tr("untitled"),_size := Vector2(64, 64)):
 	frames = _frames
 	name = _name
+	tiles = Tiles.new(_size)
 	size = _size
-	tiles = Tiles.new(size)
 	selection_map.create(size.x, size.y, false, Image.FORMAT_LA8)
 
 	Global.tabs.add_tab(name)

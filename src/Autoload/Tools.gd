@@ -86,24 +86,24 @@ var tools := {
 #		preload("res://src/Tools/ColorPicker.tscn"),
 #		"Select a color from a pixel of the sprite"
 #	),
-#	"Pencil":
-#	Tool.new(
-#		"Pencil",
-#		"Pencil",
-#		"pencil",
-#		preload("res://src/Tools/Pencil.tscn"),
-#		"Hold %s to make a line",
-#		["draw_create_line"]
-#	),
-#	"Eraser":
-#	Tool.new(
-#		"Eraser",
-#		"Eraser",
-#		"eraser",
-#		preload("res://src/Tools/Eraser.tscn"),
-#		"Hold %s to make a line",
-#		["draw_create_line"]
-#	),
+	"Pencil":
+	Tool.new(
+		"Pencil",
+		"Pencil",
+		"pencil",
+		preload("res://src/Tools/Pencil.tscn"),
+		"Hold %s to make a line",
+		["draw_create_line"]
+	),
+	"Eraser":
+	Tool.new(
+		"Eraser",
+		"Eraser",
+		"eraser",
+		preload("res://src/Tools/Eraser.tscn"),
+		"Hold %s to make a line",
+		["draw_create_line"]
+	),
 #	"Bucket": Tool.new("Bucket", "Bucket", "fill", preload("res://src/Tools/Bucket.tscn")),
 #	"Shading":
 #	Tool.new("Shading", "Shading Tool", "shading", preload("res://src/Tools/Shading.tscn")),

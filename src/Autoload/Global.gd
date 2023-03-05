@@ -501,13 +501,14 @@ func _title_changed(value: String) -> void:
 
 
 func _project_changed(value: int) -> void:
-	canvas.selection.transform_content_confirm()
-	current_project_index = value
-	current_project = projects[value]
-	connect("project_changed",Callable(current_project,"change_project"))
-	emit_signal("project_changed")
-	disconnect("project_changed",Callable(current_project,"change_project"))
-	emit_signal("cel_changed")
+	if canvas.selection != null:
+		canvas.selection.transform_content_confirm()
+		current_project_index = value
+		current_project = projects[value]
+		connect("project_changed",Callable(current_project,"change_project"))
+		emit_signal("project_changed")
+		disconnect("project_changed",Callable(current_project,"change_project"))
+		emit_signal("cel_changed")
 
 
 # Disabled by Variable (Cause: no OS.get_current_video_driver())
