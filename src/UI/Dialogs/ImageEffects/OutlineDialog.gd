@@ -10,13 +10,15 @@ var shader: Shader
 
 
 func _ready() -> void:
-	if _is_webgl1():
-		$VBoxContainer/OptionsContainer/PatternOptionButton.disabled = true
-	else:
-		shader = load("res://src/Shaders/OutlineInline.gdshader")
-		var sm := ShaderMaterial.new()
-		sm.gdshader = shader
-		preview.set_material(sm)
+	# Disabled by Variable (Cause: no OS.get_current_video_driver())
+#	if _is_webgl1():
+#		$VBoxContainer/OptionsContainer/PatternOptionButton.disabled = true
+#	else:
+#		shader = load("res://src/Shaders/OutlineInline.gdshader")
+#		var sm := ShaderMaterial.new()
+#		sm.gdshader = shader
+#		preview.set_material(sm)
+
 	outline_color.get_picker().presets_visible = false
 	color = outline_color.color
 
@@ -30,12 +32,12 @@ func set_nodes() -> void:
 func commit_action(cel: Image, project: Project = Global.current_project) -> void:
 	if !shader:  # Web version
 		DrawingAlgos.generate_outline(
-			cel, selection_checkbox.pressed, project, color, thickness, false, inside_image
+			cel, selection_checkbox.button_pressed, project, color, thickness, false, inside_image
 		)
 		return
 
 	var selection_tex := ImageTexture.new()
-	if selection_checkbox.pressed and project.has_selection:
+	if selection_checkbox.button_pressed and project.has_selection:
 		selection_tex.create_from_image(project.selection_map) #,0
 
 	var params := {
@@ -44,10 +46,10 @@ func commit_action(cel: Image, project: Project = Global.current_project) -> voi
 		"pattern": pattern,
 		"inside": inside_image,
 		"selection": selection_tex,
-		"affect_selection": selection_checkbox.pressed,
+		"affect_selection": selection_checkbox.button_pressed,
 		"has_selection": project.has_selection
 	}
-	if !confirmed:
+	if !is_confirmed:
 		for param in params:
 			preview.material.set_shader_parameter(param, params[param])
 	else:

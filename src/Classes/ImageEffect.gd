@@ -13,7 +13,7 @@ var preview_texture := ImageTexture.new()
 var preview: TextureRect
 var selection_checkbox: CheckBox
 var affect_option_button: OptionButton
-var confirmed := false
+var is_confirmed := false
 
 
 func _ready() -> void:
@@ -36,7 +36,7 @@ func _ready() -> void:
 
 
 func _about_to_popup() -> void:
-	confirmed = false
+	is_confirmed = false
 	Global.canvas.selection.transform_content_confirm()
 	var frame: Frame = Global.current_project.frames[Global.current_project.current_frame]
 	selected_cels.resize(Global.current_project.size.x, Global.current_project.size.y)
@@ -50,7 +50,7 @@ func _about_to_popup() -> void:
 
 
 func _confirmed() -> void:
-	confirmed = true
+	is_confirmed = true
 	var project: Project = Global.current_project
 	if affect == SELECTED_CELS:
 		var undo_data := _get_undo_data(project)
@@ -110,8 +110,8 @@ func _commit_undo(action: String, undo_data: Dictionary, project: Project) -> vo
 		project.undo_redo.add_do_property(image, "data", redo_data[image])
 	for image in undo_data:
 		project.undo_redo.add_undo_property(image, "data", undo_data[image])
-	project.undo_redo.add_do_method(Global, "undo_or_redo", false, -1, -1, project)
-	project.undo_redo.add_undo_method(Global, "undo_or_redo", true, -1, -1, project)
+	project.undo_redo.add_do_method(Callable(Global, "undo_or_redo").bind(false, -1, -1, project))
+	project.undo_redo.add_undo_method(Callable(Global, "undo_or_redo").bind(true, -1, -1, project))
 	project.undo_redo.commit_action()
 
 
@@ -180,5 +180,6 @@ func _popup_hide() -> void:
 	Global.dialog_open(false)
 
 
-func _is_webgl1() -> bool:
-	return OS.get_name() == "HTML5" and OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES2
+# Disabled by Variable (Cause: no OS.get_current_video_driver())
+#func _is_webgl1() -> bool:
+#	return OS.get_name() == "HTML5" and OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES2

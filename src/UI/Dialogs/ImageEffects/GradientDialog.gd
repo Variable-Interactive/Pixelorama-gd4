@@ -20,7 +20,7 @@ var selected_dither_matrix: DitherMatrix = dither_matrices[0]
 @onready var dithering_label: Label = $"%DitheringLabel"
 @onready var dithering_option_button: OptionButton = $"%DitheringOptionButton"
 @onready var repeat_option_button: OptionButton = $"%RepeatOptionButton"
-@onready var position: ValueSlider = $"%PositionSlider"
+@onready var pos: ValueSlider = $"%PositionSlider"
 @onready var size_slider: ValueSlider = $"%SizeSlider"
 @onready var angle: ValueSlider = $"%AngleSlider"
 @onready var center_x: ValueSlider = $"%XCenterSlider"
@@ -56,7 +56,7 @@ func set_nodes() -> void:
 func commit_action(cel: Image, project: Project = Global.current_project) -> void:
 	var selection: Image
 	var selection_tex := ImageTexture.new()
-	if selection_checkbox.pressed and project.has_selection:
+	if selection_checkbox.button_pressed and project.has_selection:
 		selection = project.selection_map
 	else:  # This is needed to prevent a weird bug with the dithering shaders and GLES2
 		selection = Image.new()
@@ -96,7 +96,7 @@ func commit_action(cel: Image, project: Project = Global.current_project) -> voi
 		"offset_texture": offsets_tex,
 		"selection": selection_tex,
 		"repeat": repeat_option_button.selected,
-		"position": (position.value / 100.0) - 0.5,
+		"position": (pos.value / 100.0) - 0.5,
 		"size": size_slider.value / 100.0,
 		"angle": angle.value,
 		"center": Vector2(center_x.value / 100.0, center_y.value / 100.0),
@@ -108,7 +108,7 @@ func commit_action(cel: Image, project: Project = Global.current_project) -> voi
 		"n_of_colors": n_of_colors
 	}
 
-	if !confirmed:
+	if !is_confirmed:
 		preview.material.gdshader = shader
 		for param in params:
 			preview.material.set_shader_parameter(param, params[param])

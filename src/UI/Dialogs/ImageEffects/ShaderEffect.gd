@@ -172,7 +172,7 @@ func change_shader(shader_tmp: Shader, name: String) -> void:
 			label.text = u_name
 			label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			var file_dialog := FileDialog.new()
-			file_dialog.mode = FileDialog.FILE_MODE_OPEN_FILE
+			file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 			file_dialog.access = FileDialog.ACCESS_FILESYSTEM
 			file_dialog.resizable = true
 			file_dialog.custom_minimum_size = Vector2(200, 70)
@@ -269,5 +269,6 @@ func _load_texture(path: String, param: String) -> void:
 		return
 	var image_tex := ImageTexture.new()
 	image_tex.create_from_image(image) #,0
-	image_tex.flags = ImageTexture.FLAG_REPEAT
+	# Disabled by variable (Cause: confusin on ImageTexture.FLAG_REPEAT)
+#	image_tex.flags = ImageTexture.FLAG_REPEAT
 	set_shader_parameter(image_tex, param)

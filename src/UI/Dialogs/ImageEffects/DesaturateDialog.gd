@@ -22,7 +22,7 @@ func set_nodes() -> void:
 
 func commit_action(cel: Image, project: Project = Global.current_project) -> void:
 	var selection_tex := ImageTexture.new()
-	if selection_checkbox.pressed and project.has_selection:
+	if selection_checkbox.button_pressed and project.has_selection:
 		selection_tex.create_from_image(project.selection_map) #,0
 
 	var params := {
@@ -31,10 +31,10 @@ func commit_action(cel: Image, project: Project = Global.current_project) -> voi
 		"green": green,
 		"alpha": alpha,
 		"selection": selection_tex,
-		"affect_selection": selection_checkbox.pressed,
+		"affect_selection": selection_checkbox.button_pressed,
 		"has_selection": project.has_selection
 	}
-	if !confirmed:
+	if !is_confirmed:
 		for param in params:
 			preview.material.set_shader_parameter(param, params[param])
 	else:

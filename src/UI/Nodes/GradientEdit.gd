@@ -26,9 +26,9 @@ class GradientCursor:
 	var color: Color
 	var sliding := false
 
-	onready var parent: TextureRect = get_parent()
-	onready var grand_parent: Container = parent.get_parent()
-	onready var label: Label = parent.get_node("Value")
+	@onready var parent: TextureRect = get_parent()
+	@onready var grand_parent: Container = parent.get_parent()
+	@onready var label: Label = parent.get_node("Value")
 
 	func _ready() -> void:
 		position = Vector2(0, 15)
@@ -182,7 +182,7 @@ func _on_DivideButton_pressed() -> void:
 
 
 func _on_DivideConfirmationDialog_confirmed() -> void:
-	var add_point_to_end := add_point_end_check_box.pressed
+	var add_point_to_end := add_point_end_check_box.button_pressed
 	var parts := number_of_parts_spin_box.value
 	var colors := []
 	var end_point = 1 if add_point_to_end else 0

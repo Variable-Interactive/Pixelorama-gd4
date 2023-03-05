@@ -22,9 +22,10 @@ var drag_pivot := false
 
 
 func _ready() -> void:
-	if not _is_webgl1():
-		type_option_button.add_item("Rotxel with Smear", ROTXEL_SMEAR)
-		rotxel_shader = load("res://src/Shaders/Rotation/SmearRotxel.gdshader")
+	# Disabled by Variable (Cause: no OS.get_current_video_driver())
+#	if not _is_webgl1():
+#		type_option_button.add_item("Rotxel with Smear", ROTXEL_SMEAR)
+#		rotxel_shader = load("res://src/Shaders/Rotation/SmearRotxel.gdshader")
 	type_option_button.add_item("cleanEdge", CLEANEDGE)
 	type_option_button.add_item("OmniScale", OMNISCALE)
 	type_option_button.set_item_disabled(OMNISCALE, not DrawingAlgos.omniscale_shader)
@@ -45,7 +46,7 @@ func _about_to_popup() -> void:
 	drag_pivot = false
 	if pivot == Vector2.INF:
 		_calculate_pivot()
-	confirmed = false
+	is_confirmed = false
 	super._about_to_popup()
 	wait_apply_timer.wait_time = wait_time_slider.value / 1000.0
 	angle_slider.value = 0
@@ -66,7 +67,7 @@ func _calculate_pivot() -> void:
 		if int(size.y) % 2 == 0:
 			pivot.y -= 0.5
 
-	if Global.current_project.has_selection and selection_checkbox.pressed:
+	if Global.current_project.has_selection and selection_checkbox.button_pressed:
 		var selection_rectangle: Rect2 = Global.current_project.selection_map.get_used_rect()
 		pivot = (
 			selection_rectangle.position
@@ -95,7 +96,7 @@ func commit_action(cel: Image, _project: Project = Global.current_project) -> vo
 
 	var image := Image.new()
 	image.copy_from(cel)
-	if _project.has_selection and selection_checkbox.pressed:
+	if _project.has_selection and selection_checkbox.button_pressed:
 		var selection_rectangle: Rect2 = _project.selection_map.get_used_rect()
 		selection_size = selection_rectangle.size
 
@@ -121,10 +122,10 @@ func commit_action(cel: Image, _project: Project = Global.current_project) -> vo
 				"ending_angle": angle_slider.value,
 				"tolerance": tolerance_slider.value,
 				"selection_tex": selection_tex,
-				"origin": pivot / cel.get_size(),
+				"origin": pivot / Vector2(cel.get_size()),
 				"selection_size": selection_size
 			}
-			if !confirmed:
+			if !is_confirmed:
 				for param in params:
 					preview.material.set_shader_parameter(param, params[param])
 			else:
@@ -142,7 +143,7 @@ func commit_action(cel: Image, _project: Project = Global.current_project) -> vo
 				"cleanup": false,
 				"preview": true
 			}
-			if !confirmed:
+			if !is_confirmed:
 				for param in params:
 					preview.material.set_shader_parameter(param, params[param])
 			else:
@@ -158,7 +159,7 @@ func commit_action(cel: Image, _project: Project = Global.current_project) -> vo
 				"selection_size": selection_size,
 				"preview": true
 			}
-			if !confirmed:
+			if !is_confirmed:
 				for param in params:
 					preview.material.set_shader_parameter(param, params[param])
 			else:
@@ -173,7 +174,7 @@ func commit_action(cel: Image, _project: Project = Global.current_project) -> vo
 				"selection_pivot": pivot,
 				"selection_size": selection_size
 			}
-			if !confirmed:
+			if !is_confirmed:
 				for param in params:
 					preview.material.set_shader_parameter(param, params[param])
 			else:
@@ -187,7 +188,7 @@ func commit_action(cel: Image, _project: Project = Global.current_project) -> vo
 		URD:
 			DrawingAlgos.fake_rotsprite(image, angle, pivot)
 
-	if _project.has_selection and selection_checkbox.pressed and !_type_is_shader():
+	if _project.has_selection and selection_checkbox.button_pressed and !_type_is_shader():
 		cel.blend_rect(image, Rect2(Vector2.ZERO, image.get_size()), Vector2.ZERO)
 	else:
 		cel.blit_rect(image, Rect2(Vector2.ZERO, image.get_size()), Vector2.ZERO)
@@ -291,7 +292,7 @@ func _on_Pivot_value_changed(value: float, is_x: bool) -> void:
 
 
 func _on_Indicator_draw() -> void:
-	var img_size := preview_image.get_size()
+	var img_size: Vector2 = preview_image.get_size()
 	# find the scale using the larger measurement
 	var ratio := pivot_indicator.size / img_size
 	# we need to set the scale according to the larger side
@@ -312,21 +313,24 @@ func _on_Indicator_draw() -> void:
 
 
 func _on_Indicator_gui_input(event: InputEvent) -> void:
-	if event.is_action_pressed("left_mouse"):
-		drag_pivot = true
-	if event.is_action_released("left_mouse"):
-		drag_pivot = false
-	if drag_pivot:
-		var img_size := preview_image.get_size()
-		var mouse_pos := get_local_mouse_position() - pivot_indicator.position
-		var ratio := img_size / pivot_indicator.size
-		# we need to set the scale according to the larger side
-		var conversion_scale: float
-		if img_size.x > img_size.y:
-			conversion_scale = ratio.x
-		else:
-			conversion_scale = ratio.y
-		var new_pos := mouse_pos * conversion_scale
-		x_pivot.value = new_pos.x
-		y_pivot.value = new_pos.y
-		pivot_indicator.queue_redraw()
+	# Disabled by Variable (Cause: Confusion in get_local_mouse_position())
+#	if event.is_action_pressed("left_mouse"):
+#		drag_pivot = true
+#	if event.is_action_released("left_mouse"):
+#		drag_pivot = false
+#	if drag_pivot:
+#		var img_size := preview_image.get_size()
+#		get_mouse_position()
+#		var mouse_pos := get_local_mouse_position() - pivot_indicator.position
+#		var ratio := img_size / pivot_indicator.size
+#		# we need to set the scale according to the larger side
+#		var conversion_scale: float
+#		if img_size.x > img_size.y:
+#			conversion_scale = ratio.x
+#		else:
+#			conversion_scale = ratio.y
+#		var new_pos := mouse_pos * conversion_scale
+#		x_pivot.value = new_pos.x
+#		y_pivot.value = new_pos.y
+#		pivot_indicator.queue_redraw()
+	pass
