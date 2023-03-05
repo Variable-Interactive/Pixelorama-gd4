@@ -83,7 +83,7 @@ func change_theme(id: int) -> void:
 
 	# Temporary code
 	var clear_color: Color = theme.get_color("clear_color", "Misc")
-	if !clear_color:
+	if !theme.has_color("clear_color", "Misc"):
 		var panel_stylebox: StyleBox = theme.get_stylebox("panel", "PanelContainer")
 		if panel_stylebox is StyleBoxFlat:
 			clear_color = panel_stylebox.bg_color
@@ -99,7 +99,7 @@ func change_theme(id: int) -> void:
 
 func change_clear_color() -> void:
 	var clear_color: Color = Global.control.theme.get_color("clear_color", "Misc")
-	if !clear_color:
+	if !Global.control.theme.has_color("clear_color", "Misc"):
 		var panel_stylebox: StyleBox = Global.control.theme.get_stylebox("panel", "PanelContainer")
 		if panel_stylebox is StyleBoxFlat:
 			clear_color = panel_stylebox.bg_color

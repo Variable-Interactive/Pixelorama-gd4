@@ -11,7 +11,8 @@ func _ready() -> void:
 
 
 func _on_WindowOpacityDialog_about_to_show() -> void:
-	OS.window_per_pixel_transparency_enabled = true
+	# Disabled by Variable (Cause: confusion on OS.window_per_pixel_transparency_enabled)
+#	OS.window_per_pixel_transparency_enabled = true
 	slider.editable = !((get_window().mode == Window.MODE_EXCLUSIVE_FULLSCREEN) or (get_window().mode == Window.MODE_FULLSCREEN))
 	fullscreen_warning.visible = !slider.editable
 

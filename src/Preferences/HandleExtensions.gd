@@ -44,10 +44,10 @@ func _ready() -> void:
 		$HBoxContainer/AddExtensionButton.disabled = true
 		$HBoxContainer/OpenFolderButton.visible = false
 
-	var dir := Directory.new()
 	var file_names := []  # Array of String(s)
-	dir.make_dir(EXTENSIONS_PATH)
-	if dir.open(EXTENSIONS_PATH) == OK:
+	DirAccess.make_dir_absolute(EXTENSIONS_PATH)
+	var dir := DirAccess.open(EXTENSIONS_PATH)
+	if DirAccess.get_open_error() == OK:
 		dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var file_name = dir.get_next()
 		while file_name != "":
@@ -64,16 +64,14 @@ func _ready() -> void:
 
 
 func install_extension(path: String) -> void:
-	var dir := Directory.new()
 	var file_name: String = path.get_file()
-	dir.copy(path, EXTENSIONS_PATH.path_join(file_name))
+	DirAccess.copy_absolute(path, EXTENSIONS_PATH.path_join(file_name))
 	_add_extension(file_name)
 
 
 func _uninstall_extension(file_name := "", remove_file := true, item := extension_selected) -> void:
 	if remove_file:
-		var dir := Directory.new()
-		var err := dir.remove_at(EXTENSIONS_PATH.path_join(file_name))
+		var err = DirAccess.remove_absolute(EXTENSIONS_PATH.path_join(file_name))
 		if err != OK:
 			print(err)
 			return
@@ -90,17 +88,16 @@ func _uninstall_extension(file_name := "", remove_file := true, item := extensio
 
 
 func _add_extension(file_name: String) -> void:
-	var tester_file := File.new()  # For testing and deleting damaged extensions
-	var remover_directory := Directory.new()
+	var tester_file: FileAccess  # For testing and deleting damaged extensions
 	# Remove any extension that was proven guilty before this extension is loaded
-	if tester_file.file_exists(EXTENSIONS_PATH.path_join("Faulty.txt")):
+	if FileAccess.file_exists(EXTENSIONS_PATH.path_join("Faulty.txt")):
 		# This code will only run if pixelorama crashed
 		var faulty_path = EXTENSIONS_PATH.path_join("Faulty.txt")
-		tester_file.open(faulty_path, File.READ)
+		tester_file = FileAccess.open(faulty_path, FileAccess.READ)
 		damaged_extension = tester_file.get_as_text()
 		tester_file.close()
-		remover_directory.remove_at(EXTENSIONS_PATH.path_join(damaged_extension))
-		remover_directory.remove_at(EXTENSIONS_PATH.path_join("Faulty.txt"))
+		DirAccess.remove_absolute(EXTENSIONS_PATH.path_join(damaged_extension))
+		DirAccess.remove_absolute(EXTENSIONS_PATH.path_join("Faulty.txt"))
 
 	# Don't load a deleted extension
 	if damaged_extension == file_name:
@@ -109,7 +106,7 @@ func _add_extension(file_name: String) -> void:
 		return
 
 	# The new (about to load) extension will be considered guilty till it's proven innocent
-	tester_file.open(EXTENSIONS_PATH.path_join("Faulty.txt"), File.WRITE)
+	tester_file = FileAccess.open(EXTENSIONS_PATH.path_join("Faulty.txt"), FileAccess.WRITE)
 	tester_file.store_string(file_name)  # Guilty till proven innocent ;)
 	tester_file.close()
 
@@ -132,14 +129,13 @@ func _add_extension(file_name: String) -> void:
 	var success := ProjectSettings.load_resource_pack(file_path)
 	if !success:
 		print("Failed loading resource pack.")
-		var dir := Directory.new()
-		dir.remove_at(file_path)
+		DirAccess.remove_absolute(file_path)
 		return
 
 	var extension_path: String = "res://src/Extensions/%s/" % file_name_no_ext
 	var extension_config_file_path: String = extension_path.path_join("extension.json")
-	var extension_config_file := File.new()
-	var err := extension_config_file.open(extension_config_file_path, File.READ)
+	var extension_config_file := FileAccess.open(extension_config_file_path, FileAccess.READ)
+	var err = FileAccess.get_open_error()
 	if err != OK:
 		print("Error loading config file: ", err)
 		extension_config_file.close()
@@ -168,7 +164,7 @@ func _add_extension(file_name: String) -> void:
 				Global.dialog_open(true)
 				print("Incompatible API")
 				# Don't put it in faulty, (it's merely incompatible)
-				remover_directory.remove_at(EXTENSIONS_PATH.path_join("Faulty.txt"))
+				DirAccess.remove_absolute(EXTENSIONS_PATH.path_join("Faulty.txt"))
 				return
 
 	var extension := Extension.new()
@@ -184,7 +180,7 @@ func _add_extension(file_name: String) -> void:
 
 	# If an extension doesn't crash pixelorama then it is proven innocent
 	# And we should now delete it's "Faulty.txt" file
-	remover_directory.remove_at(EXTENSIONS_PATH.path_join("Faulty.txt"))
+	DirAccess.remove_absolute(EXTENSIONS_PATH.path_join("Faulty.txt"))
 
 
 func _enable_extension(extension: Extension, save_to_config := true) -> void:

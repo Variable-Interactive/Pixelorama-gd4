@@ -131,7 +131,7 @@ func _construct_tree() -> void:
 			group_name = input_action.group
 
 		var tree_item: TreeItem
-		if group_name and group_name in Keychain.groups:
+		if (group_name != "") and (group_name in Keychain.groups):
 			var input_group: Keychain.InputGroup = Keychain.groups[group_name]
 			var group_root: TreeItem = input_group.tree_item
 			tree_item = tree.create_item(group_root)
@@ -209,7 +209,7 @@ func _humanize_snake_case(text: String) -> String:
 	text = text.replace("_", " ")
 	var first_letter := text.left(1)
 	first_letter = first_letter.capitalize()
-	text.erase(0, 1)
+	text = text.substr(1, text.length())
 	text = text.insert(0, first_letter)
 	return text
 
@@ -295,10 +295,9 @@ func _on_ShortcutTree_button_pressed(item: TreeItem, _column: int, id: int) -> v
 		elif id == 1:  # Delete
 			Keychain.action_erase_events(action)
 			Keychain.selected_profile.change_action(action)
-			var child := item.get_children()
-			while child != null:
-				child.free()
-				child = item.get_children()
+			for child in item.get_children():
+				while child != null:
+					child.free()
 
 	elif action is InputEvent:
 		var parent_action = item.get_parent().get_metadata(0)
@@ -353,14 +352,14 @@ func _on_ProfileOptionButton_item_selected(index: int) -> void:
 func _on_NewProfile_pressed() -> void:
 	is_editing = false
 	profile_name.text = "New Shortcut Profile"
-	profile_settings.window_title = "New Shortcut Profile"
+	profile_settings.title = "New Shortcut Profile"
 	profile_settings.popup_centered()
 
 
 func _on_RenameProfile_pressed() -> void:
 	is_editing = true
 	profile_name.text = Keychain.selected_profile.name
-	profile_settings.window_title = "Rename Shortcut Profile"
+	profile_settings.title = "Rename Shortcut Profile"
 	profile_settings.popup_centered()
 
 
@@ -397,8 +396,7 @@ func _on_ProfileSettings_confirmed() -> void:
 
 
 func _delete_profile_file(file_name: String) -> void:
-	var dir := Directory.new()
-	dir.remove_at(file_name)
+	DirAccess.remove_absolute(file_name)
 
 
 func _on_DeleteConfirmation_confirmed() -> void:

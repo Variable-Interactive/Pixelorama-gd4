@@ -34,6 +34,6 @@ func _on_FrameProperties_confirmed():
 		Global.current_project.frames[frame].duration
 	)
 
-	Global.current_project.undo_redo.add_do_method(Global, "undo_or_redo", false)
-	Global.current_project.undo_redo.add_undo_method(Global, "undo_or_redo", true)
+	Global.current_project.undo_redo.add_do_method(Callable(Global, "undo_or_redo").bind(false))
+	Global.current_project.undo_redo.add_undo_method(Callable(Global, "undo_or_redo").bind(true))
 	Global.current_project.undo_redo.commit_action()
