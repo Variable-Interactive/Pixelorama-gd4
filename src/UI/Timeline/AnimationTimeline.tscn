@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://bduffmpkg1gd6"]
+[gd_scene load_steps=38 format=3]
 
 [ext_resource type="Script" path="res://src/UI/Timeline/AnimationTimeline.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://cd888ul6217gn" path="res://assets/graphics/layers/new.png" id="2"]
@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cfwcgexbmvjix" path="res://assets/graphics/layers/delete.png" id="6"]
 [ext_resource type="Texture2D" uid="uid://b13nb8ameqhf0" path="res://assets/graphics/layers/clone.png" id="7"]
 [ext_resource type="Texture2D" uid="uid://d1bt4lvq6h76g" path="res://assets/graphics/timeline/move_arrow.png" id="8"]
-[ext_resource type="PackedScene" path="res://src/UI/Nodes/ValueSlider.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://src/UI/Nodes/OpacitySlider.tscn" id="9"]
 [ext_resource type="Texture2D" uid="uid://i5lmukardiiw" path="res://assets/graphics/layers/group_new.png" id="10"]
 [ext_resource type="Script" path="res://src/UI/Timeline/FrameScrollContainer.gd" id="11"]
 [ext_resource type="Texture2D" uid="uid://8tih5u1dlejf" path="res://assets/graphics/timeline/new_frame.png" id="19"]

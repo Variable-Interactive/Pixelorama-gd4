@@ -199,6 +199,8 @@ func _type_is_shader() -> bool:
 
 
 func _on_TypeOptionButton_item_selected(_id: int) -> void:
+	if !preview:
+		return
 	match type_option_button.get_selected_id():
 		ROTXEL_SMEAR:
 			var sm := ShaderMaterial.new()
@@ -207,17 +209,17 @@ func _on_TypeOptionButton_item_selected(_id: int) -> void:
 			smear_options.visible = true
 		CLEANEDGE:
 			var sm := ShaderMaterial.new()
-			sm.gdshader = clean_edge_shader
+			sm.shader = clean_edge_shader
 			preview.set_material(sm)
 			smear_options.visible = false
 		OMNISCALE:
 			var sm := ShaderMaterial.new()
-			sm.gdshader = DrawingAlgos.omniscale_shader
+			sm.shader = DrawingAlgos.omniscale_shader
 			preview.set_material(sm)
 			smear_options.visible = false
 		NNS:
 			var sm := ShaderMaterial.new()
-			sm.gdshader = nn_shader
+			sm.shader = nn_shader
 			preview.set_material(sm)
 			smear_options.visible = false
 		_:

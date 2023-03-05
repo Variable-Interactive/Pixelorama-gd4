@@ -2,7 +2,7 @@ extends ConfirmationDialog
 
 enum InputTypes { KEYBOARD, MOUSE, JOY_BUTTON, JOY_AXIS }
 
-@export var input_type: InputTypes: int = InputTypes.KEYBOARD
+@export var input_type: int = InputTypes.KEYBOARD
 var listened_input: InputEvent
 
 @onready var root: Node = get_parent()
@@ -23,7 +23,8 @@ func _ready() -> void:
 		get_cancel_button().focus_neighbor_top = option_button.get_path()
 		option_button.focus_neighbor_bottom = get_ok_button().get_path()
 
-	get_close_button().focus_mode = Control.FOCUS_NONE
+	# Disabled by Variable (cause: get_close_button())
+#	get_close_button().focus_mode = Control.FOCUS_NONE
 
 
 func _input(event: InputEvent) -> void:
@@ -110,8 +111,8 @@ func _set_shortcut(action: String, old_event: InputEvent, new_event: InputEvent)
 
 # Based on https://github.com/godotengine/godot/blob/master/scene/gui/tree.cpp#L685
 func _get_next_tree_item(current: TreeItem) -> TreeItem:
-	if current.get_children():
-		current = current.get_children()
+	if current.get_children()[0]:
+		current = current.get_children()[0]
 	elif current.get_next():
 		current = current.get_next()
 	else:
@@ -152,7 +153,7 @@ func _on_ShortcutSelectorDialog_about_to_show() -> void:
 		listened_input = null
 		already_exists.text = ""
 		entered_shortcut.text = ""
-		await get_tree().idle_frame
+		await get_tree().process_frame
 		entered_shortcut.grab_focus()
 	else:
 		var metadata = root.currently_editing_tree_item.get_metadata(0)

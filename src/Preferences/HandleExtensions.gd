@@ -121,8 +121,8 @@ func _add_extension(file_name: String) -> void:
 			return
 		_uninstall_extension(file_name, false, item)
 		# Wait two frames so the previous nodes can get freed
-		await get_tree().idle_frame
-		await get_tree().idle_frame
+		await get_tree().process_frame
+		await get_tree().process_frame
 
 	var file_name_no_ext: String = file_name.get_basename()
 	var file_path: String = EXTENSIONS_PATH.path_join(file_name)

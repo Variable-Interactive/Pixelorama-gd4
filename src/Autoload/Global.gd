@@ -52,9 +52,11 @@ enum HelpMenu {
 const OVERRIDE_FILE := "override.cfg"
 
 var root_directory := "."
-var window_title := "": # Why doesn't Godot have get_window_title()?
-	set(value):
-		_title_changed(value)
+var window_title := "" # Why doesn't Godot have get_window_title()?
+# Disabled by Variable (cause: Infinite recursion)
+#var window_title := "": # Why doesn't Godot have get_window_title()?
+#	set(value):
+#		_title_changed(value)
 var config_cache := ConfigFile.new()
 var XDGDataPaths = preload("res://src/XDGDataPaths.gd")
 var directory_module: RefCounted
@@ -571,15 +573,17 @@ func change_button_texturerect(texture_button: TextureRect, new_file_name: Strin
 
 
 func update_hint_tooltips() -> void:
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	Tools.update_hint_tooltips()
 
 	for tip in ui_tooltips:
 		var hint := "None"
-		var event_type: InputEvent = tip.shortcut.shortcut
-		if event_type is InputEventKey:
-			hint = event_type.as_text()
-		elif event_type is InputEventAction:
-			var first_key: InputEventKey = Keychain.action_get_first_key(event_type.action)
-			hint = first_key.as_text() if first_key else "None"
-		tip.tooltip_text = tr(ui_tooltips[tip]) % hint
+		var event_array: Array = tip.shortcut.events
+		if event_array.size() > 0:
+			var event_type: InputEvent = tip.shortcut.events[0]
+			if event_type is InputEventKey:
+				hint = event_type.as_text()
+			elif event_type is InputEventAction:
+				var first_key: InputEventKey = Keychain.action_get_first_key(event_type.action)
+				hint = first_key.as_text() if first_key else "None"
+			tip.tooltip_text = tr(ui_tooltips[tip]) % hint

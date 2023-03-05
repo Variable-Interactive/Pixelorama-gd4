@@ -24,7 +24,7 @@ func _ready() -> void:
 	$OnionPast.blue_red_color = Color.BLUE
 	$OnionFuture.type = $OnionFuture.FUTURE
 	$OnionFuture.blue_red_color = Color.RED
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	camera_zoom()
 
 

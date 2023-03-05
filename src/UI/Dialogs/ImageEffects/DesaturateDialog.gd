@@ -10,8 +10,9 @@ var shader: Shader = preload("res://src/Shaders/Desaturate.gdshader")
 
 func _ready() -> void:
 	var sm := ShaderMaterial.new()
-	sm.gdshader = shader
-	preview.set_material(sm)
+	sm.shader = shader
+	if preview:
+		preview.set_material(sm)
 
 
 func set_nodes() -> void:

@@ -1,20 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://d2e2662g2sdk8"]
+[gd_scene load_steps=3 format=3 uid="uid://raotqvc7g55i"]
 
-[ext_resource type="PackedScene" path="res://src/Tools/Draw.tscn" id="1"]
-[ext_resource type="Script" path="res://src/Tools/Pencil.gd" id="3"]
+[ext_resource type="PackedScene" path="res://src/Tools/Draw.tscn" id="1_3hfsu"]
+[ext_resource type="Script" path="res://src/Tools/Pencil.gd" id="2_aitxd"]
 
-[node name="ToolOptions" instance=ExtResource("1")]
-script = ExtResource("3")
+[node name="ToolOptions" instance=ExtResource("1_3hfsu")]
+script = ExtResource("2_aitxd")
 
 [node name="Overwrite" type="CheckBox" parent="." index="4"]
 layout_mode = 2
-tooltip_text = "Overwrites color instead of blending it. This option is only relevant with colors that are not fully opaque"
-mouse_default_cursor_shape = 2
 text = "Overwrite Color"
 
 [node name="FillInside" type="CheckBox" parent="." index="5"]
 layout_mode = 2
-mouse_default_cursor_shape = 2
 text = "Fill Inside"
 
 [node name="SpacingMode" parent="." index="6"]
@@ -22,6 +19,3 @@ visible = true
 
 [connection signal="toggled" from="Overwrite" to="." method="_on_Overwrite_toggled"]
 [connection signal="toggled" from="FillInside" to="." method="_on_FillInside_toggled"]
-[connection signal="toggled" from="SpacingMode" to="." method="_on_SpacingMode_toggled"]
-[connection signal="value_changed" from="StrokeGap/SpacingX" to="." method="_on_SpacingX_value_changed"]
-[connection signal="value_changed" from="StrokeGap/SpacingY" to="." method="_on_SpacingY_value_changed"]

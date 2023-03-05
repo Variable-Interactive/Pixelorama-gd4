@@ -13,8 +13,9 @@ func _ready() -> void:
 	shadow_color.get_picker().presets_visible = false
 	color = shadow_color.color
 	var sm := ShaderMaterial.new()
-	sm.gdshader = shader
-	preview.set_material(sm)
+	sm.shader = shader
+	if preview:
+		preview.set_material(sm)
 
 
 func set_nodes() -> void:

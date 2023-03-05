@@ -118,7 +118,7 @@ func _setup_application_window_size() -> void:
 	if OS.get_name() == "HTML5":
 		return
 	# Set a minimum window size to prevent UI elements from collapsing on each other.
-	get_window().custom_minimum_size = Vector2(1024, 576)
+	get_window().min_size = Vector2(1024, 576)
 
 	# Restore the window position/size if values are present in the configuration cache
 	if Global.config_cache.has_section_key("window", "screen"):
@@ -157,8 +157,8 @@ func _show_splash_screen() -> void:
 
 	if Global.config_cache.get_value("preferences", "startup"):
 		# Wait for the window to adjust itself, so the popup is correctly centered
-		await get_tree().idle_frame
-		await get_tree().idle_frame
+		await get_tree().process_frame
+		await get_tree().process_frame
 
 		$Dialogs/SplashDialog.popup_centered()  # Splash screen
 		modulate = Color(0.5, 0.5, 0.5)

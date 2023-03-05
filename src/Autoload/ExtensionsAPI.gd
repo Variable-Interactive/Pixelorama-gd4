@@ -168,7 +168,7 @@ class PanelAPI:
 		ExtensionsApi.add_action("add_tab")
 		# INSTRUCTION
 		# After this check if tabs are invisible, if they are, then make tabs visible
-		# and after doing await get_tree().idle_frame twice make them invisible again
+		# and after doing await get_tree().process_frame twice make them invisible again
 
 	func remove_node_from_tab(node: Node) -> void:
 		if node == null:

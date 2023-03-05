@@ -12,8 +12,9 @@ var live_preview := true
 
 func _ready() -> void:
 	var sm := ShaderMaterial.new()
-	sm.gdshader = shader
-	preview.set_material(sm)
+	sm.shader = shader
+	if preview:
+		preview.set_material(sm)
 
 
 func _about_to_popup() -> void:

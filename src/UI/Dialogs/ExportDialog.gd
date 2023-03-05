@@ -45,7 +45,8 @@ func _ready() -> void:
 		file_exists_alert_popup.add_button("Cancel Export", false, "cancel")
 
 	# Remove close button from export progress bar
-	export_progress_popup.get_close_button().hide()
+	# Disabled by Variable (cause: no get_close_button())
+#	export_progress_popup.get_close_button().hide()
 
 
 func show_tab() -> void:

@@ -36,11 +36,13 @@ func set_sliders(palette: Palette, origin: Vector2) -> void:
 
 
 func reset_sliders() -> void:
-	set_sliders(palette_grid.current_palette, palette_grid.grid_window_origin)
+	if palette_grid:
+		set_sliders(palette_grid.current_palette, palette_grid.grid_window_origin)
 
 
 func resize_grid() -> void:
-	palette_grid.resize_grid(size - Vector2(v_slider.size.x, h_slider.size.y))
+	if v_slider and h_slider:
+		palette_grid.resize_grid(size - Vector2(v_slider.size.x, h_slider.size.y))
 
 
 func scroll_grid() -> void:

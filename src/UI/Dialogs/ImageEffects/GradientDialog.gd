@@ -40,8 +40,9 @@ class DitherMatrix:
 
 func _ready() -> void:
 	var sm := ShaderMaterial.new()
-	sm.gdshader = shader
-	preview.set_material(sm)
+	sm.shader = shader
+	if preview:
+		preview.set_material(sm)
 
 	for matrix in dither_matrices:
 		dithering_option_button.add_item(matrix.name)

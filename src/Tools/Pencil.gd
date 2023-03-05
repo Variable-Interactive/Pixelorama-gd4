@@ -22,7 +22,7 @@ class PencilOp:
 		return dst.blend(src)
 
 
-func _init():
+func _init() -> void:
 	_drawer.color_op = PencilOp.new()
 
 
@@ -40,7 +40,7 @@ func _on_FillInside_toggled(button_pressed):
 
 func _on_SpacingMode_toggled(button_pressed):
 	# This acts as an interface to access the intrinsic spacing_mode feature
-	# BaseTool holds the spacing system but for a @tool to access them i recommend we do it in
+	# BaseTool holds the spacing system but for a tool to access them i recommend we do it in
 	# their own script
 	_spacing_mode = button_pressed
 	update_config()
@@ -59,13 +59,13 @@ func _input(event: InputEvent) -> void:
 	var overwrite_button: CheckBox = $Overwrite
 
 	if event.is_action_pressed("change_tool_mode"):
-		_prev_mode = overwrite_button.pressed
+		_prev_mode = overwrite_button.button_pressed
 	if event.is_action("change_tool_mode"):
 		overwrite_button.button_pressed = !_prev_mode
-		_overwrite = overwrite_button.pressed
+		_overwrite = overwrite_button.button_pressed
 	if event.is_action_released("change_tool_mode"):
 		overwrite_button.button_pressed = _prev_mode
-		_overwrite = overwrite_button.pressed
+		_overwrite = overwrite_button.button_pressed
 
 
 func get_config() -> Dictionary:
@@ -87,9 +87,9 @@ func set_config(config: Dictionary) -> void:
 
 func update_config() -> void:
 	super.update_config()
-	$Overwrite.button_pressed = _overwrite
-	$FillInside.button_pressed = _fill_inside
-	$SpacingMode.button_pressed = _spacing_mode
+	$Overwrite.pressed = _overwrite
+	$FillInside.pressed = _fill_inside
+	$SpacingMode.pressed = _spacing_mode
 	$StrokeGap.visible = _spacing_mode
 	$StrokeGap/SpacingX.value = _spacing.x
 	$StrokeGap/SpacingY.value = _spacing.y
@@ -177,7 +177,7 @@ func draw_end(position: Vector2) -> void:
 					v.x = x
 					for y in image_size.y:
 						v.y = y
-						if Geometry.is_point_in_polygon(v, _draw_points):
+						if Geometry2D.is_point_in_polygon(v, _draw_points):
 							if _spacing_mode:
 								# use of get_spacing_position() in Pencil.gd is a rare case
 								# (you would ONLY need _spacing_mode and _spacing in most cases)

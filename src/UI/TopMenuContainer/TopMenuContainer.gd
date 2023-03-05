@@ -83,7 +83,7 @@ func _setup_recent_projects_submenu(item: String) -> void:
 
 func update_recent_projects_submenu() -> void:
 	var reversed_recent_projects = recent_projects.duplicate()
-	reversed_recent_projects.invert()
+	reversed_recent_projects.reverse()
 	for project in reversed_recent_projects:
 		recent_projects_submenu.add_item(project.get_file())
 
@@ -404,8 +404,8 @@ func _save_project_file_as() -> void:
 		save_filename.text = Global.current_project.name
 	else:
 		Global.save_sprites_dialog.popup_centered()
-		await get_tree().idle_frame
-		await get_tree().idle_frame
+		await get_tree().process_frame
+		await get_tree().process_frame
 		Global.save_sprites_dialog.get_line_edit().text = Global.current_project.name
 
 
@@ -548,8 +548,8 @@ func set_layout(id: int) -> void:
 		window_menu.set_item_checked(Global.WindowMenu.ZEN_MODE, false)
 
 	# Hacky but without 2 idle frames it doesn't work properly. Should be replaced eventually
-	await get_tree().idle_frame
-	await get_tree().idle_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
 	# Call set_tabs_visible to keep tabs visible if there are 2 or more in the same panel
 	ui.tabs_visible = ui.tabs_visible
 

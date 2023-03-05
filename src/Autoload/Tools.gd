@@ -100,7 +100,7 @@ var tools := {
 		"Eraser",
 		"Eraser",
 		"eraser",
-		preload("res://src/Tools/Eraser.tscn"),
+		preload("res://src/Tools/Pencil.tscn"),
 		"Hold %s to make a line",
 		["draw_create_line"]
 	),
@@ -263,7 +263,7 @@ func _ready() -> void:
 	pixel_perfect = Global.config_cache.get_value("preferences", "pixel_perfect", false)
 
 	# Yield is necessary for the color picker nodes to update their color values
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	var color_value: Color = Global.config_cache.get_value(
 		_slots[MOUSE_BUTTON_LEFT].kname, "color", Color.BLACK
 	)
@@ -290,16 +290,17 @@ func remove_tool(t: Tool) -> void:
 	tools.erase(t.name)
 
 
-func set_tool(name: String, button: int) -> void:
+func set_tool(tool_name: String, button: int) -> void:
 	var slot = _slots[button]
 	var panel: Node = _panels[button]
-	var node: Node = tools[name].scene.instantiate()
+	var node: Node = tools[tool_name].scene.instantiate()
+	var nod: PackedScene = tools[tool_name].scene
 	if button == MOUSE_BUTTON_LEFT:  # As guides are only moved with left mouse
-		if name == "Pan":  # @tool you want to give more access at guides
+		if tool_name == "Pan":  # @tool you want to give more access at guides
 			Global.move_guides_on_canvas = true
 		else:
 			Global.move_guides_on_canvas = false
-	node.name = name
+	node.name = tool_name
 	node.tool_slot = slot
 	slot.tool_node = node
 	slot.button = button

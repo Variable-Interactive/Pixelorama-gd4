@@ -20,7 +20,7 @@ var theme_button_group := ButtonGroup.new()
 func _ready() -> void:
 	for theme in themes:
 		add_theme(theme)
-	await get_tree().idle_frame
+	await get_tree().process_frame
 
 	var theme_id: int = Global.config_cache.get_value("preferences", "theme", 0)
 	if theme_id >= themes.size():
@@ -43,7 +43,7 @@ func add_theme(theme: Theme) -> void:
 	button.name = theme_name
 	button.text = theme_name
 	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	button.group = theme_button_group
+	button.button_group = theme_button_group
 	buttons_container.add_child(button)
 	button.connect("pressed",Callable(self,"_on_Theme_pressed").bind(button.get_index()))
 

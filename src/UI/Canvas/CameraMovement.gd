@@ -28,15 +28,17 @@ func _ready() -> void:
 	# signals regarding rotation stats
 	Global.rotation_level_button.connect("pressed",Callable(self,"_rotation_button_pressed"))
 	Global.rotation_level_spinbox.connect("value_changed",Callable(self,"_rotation_value_changed"))
-	Global.rotation_level_spinbox.get_child(0).connect(
-		"focus_exited", Callable(self, "_rotation_focus_exited")
-	)
+	# Disabled by Variable (cause: child(0) confusion)
+#	Global.rotation_level_spinbox.get_child(0).connect(
+#		"focus_exited", Callable(self, "_rotation_focus_exited")
+#	)
 
 	# signals regarding zoom stats
 	Global.zoom_level_button.connect("pressed",Callable(self,"_zoom_button_pressed"))
 	Global.zoom_level_spinbox.connect("value_changed",Callable(self,"_zoom_value_changed"))
 	Global.zoom_level_spinbox.max_value = 100.0 / zoom_min.x
-	Global.zoom_level_spinbox.get_child(0).connect("focus_exited",Callable(self,"_zoom_focus_exited"))
+	# Disabled by Variable (cause: child(0) confusion)
+#	Global.zoom_level_spinbox.get_child(0).connect("focus_exited",Callable(self,"_zoom_focus_exited"))
 
 
 func _rotation_button_pressed() -> void:

@@ -370,5 +370,5 @@ func _on_ShrinkApplyButton_pressed() -> void:
 	hide()
 	popup_centered(Vector2(600, 400))
 	Global.dialog_open(true)
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	Global.camera.fit_to_frame(Global.current_project.size)

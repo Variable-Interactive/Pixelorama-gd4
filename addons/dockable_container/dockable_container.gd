@@ -13,6 +13,11 @@ const Layout = preload("layout.gd")
 	set(value):
 		# TODO: Manually copy the code from this method.
 		set_tab_align(value)
+@export var tabs_visible: bool = true:
+	get:
+		return get_tabs_visible()
+	set(value):
+		set_tabs_visible(value)
 @export var use_hidden_tabs_for_custom_minimum_size: bool:
 	get:
 		# TODO: Manually copy the code from this method.
@@ -38,6 +43,7 @@ var _panel_container = Container.new()
 var _split_container = Container.new()
 var _drag_n_drop_panel = DragNDropPanel.new()
 var _drag_panel: DockablePanel
+var _tabs_visible = true
 var _tab_align = 1
 var _use_hidden_tabs_for_min_size = false
 var _current_panel_index = 0
@@ -53,13 +59,13 @@ func _ready() -> void:
 	_split_container.name = "_split_container"
 	_split_container.mouse_filter = MOUSE_FILTER_PASS
 	_panel_container.add_child(_split_container)
-	
+
 	_drag_n_drop_panel.name = "_drag_n_drop_panel"
 	_drag_n_drop_panel.mouse_filter = MOUSE_FILTER_PASS
 	_drag_n_drop_panel.set_drag_forwarding(Callable(), Callable(self,"_can_drop_data_fw"), Callable(self, "_drop_data_fw"))
 	_drag_n_drop_panel.visible = false
 	super.add_child(_drag_n_drop_panel)
-	
+
 	if not _layout:
 		set_layout(null)
 	elif clone_layout_on_ready and not Engine.is_editor_hint():
@@ -119,18 +125,18 @@ func _can_drop_data_fw(position: Vector2, data: Dictionary) -> bool:
 #func _drop_data_fw(position: Vector2, data, from_control) -> void:
 func _drop_data_fw(position: Vector2, data) -> void:
 #	assert(from_control == _drag_n_drop_panel, "FIXME")
-	
+
 	var from_node: DockablePanel = get_node(data.from_path)
 	if _drag_panel == null or (from_node == _drag_panel and _drag_panel.get_child_count() == 1):
 		return
-	
+
 	var moved_tab = from_node.get_tab_control(data.tabc_element)
 	var moved_reference = moved_tab.reference_to
-	
+
 	var margin = _drag_n_drop_panel.get_hover_margin()
 	_layout.split_leaf_with_node(_drag_panel.leaf, moved_reference, margin)
 	_layout_dirty = true
-	
+
 	queue_sort()
 
 
@@ -182,6 +188,21 @@ func set_tab_align(value: int) -> void:
 
 func get_tab_align() -> int:
 	return _tab_align # REMOVED _
+
+
+func set_tabs_visible(value: bool) -> void:
+	_tabs_visible = value
+	for i in range(1, _panel_container.get_child_count()):
+		var panel = _panel_container.get_child(i)
+		if panel.get_tab_count() >= 2:
+			panel.tabs_visible = true
+		else:
+			panel.tabs_visible = value
+	queue_sort()
+
+
+func get_tabs_visible() -> bool:
+	return _tabs_visible
 
 
 func set_use_hidden_tabs_for_custom_minimum_size(value: bool) -> void:
@@ -276,34 +297,34 @@ func _resort() -> void:
 		move_child(_panel_container, 0)
 	if _drag_n_drop_panel.get_index() < get_child_count() - 1:
 		_drag_n_drop_panel.move_to_front()
-	
+
 	if _layout_dirty:
 		_update_layout_with_children()
-	
+
 	var rect = Rect2(Vector2.ZERO, size)
 	fit_child_in_rect(_panel_container, rect)
 	_panel_container.fit_child_in_rect(_split_container, rect)
-	
+
 	_current_panel_index = 1
 	_current_split_index = 0
-	
+
 	var children_list = []
 	_calculate_panel_and_split_list(children_list, _layout.root)
 	_fit_panel_and_split_list_to_rect(children_list, rect)
-	
+
 	_untrack_children_after(_panel_container, _current_panel_index)
 	_untrack_children_after(_split_container, _current_split_index)
 
 
 func _calculate_panel_and_split_list(result: Array, layout_node: Layout.LayoutNode):
-	
+
 #	Calculate DockablePanel and SplitHandle minimum sizes, skipping empty branches.
 #
 #	Returns a DockablePanel on non-empty leaves, a SplitHandle on non-empty
 #	splits, `null` if the whole branch is empty and no space should be used.
 #
 #	`result` will be filled with the non-empty nodes in this post-order tree traversal.
-	
+
 	if layout_node is Layout.LayoutPanel:
 		var nodes = []
 		for n in layout_node.names:
@@ -346,11 +367,11 @@ func _calculate_panel_and_split_list(result: Array, layout_node: Layout.LayoutNo
 
 
 func _fit_panel_and_split_list_to_rect(panel_and_split_list: Array, rect: Rect2) -> void:
-	
+
 	# Traverse list from back to front fitting controls where they belong.
-	# 
+	#
 	# Be sure to call this with the result from `_calculate_split_minimum_sizes`.
-	
+
 	var control = panel_and_split_list.pop_back()
 	if control is DockablePanel:
 		_panel_container.fit_child_in_rect(control, rect)
@@ -404,7 +425,7 @@ func _on_panel_tab_layout_changed(tab: int, panel: DockablePanel) -> void:
 func _on_child_renamed(child: Node) -> void:
 	# Handler for `Node.renamed` signal, updates tracked name for node
 	var old_name = _children_names.get(child)
-	
+
 	if old_name == str(child.name): # NEED FIX
 		return
 	_children_names.erase(old_name)
