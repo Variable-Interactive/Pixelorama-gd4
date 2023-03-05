@@ -285,7 +285,7 @@ func add_image_data_block(lzw_min_code_size: int, frame_data: PackedByteArray) -
 			else frame_data.size() - 1
 		)
 		var block_size = end_block_index - start_block_index + 1
-		var block = frame_data.subarray(start_block_index, end_block_index)
+		var block = frame_data.slice(start_block_index, end_block_index)
 
 		# store block size and it's data
 		data.append(block_size)

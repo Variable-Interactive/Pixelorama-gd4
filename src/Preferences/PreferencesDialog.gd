@@ -74,11 +74,12 @@ var preferences := [
 	Preference.new(
 		"pause_when_unfocused", "Performance/PerformanceContainer/PauseAppFocus", "pressed"
 	),
-	# Disabled by Variable
+	# Disabled by Variable (Cause: no OS.get_current_video_driver())
 #	Preference.new(
 #		"renderer", "Drivers/DriversContainer/Renderer", "selected", true, OS.VIDEO_DRIVER_GLES2
 #	),
-	Preference.new("tablet_driver", "Drivers/DriversContainer/TabletDriver", "selected", true, 0)
+	# Disabled by Variable (Cause: no OS.get_tablet_driver_name(tablet_driver))
+#	Preference.new("tablet_driver", "Drivers/DriversContainer/TabletDriver", "selected", true, 0)
 ]
 
 var content_list := []
@@ -141,12 +142,14 @@ func _ready() -> void:
 		right_side.get_node("Startup").queue_free()
 		right_side.get_node("Language").visible = true
 		Global.open_last_project = false
-	elif OS.get_name() == "Windows":
-		tablet_driver_label.visible = true
-		tablet_driver.visible = true
-		for driver in OS.get_tablet_driver_count():
-			var driver_name := OS.get_tablet_driver_name(driver)
-			tablet_driver.add_item(driver_name, driver)
+
+	# Disabled by Variable (Cause: no OS.get_tablet_driver_name(tablet_driver))
+#	elif OS.get_name() == "Windows":
+#		tablet_driver_label.visible = true
+#		tablet_driver.visible = true
+#		for driver in OS.get_tablet_driver_count():
+#			var driver_name := OS.get_tablet_driver_name(driver)
+#			tablet_driver.add_item(driver_name, driver)
 
 	for pref in preferences:
 		var node: Node = right_side.get_node(pref.node_path)
@@ -169,29 +172,32 @@ func _ready() -> void:
 		match pref.value_type:
 			"pressed":
 				node.connect(
-					"toggled", self, "_on_Preference_value_changed", [pref, restore_default_button]
+					"toggled", Callable(self, "_on_Preference_value_changed").bindv([pref, restore_default_button])
 				)
 			"value":
 				node.connect(
 					"value_changed",
-					self,
-					"_on_Preference_value_changed",
-					[pref, restore_default_button]
+					Callable(
+						self,
+						"_on_Preference_value_changed",
+					).bindv([pref, restore_default_button])
 				)
 			"color":
 				node.get_picker().presets_visible = false
 				node.connect(
 					"color_changed",
-					self,
-					"_on_Preference_value_changed",
-					[pref, restore_default_button]
+					Callable(
+						self,
+						"_on_Preference_value_changed",
+					).bindv([pref, restore_default_button])
 				)
 			"selected":
 				node.connect(
 					"item_selected",
-					self,
-					"_on_Preference_value_changed",
-					[pref, restore_default_button]
+					Callable(
+						self,
+						"_on_Preference_value_changed",
+					).bindv([pref, restore_default_button])
 				)
 
 		var global_value = Global.get(pref.prop_name)
@@ -262,7 +268,7 @@ func preference_update(prop: String, require_restart := false) -> void:
 				guide.default_color = Global.guide_color
 
 	elif prop in ["fps_limit"]:
-		Engine.set_target_fps(Global.fps_limit)
+		Engine.set_max_fps(Global.fps_limit)
 
 	elif "selection" in prop:
 		var marching_ants: Sprite2D = Global.canvas.selection.marching_ants_outline
@@ -346,12 +352,20 @@ func _on_List_item_selected(index: int) -> void:
 
 
 func _on_ShrinkApplyButton_pressed() -> void:
-	get_tree().set_screen_stretch(
-		SceneTree.STRETCH_MODE_DISABLED,
-		SceneTree.STRETCH_ASPECT_IGNORE,
-		Vector2(1024, 576),
-		Global.shrink
-	)
+	# an alternative way
+	var root = get_tree().root
+	root.content_scale_aspect = Window.CONTENT_SCALE_ASPECT_IGNORE
+	root.content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
+	root.min_size = Vector2(1024, 576)
+	root.content_scale_factor = Global.shrink
+
+	# Disabled by Variable (Cause: no set_screen_stretch())
+#	get_tree().root.set_screen_stretch(
+#		SceneTree.STRETCH_MODE_DISABLED,
+#		SceneTree.STRETCH_ASPECT_IGNORE,
+#		Vector2(1024, 576),
+#		Global.shrink
+#	)
 	Global.control.set_custom_cursor()
 	hide()
 	popup_centered(Vector2(600, 400))

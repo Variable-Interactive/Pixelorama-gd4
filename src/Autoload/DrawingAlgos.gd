@@ -7,9 +7,10 @@ var clean_edge_shader: Shader = preload("res://src/Shaders/Rotation/cleanEdge.gd
 var omniscale_shader: Shader
 
 
-func _ready() -> void:
-	if OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES3:
-		omniscale_shader = load("res://src/Shaders/Rotation/OmniScale.gdshader")
+# Disabled by Variable (Cause: no OS.get_current_video_driver())
+#func _ready() -> void:
+#	if OS.get_current_video_driver() == OS.RENDERING_DRIVER_OPENGL3:
+#		omniscale_shader = load("res://src/Shaders/Rotation/OmniScale.gdshader")
 
 
 # Algorithm based on http://members.chello.at/easyfilter/bresenham.html
@@ -470,9 +471,9 @@ func centralize() -> void:
 		if not cel is PixelCel:
 			continue
 		var cel_rect: Rect2 = cel.image.get_used_rect()
-		if not cel_rect.has_no_area():
-			used_rect = cel_rect if used_rect.has_no_area() else used_rect.merge(cel_rect)
-	if used_rect.has_no_area():
+		if cel_rect.has_area():
+			used_rect = cel_rect if not used_rect.has_area() else used_rect.merge(cel_rect)
+	if not used_rect.has_area():
 		return
 
 	var offset: Vector2 = (0.5 * (Global.current_project.size - used_rect.size)).floor()
@@ -586,8 +587,8 @@ func general_undo_scale() -> void:
 	project.undo_redo.add_undo_property(
 		project.y_symmetry_axis, "points", project.y_symmetry_axis.points
 	)
-	project.undo_redo.add_undo_method(Global, "undo_or_redo", true)
-	project.undo_redo.add_do_method(Global, "undo_or_redo", false)
+	project.undo_redo.add_undo_method(Callable(Global, "undo_or_redo").bind(true))
+	project.undo_redo.add_do_method(Callable(Global, "undo_or_redo").bind(false))
 	project.undo_redo.commit_action()
 
 
@@ -599,8 +600,8 @@ func general_do_centralize() -> void:
 
 func general_undo_centralize() -> void:
 	var project: Project = Global.current_project
-	project.undo_redo.add_undo_method(Global, "undo_or_redo", true)
-	project.undo_redo.add_do_method(Global, "undo_or_redo", false)
+	project.undo_redo.add_undo_method(Callable(Global, "undo_or_redo").bind(true))
+	project.undo_redo.add_do_method(Callable(Global, "undo_or_redo").bind(false))
 	project.undo_redo.commit_action()
 
 

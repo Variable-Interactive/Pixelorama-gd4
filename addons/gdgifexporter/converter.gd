@@ -19,8 +19,9 @@ func _convert(image: Image, colors: Array) -> PackedByteArray:
 	RenderingServer.viewport_attach_canvas(vp, canvas)
 	RenderingServer.viewport_set_size(vp, image.get_width(), image.get_height())
 	RenderingServer.viewport_set_disable_3d(vp, true)
-	RenderingServer.viewport_set_usage(vp, RenderingServer.VIEWPORT_USAGE_2D)
-	RenderingServer.viewport_set_hdr(vp, true)
+	# TODO I changed the line below but don't know if it's correct
+	RenderingServer.viewport_set_environment_mode(vp, RenderingServer.VIEWPORT_ENVIRONMENT_DISABLED)
+#	RenderingServer.viewport_set_hdr(vp, true)  # TODO find it's Godot4 Alternative
 	RenderingServer.viewport_set_active(vp, true)
 
 	var ci_rid = RenderingServer.canvas_item_create()
@@ -46,9 +47,9 @@ func _convert(image: Image, colors: Array) -> PackedByteArray:
 	RenderingServer.canvas_item_set_material(ci_rid, mat_rid)
 
 	RenderingServer.viewport_set_update_mode(vp, RenderingServer.VIEWPORT_UPDATE_ONCE)
-	RenderingServer.viewport_set_vflip(vp, true)
+#	RenderingServer.viewport_set_vflip(vp, true)  # TODO find it's Godot4 Alternative
 	RenderingServer.force_draw(false)
-	image = RenderingServer.texture_get_data(RenderingServer.viewport_get_texture(vp))
+	image = RenderingServer.texture_2d_get(RenderingServer.viewport_get_texture(vp))
 
 	RenderingServer.free_rid(vp)
 	RenderingServer.free_rid(canvas)

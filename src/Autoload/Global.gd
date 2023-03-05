@@ -121,13 +121,14 @@ var fps_limit := 0
 
 var autosave_interval := 1.0
 var enable_autosave := true
-# Disabled by Variable
+# Disabled by Variable (Cause: no OS.get_current_video_driver())
 #var renderer := OS.get_current_video_driver():
 #	set(value):
 #		_renderer_changed(value)
-var tablet_driver := 0:
-	set(value):
-		_tablet_driver_changed(value)
+# Disabled by Variable (Cause: no OS.get_tablet_driver_name(tablet_driver))
+#var tablet_driver := 0:
+#	set(value):
+#		_tablet_driver_changed(value)
 
 # Tools & options
 var show_left_tool_icon := true
@@ -227,9 +228,10 @@ var group_cel_button_node: PackedScene = preload("res://src/UI/Timeline/GroupCel
 @onready var current_version: String = ProjectSettings.get_setting("application/config/Version")
 
 
-func _init():
-	if ProjectSettings.get_setting("display/window/tablet_driver") == "winink":
-		tablet_driver = 1
+# Disabled by Variable (Cause: no OS.get_tablet_driver_name(tablet_driver))
+#func _init():
+#	if ProjectSettings.get_setting("display/window/tablet_driver") == "winink":
+#		tablet_driver = 1
 
 
 func _ready() -> void:
@@ -507,7 +509,8 @@ func _project_changed(value: int) -> void:
 	disconnect("project_changed",Callable(current_project,"change_project"))
 	emit_signal("cel_changed")
 
-# Disabled by Variable
+
+# Disabled by Variable (Cause: no OS.get_current_video_driver())
 #func _renderer_changed(value: int) -> void:
 #	renderer = value
 #	if OS.has_feature("editor"):
@@ -521,13 +524,14 @@ func _project_changed(value: int) -> void:
 #	ProjectSettings.save_custom(OVERRIDE_FILE)
 
 
-func _tablet_driver_changed(value: int) -> void:
-	tablet_driver = value
-	if OS.has_feature("editor"):
-		return
-	var tablet_driver_name := OS.get_tablet_driver_name(tablet_driver)
-	ProjectSettings.set_setting("display/window/tablet_driver", tablet_driver_name)
-	ProjectSettings.save_custom(OVERRIDE_FILE)
+# Disabled by Variable (Cause: no OS.get_tablet_driver_name(tablet_driver))
+#func _tablet_driver_changed(value: int) -> void:
+#	tablet_driver = value
+#	if OS.has_feature("editor"):
+#		return
+#	var tablet_driver_name := OS.get_tablet_driver_name(tablet_driver)
+#	ProjectSettings.set_setting("display/window/tablet_driver", tablet_driver_name)
+#	ProjectSettings.save_custom(OVERRIDE_FILE)
 
 
 func dialog_open(open: bool) -> void:

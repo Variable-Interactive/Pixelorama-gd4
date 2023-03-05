@@ -164,14 +164,13 @@ func _on_PreviewDialog_confirmed() -> void:
 
 			# Copy the image file into the "pixelorama/Patterns" directory
 			var location := "Patterns".path_join(file_name_ext)
-			var dir = Directory.new()
-			dir.copy(path, Global.directory_module.xdg_data_home.path_join(location))
+			DirAccess.copy_absolute(path, Global.directory_module.xdg_data_home.path_join(location))
 
 
 func _on_ApplyAll_toggled(pressed) -> void:
 	is_master = pressed
 	# below 4 (and the last) line is needed for correct popup placement
-	var old_rect = get_rect()
+	var old_rect = Rect2i(position, size)
 	disconnect("popup_hide",Callable(self,"_on_PreviewDialog_popup_hide"))
 	hide()
 	connect("popup_hide",Callable(self,"_on_PreviewDialog_popup_hide"))
@@ -271,7 +270,7 @@ func _on_ImportOption_item_selected(id: int) -> void:
 		# Fill the at layer option button:
 		var at_layer_option: OptionButton = new_frame_options.get_node("AtLayerOption")
 		var layers := Global.current_project.layers.duplicate()
-		layers.invert()
+		layers.reverse()
 		var i := 0
 		for l in layers:
 			if not l is PixelLayer:
@@ -285,7 +284,7 @@ func _on_ImportOption_item_selected(id: int) -> void:
 		# Fill the at layer option button:
 		var at_layer_option: OptionButton = replace_cel_options.get_node("AtLayerOption")
 		var layers := Global.current_project.layers.duplicate()
-		layers.invert()
+		layers.reverse()
 		var i := 0
 		for l in layers:
 			if not l is PixelLayer:
@@ -377,8 +376,7 @@ func add_brush() -> void:
 
 		# Copy the image file into the "pixelorama/Brushes" directory
 		var location := "Brushes".path_join(file_name_ext)
-		var dir = Directory.new()
-		dir.copy(path, Global.directory_module.xdg_data_home.path_join(location))
+		DirAccess.copy_absolute(path, Global.directory_module.xdg_data_home.path_join(location))
 
 	elif brush_type == BrushTypes.PROJECT:
 		var file_name: String = path.get_file().get_basename()
@@ -389,8 +387,7 @@ func add_brush() -> void:
 		var brush_name = new_brush_name.get_node("BrushNameLineEdit").text.to_lower()
 		if !brush_name.is_valid_filename():
 			return
-		var dir := Directory.new()
-		dir.open(Global.directory_module.xdg_data_home.path_join("Brushes"))
+		var dir := DirAccess.open(Global.directory_module.xdg_data_home.path_join("Brushes"))
 		if !dir.dir_exists(brush_name):
 			dir.make_dir(brush_name)
 
@@ -418,8 +415,7 @@ func file_name_replace(name: String, folder: String) -> String:
 	var i := 1
 	var file_ext = name.get_extension()
 	var temp_name := name
-	var dir := Directory.new()
-	dir.open(Global.directory_module.xdg_data_home.path_join(folder))
+	var dir := DirAccess.open(Global.directory_module.xdg_data_home.path_join(folder))
 	while dir.file_exists(temp_name):
 		i += 1
 		temp_name = name.get_basename() + " (%s)" % i

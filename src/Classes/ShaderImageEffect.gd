@@ -14,7 +14,8 @@ func generate_image(img: Image, shader: Shader, params: Dictionary, size: Vector
 	RenderingServer.viewport_attach_canvas(vp, canvas)
 	RenderingServer.viewport_set_size(vp, size.x, size.y)
 	RenderingServer.viewport_set_disable_3d(vp, true)
-	RenderingServer.viewport_set_environment_mode(vp, RenderingServer.VIEWPORT_ENVIRONMENT_DISABLED)  # New line
+	# TODO I changed the line below but don't know if it's correct
+	RenderingServer.viewport_set_environment_mode(vp, RenderingServer.VIEWPORT_ENVIRONMENT_DISABLED)
 	RenderingServer.viewport_set_active(vp, true)
 	RenderingServer.viewport_set_transparent_background(vp, true)
 

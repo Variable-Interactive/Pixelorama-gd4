@@ -101,12 +101,18 @@ func _get_auto_display_scale() -> float:
 
 
 func _setup_application_window_size() -> void:
-	get_tree().set_screen_stretch(
-		SceneTree.STRETCH_MODE_DISABLED,
-		SceneTree.STRETCH_ASPECT_IGNORE,
-		Vector2(1024, 576),
-		Global.shrink
-	)
+	var root = get_tree().root
+	root.content_scale_aspect = Window.CONTENT_SCALE_ASPECT_IGNORE
+	root.content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
+	root.min_size = Vector2(1024, 576)
+	root.content_scale_factor = Global.shrink
+	# Disabled by Variable (Cause: no set_screen_stretch())
+#	get_tree().set_screen_stretch(
+#		SceneTree.STRETCH_MODE_DISABLED,
+#		SceneTree.STRETCH_ASPECT_IGNORE,
+#		Vector2(1024, 576),
+#		Global.shrink
+#	)
 	set_custom_cursor()
 
 	if OS.get_name() == "HTML5":
@@ -134,7 +140,7 @@ func set_custom_cursor() -> void:
 	if Global.shrink == 1.0:
 		Input.set_custom_mouse_cursor(cursor_image, Input.CURSOR_CROSS, Vector2(15, 15))
 	else:
-		var cursor_data := cursor_image.get_data()
+		var cursor_data := cursor_image.get_image()
 		cursor_data.resize(
 			cursor_data.get_width() * Global.shrink, cursor_data.get_height() * Global.shrink, 0
 		)

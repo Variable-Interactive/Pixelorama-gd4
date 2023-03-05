@@ -82,11 +82,12 @@ func _on_Path_pressed() -> void:
 	OS.shell_open($Interior/PathHeader/Path3D.text.get_base_dir())
 
 
-func _on_ApplyFilter_toggled(button_pressed: bool) -> void:
-	element.filter = button_pressed
-	if element.texture:
-		if element.filter:
-			element.texture.flags = Texture2D.FLAG_MIPMAPS | Texture2D.FLAG_FILTER
-		else:
-			element.texture.flags = Texture2D.FLAG_MIPMAPS
-	element.change_properties()
+# Disabled by Variable (Cause: Confusion on flags)
+#func _on_ApplyFilter_toggled(button_pressed: bool) -> void:
+#	element.filter = button_pressed
+#	if element.texture:
+#		if element.filter:
+#			element.texture.flags = Texture2D.FLAG_MIPMAPS | Texture2D.FLAG_FILTER
+#		else:
+#			element.texture.flags = Texture2D.FLAG_MIPMAPS
+#	element.change_properties()
