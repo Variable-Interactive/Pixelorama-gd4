@@ -8,7 +8,7 @@ extends Button
 
 
 func _ready() -> void:
-	_set_visible(pressed)
+	_set_visible(button_pressed)
 	content.connect("visibility_changed",Callable(self,"_child_visibility_changed"))
 
 
@@ -19,7 +19,7 @@ func _set_text(value: String) -> void:
 
 func _set_visible_content(value: bool) -> void:
 	visible_content = value
-	pressed = value
+	button_pressed = value
 
 
 func _on_Button_toggled(button_pressed: bool) -> void:
@@ -37,5 +37,5 @@ func _set_visible(pressed: bool) -> void:
 # Checks if a child becomes visible from another source and ensures
 # it remains invisible if the button is not pressed
 func _child_visibility_changed() -> void:
-	if not pressed:
+	if not button_pressed:
 		content.visible = false

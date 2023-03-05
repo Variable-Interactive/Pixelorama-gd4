@@ -60,12 +60,12 @@ func _button_pressed() -> void:
 			if frame < Global.current_project.frames.size() - 1:
 				popup_menu.set_item_disabled(3, false)
 		popup_menu.popup(Rect2(get_global_mouse_position(), Vector2.ONE))
-		pressed = !pressed
+		button_pressed = !button_pressed
 	elif Input.is_action_just_released("middle_mouse"):
-		pressed = !pressed
+		button_pressed = !button_pressed
 		Global.animation_timeline.delete_frames([frame])
 	else:  # An example of this would be Space
-		pressed = !pressed
+		button_pressed = !button_pressed
 
 
 func _on_PopupMenu_id_pressed(id: int) -> void:
@@ -104,7 +104,7 @@ func change_frame_order(rate: int) -> void:
 	project.undo_redo.commit_action()
 
 
-func _get_drag_data(_position) -> Array:
+func _get_drag_data(_position):
 	var button := Button.new()
 	button.size = size
 	button.theme = Global.control.theme

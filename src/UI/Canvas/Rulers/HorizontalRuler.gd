@@ -57,40 +57,40 @@ func _draw() -> void:
 		Vector2(1.0 / minor_subdivision, 1.0 / minor_subdivision)
 	)
 
-	first = (transform * ruler_transform * major_subdivide * minor_subdivide).affine_inverse().xform(
+	first = (transform * ruler_transform * major_subdivide * minor_subdivide).affine_inverse() * (
 		Vector2.ZERO
 	)
-	last = (transform * ruler_transform * major_subdivide * minor_subdivide).affine_inverse().xform(
+	last = (transform * ruler_transform * major_subdivide * minor_subdivide).affine_inverse() * (
 		Global.main_viewport.size
 	)
 
 	for j in range(ceil(first.x), ceil(last.x)):
-		var position: Vector2 = (transform * ruler_transform * major_subdivide * minor_subdivide).xform(
+		var pos: Vector2 = (transform * ruler_transform * major_subdivide * minor_subdivide) * (
 			Vector2(j, 0)
 		)
 		if j % (major_subdivision * minor_subdivision) == 0:
 			draw_line(
-				Vector2(position.x + RULER_WIDTH, 0),
-				Vector2(position.x + RULER_WIDTH, RULER_WIDTH),
+				Vector2(pos.x + RULER_WIDTH, 0),
+				Vector2(pos.x + RULER_WIDTH, RULER_WIDTH),
 				Color.WHITE
 			)
 			var val = (ruler_transform * major_subdivide * minor_subdivide) * Vector2(j, 0).x
 			draw_string(
 				font,
-				Vector2(position.x + RULER_WIDTH + 2, font.get_height() - 4),
+				Vector2(pos.x + RULER_WIDTH + 2, font.get_height() - 4),
 				str(snappedf(val, 0.1))
 			)
 		else:
 			if j % minor_subdivision == 0:
 				draw_line(
-					Vector2(position.x + RULER_WIDTH, RULER_WIDTH * 0.33),
-					Vector2(position.x + RULER_WIDTH, RULER_WIDTH),
+					Vector2(pos.x + RULER_WIDTH, RULER_WIDTH * 0.33),
+					Vector2(pos.x + RULER_WIDTH, RULER_WIDTH),
 					Color.WHITE
 				)
 			else:
 				draw_line(
-					Vector2(position.x + RULER_WIDTH, RULER_WIDTH * 0.66),
-					Vector2(position.x + RULER_WIDTH, RULER_WIDTH),
+					Vector2(pos.x + RULER_WIDTH, RULER_WIDTH * 0.66),
+					Vector2(pos.x + RULER_WIDTH, RULER_WIDTH),
 					Color.WHITE
 				)
 

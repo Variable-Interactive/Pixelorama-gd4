@@ -61,7 +61,7 @@ func update_config() -> void:
 
 func set_spinbox_values() -> void:
 	var select_rect: Rect2 = selection_node.big_bounding_rectangle
-	xspinbox.editable = !select_rect.has_no_area()
+	xspinbox.editable = select_rect.has_area()
 	yspinbox.editable = xspinbox.editable
 	wspinbox.editable = xspinbox.editable
 	hspinbox.editable = xspinbox.editable

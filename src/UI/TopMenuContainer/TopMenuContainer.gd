@@ -33,8 +33,7 @@ var zen_mode := false
 
 
 func _ready() -> void:
-	var dir := Directory.new()
-	dir.make_dir("user://layouts")
+	DirAccess.make_dir_absolute("user://layouts")
 	_setup_file_menu()
 	_setup_edit_menu()
 	_setup_view_menu()
@@ -239,9 +238,9 @@ func _setup_panels_submenu(item: String) -> void:
 
 
 func _setup_layouts_submenu(item: String) -> void:
-	var dir := Directory.new()
 	var path := "user://layouts"
-	if dir.open(path) == OK:
+	var dir := DirAccess.open(path)
+	if DirAccess.get_open_error() == OK:
 		dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var file_name = dir.get_next()
 		while file_name != "":
@@ -338,7 +337,7 @@ func _handle_metadata(id: int, menu_button: MenuButton) -> void:
 				metadata.call("menu_item_clicked")
 
 
-func _popup_dialog(dialog: Popup, size := Vector2.ZERO) -> void:
+func _popup_dialog(dialog: Window, size := Vector2.ZERO) -> void:
 	dialog.popup_centered(size)
 	Global.dialog_open(true)
 
@@ -711,8 +710,7 @@ func help_menu_id_pressed(id: int) -> void:
 		Global.HelpMenu.ISSUE_TRACKER:
 			OS.shell_open("https://github.com/Orama-Interactive/Pixelorama/issues")
 		Global.HelpMenu.OPEN_LOGS_FOLDER:
-			var dir = Directory.new()
-			dir.make_dir_recursive("user://logs")  # In case someone deleted it
+			DirAccess.make_dir_recursive_absolute("user://logs")  # In case someone deleted it
 			OS.shell_open(ProjectSettings.globalize_path("user://logs"))
 		Global.HelpMenu.CHANGELOG:
 			OS.shell_open(

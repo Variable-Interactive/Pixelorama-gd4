@@ -29,7 +29,7 @@ func _ready() -> void:
 	Global.rotation_level_button.connect("pressed",Callable(self,"_rotation_button_pressed"))
 	Global.rotation_level_spinbox.connect("value_changed",Callable(self,"_rotation_value_changed"))
 	Global.rotation_level_spinbox.get_child(0).connect(
-		"focus_exited", self, "_rotation_focus_exited"
+		"focus_exited", Callable(self, "_rotation_focus_exited")
 	)
 
 	# signals regarding zoom stats
@@ -257,7 +257,7 @@ func fit_to_frame(size: Vector2) -> void:
 	viewport_container = get_parent().get_parent()
 	var h_ratio := viewport_container.size.x / size.x
 	var v_ratio := viewport_container.size.y / size.y
-	var ratio := min(h_ratio, v_ratio)
+	var ratio := minf(h_ratio, v_ratio)
 	if ratio == 0 or !viewport_container.visible:
 		ratio = 0.1  # Set it to a non-zero value just in case
 		# If the ratio is 0, it means that the viewport container is hidden
