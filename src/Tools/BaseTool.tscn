@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://src/Tools/BaseTool.gd" id="1"]
-[ext_resource type="PackedScene" path="res://src/UI/Nodes/OpacitySlider.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://src/UI/Nodes/ValueSlider.tscn" id="2"]
 
 [node name="ToolOptions" type="VBoxContainer"]
 offset_left = 7.0

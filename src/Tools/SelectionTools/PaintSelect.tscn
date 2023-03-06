@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3]
 
-[ext_resource path="res://src/Tools/SelectionTools/SelectionTool.tscn" type="PackedScene" id=1]
-[ext_resource path="res://src/Tools/SelectionTools/PaintSelect.gd" type="Script" id=2]
-[ext_resource path="res://src/UI/Nodes/ValueSlider.tscn" type="PackedScene" id=3]
+[ext_resource type="PackedScene" path="res://src/Tools/SelectionTools/SelectionTool.tscn" id="1"]
+[ext_resource type="Script" path="res://src/Tools/SelectionTools/PaintSelect.gd" id="2"]
+[ext_resource type="PackedScene" path="res://src/UI/Nodes/ValueSlider.tscn" id="3"]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 1, 1, 1, 1 )

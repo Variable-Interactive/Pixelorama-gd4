@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3]
 
-[ext_resource type="PackedScene" path="res://src/UI/Nodes/OpacitySlider.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://src/UI/Nodes/ValueSlider.tscn" id="1"]
 [ext_resource type="Script" path="res://src/UI/PerspectiveEditor/VanishingPoint.gd" id="2"]
 [ext_resource type="PackedScene" path="res://src/UI/Nodes/CollapsibleContainer.tscn" id="3"]
 [ext_resource type="Texture2D" uid="uid://x36ffflcj40i" path="res://assets/graphics/misc/value_arrow.svg" id="4"]
