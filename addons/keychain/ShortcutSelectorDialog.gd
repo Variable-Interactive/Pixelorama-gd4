@@ -174,8 +174,7 @@ func _on_ShortcutSelectorDialog_about_to_show() -> void:
 			_on_OptionButton_item_selected(0)
 
 
-func _on_ShortcutSelectorDialog_visibility_changed() -> void:
-	if !visible:
+func _on_ShortcutSelectorDialog_close_requested() -> void:
 		Global.dialog_open(false)
 
 

@@ -25,5 +25,5 @@ layout_mode = 2
 text = "Window opacity does not work on fullscreen mode."
 
 [connection signal="about_to_popup" from="." to="." method="_on_WindowOpacityDialog_about_to_show"]
-[connection signal="visibility_changed" from="." to="." method="_on_WindowOpacityDialog_visibility_changed"]
+[connection signal="close_requested" from="." to="." method="_on_WindowOpacityDialog_close_requested"]
 [connection signal="value_changed" from="VBoxContainer/ValueSlider" to="." method="set_window_opacity"]

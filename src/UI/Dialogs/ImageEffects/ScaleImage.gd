@@ -39,8 +39,7 @@ func _on_ScaleImage_confirmed() -> void:
 	DrawingAlgos.scale_image(width, height, interpolation)
 
 
-func _on_ScaleImage_visibility_changed() -> void:
-	if !visible:
+func _on_ScaleImage_close_requested() -> void:
 		Global.dialog_open(false)
 
 

@@ -140,8 +140,8 @@ offset_right = 0.0
 offset_bottom = 0.0
 
 [connection signal="about_to_popup" from="." to="." method="_on_TileModeOffsetsDialog_about_to_show"]
+[connection signal="close_requested" from="." to="." method="_on_TileModeOffsetsDialog_close_requested"]
 [connection signal="confirmed" from="." to="." method="_on_TileModeOffsetsDialog_confirmed"]
-[connection signal="visibility_changed" from="." to="." method="_on_TileModeOffsetsDialog_visibility_changed"]
 [connection signal="value_changed" from="VBoxContainer/HBoxContainer/OptionsContainer/XBasisX" to="." method="_on_XBasisX_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/HBoxContainer/OptionsContainer/XBasisY" to="." method="_on_XBasisY_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/HBoxContainer/OptionsContainer/YBasisX" to="." method="_on_YBasisX_value_changed"]

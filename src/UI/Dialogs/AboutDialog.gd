@@ -159,8 +159,7 @@ func _on_AboutDialog_about_to_show() -> void:
 	create_translators()
 
 
-func _on_AboutDialog_visibility_changed() -> void:
-	if !visible:
+func _on_AboutDialog_close_requested() -> void:
 		groups.clear()
 		developers.clear()
 		translators.clear()

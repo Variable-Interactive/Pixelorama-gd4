@@ -44,5 +44,5 @@ value = 2.01
 allow_greater = true
 suffix = "x"
 
+[connection signal="close_requested" from="." to="." method="_on_FrameProperties_close_requested"]
 [connection signal="confirmed" from="." to="." method="_on_FrameProperties_confirmed"]
-[connection signal="visibility_changed" from="." to="." method="_on_FrameProperties_visibility_changed"]

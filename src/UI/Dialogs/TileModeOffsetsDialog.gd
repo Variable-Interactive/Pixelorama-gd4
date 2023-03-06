@@ -102,8 +102,7 @@ func update_preview() -> void:
 	mask_hint.texture = tex
 
 
-func _on_TileModeOffsetsDialog_visibility_changed() -> void:
-	if !visible:
+func _on_TileModeOffsetsDialog_close_requested() -> void:
 		Global.dialog_open(false)
 
 

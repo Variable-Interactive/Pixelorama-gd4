@@ -29,8 +29,8 @@ mouse_default_cursor_shape = 2
 layout_mode = 2
 
 [connection signal="about_to_popup" from="." to="." method="_on_ShortcutSelectorDialog_about_to_show"]
+[connection signal="close_requested" from="." to="." method="_on_ShortcutSelectorDialog_close_requested"]
 [connection signal="confirmed" from="." to="." method="_on_ShortcutSelectorDialog_confirmed"]
-[connection signal="visibility_changed" from="." to="." method="_on_ShortcutSelectorDialog_visibility_changed"]
 [connection signal="focus_entered" from="VBoxContainer/EnteredShortcut" to="." method="_on_EnteredShortcut_focus_entered"]
 [connection signal="focus_exited" from="VBoxContainer/EnteredShortcut" to="." method="_on_EnteredShortcut_focus_exited"]
 [connection signal="item_selected" from="VBoxContainer/OptionButton" to="." method="_on_OptionButton_item_selected"]

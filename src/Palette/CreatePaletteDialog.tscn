@@ -106,7 +106,7 @@ layout_mode = 2
 size_flags_vertical = 7
 text = "Palette name is required!"
 
+[connection signal="close_requested" from="." to="." method="_on_CreatePaletteDialog_close_requested"]
 [connection signal="confirmed" from="." to="." method="_on_CreatePaletteDialog_confirmed"]
-[connection signal="visibility_changed" from="." to="." method="_on_CreatePaletteDialog_visibility_changed"]
 [connection signal="item_selected" from="VBoxContainer/PaletteMetadata/Preset" to="." method="_on_Preset_item_selected"]
 [connection signal="text_changed" from="VBoxContainer/PaletteMetadata/Name" to="." method="_on_Name_text_changed"]

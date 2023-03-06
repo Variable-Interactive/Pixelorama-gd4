@@ -12,8 +12,7 @@ func set_frame_dur(duration: float) -> void:
 	frame_dur.set_value(duration)
 
 
-func _on_FrameProperties_visibility_changed() -> void:
-	if !visible:
+func _on_FrameProperties_close_requested() -> void:
 		Global.dialog_open(false)
 
 

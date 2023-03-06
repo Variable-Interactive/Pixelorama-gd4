@@ -341,8 +341,7 @@ func add_tabs(changed_language := false) -> void:
 	autosave_interval.suffix = tr("minute(s)")
 
 
-func _on_PreferencesDialog_visibility_changed() -> void:
-	if !visible:
+func _on_PreferencesDialog_close_requested() -> void:
 		list.clear()
 
 
