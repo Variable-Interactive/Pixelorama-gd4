@@ -201,10 +201,13 @@ func _handle_backup() -> void:
 
 func _handle_cmdline_arguments() -> void:
 	var args := OS.get_cmdline_args()
+	print("args  ", args)
 	if args.is_empty():
 		return
 
 	for arg in args:
+		if arg == "res://src/Main.tscn":
+			continue
 		if arg.begins_with("-") or arg.begins_with("--"):
 			# TODO: Add code to handle custom command line arguments
 			continue
@@ -426,6 +429,6 @@ func _exit_tree() -> void:
 
 	var i := 0
 	for project in Global.projects:
-		project.remove_at()
+		project.remove()
 		OpenSave.remove_backup(i)
 		i += 1

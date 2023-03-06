@@ -87,9 +87,9 @@ func set_config(config: Dictionary) -> void:
 
 func update_config() -> void:
 	super.update_config()
-	$Overwrite.pressed = _overwrite
-	$FillInside.pressed = _fill_inside
-	$SpacingMode.pressed = _spacing_mode
+	$Overwrite.button_pressed = _overwrite
+	$FillInside.button_pressed = _fill_inside
+	$SpacingMode.button_pressed = _spacing_mode
 	$StrokeGap.visible = _spacing_mode
 	$StrokeGap/SpacingX.value = _spacing.x
 	$StrokeGap/SpacingY.value = _spacing.y

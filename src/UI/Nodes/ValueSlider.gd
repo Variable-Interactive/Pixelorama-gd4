@@ -70,7 +70,7 @@ func _input(event: InputEvent) -> void:
 		return
 	if not event.pressed:
 		return
-	if not event.control:
+	if not event.ctrl_pressed:
 		return
 	if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 		if snap_by_default:
