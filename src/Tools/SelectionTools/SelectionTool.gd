@@ -72,9 +72,9 @@ func set_spinbox_values() -> void:
 	hspinbox.value = select_rect.size.y
 
 
-func draw_start(position: Vector2) -> void:
-	position = snap_position(position)
-	super.draw_start(position)
+func draw_start(pos: Vector2) -> void:
+	pos = snap_position(pos)
+	super.draw_start(pos)
 	if selection_node.arrow_key_move:
 		return
 	var project: Project = Global.current_project
@@ -82,11 +82,11 @@ func draw_start(position: Vector2) -> void:
 	_intersect = Input.is_action_pressed("selection_intersect", true)
 	_add = Input.is_action_pressed("selection_add", true)
 	_subtract = Input.is_action_pressed("selection_subtract", true)
-	_start_pos = position
-	_offset = position
+	_start_pos = pos
+	_offset = pos
 
 	var selection_position: Vector2 = selection_node.big_bounding_rectangle.position
-	var offsetted_pos := position
+	var offsetted_pos := pos
 	if selection_position.x < 0:
 		offsetted_pos.x -= selection_position.x
 	if selection_position.y < 0:
@@ -147,9 +147,9 @@ func draw_start(position: Vector2) -> void:
 	_content_transformation_check = selection_node.is_moving_content
 
 
-func draw_move(position: Vector2) -> void:
-	position = snap_position(position)
-	super.draw_move(position)
+func draw_move(pos: Vector2) -> void:
+	pos = snap_position(pos)
+	super.draw_move(pos)
 	if selection_node.arrow_key_move:
 		return
 	# This is true if content transformation has been confirmed (pressed Enter for example)
@@ -160,11 +160,11 @@ func draw_move(position: Vector2) -> void:
 		return
 
 	if Input.is_action_pressed("transform_snap_axis"):  # Snap to axis
-		var angle := position.angle_to_point(_start_pos)
+		var angle := pos.angle_to_point(_start_pos)
 		if abs(angle) <= PI / 4 or abs(angle) >= 3 * PI / 4:
-			position.y = _start_pos.y
+			pos.y = _start_pos.y
 		else:
-			position.x = _start_pos.x
+			pos.x = _start_pos.x
 	if Input.is_action_pressed("transform_snap_grid"):
 		var grid_size := Vector2(Global.grid_width, Global.grid_height)
 		_offset = _offset.snapped(grid_size)
@@ -174,30 +174,30 @@ func draw_move(position: Vector2) -> void:
 			selection_node.big_bounding_rectangle.position
 			- prev_pos
 		)
-		position = position.snapped(grid_size)
+		pos = pos.snapped(grid_size)
 		var grid_offset := Vector2(Global.grid_offset_x, Global.grid_offset_y)
 		grid_offset = Vector2(fmod(grid_offset.x, grid_size.x), fmod(grid_offset.y, grid_size.y))
-		position += grid_offset
+		pos += grid_offset
 
 	if _move_content:
-		selection_node.move_content(position - _offset)
+		selection_node.move_content(pos - _offset)
 	else:
-		selection_node.move_borders(position - _offset)
+		selection_node.move_borders(pos - _offset)
 
-	_offset = position
+	_offset = pos
 	_set_cursor_text(selection_node.big_bounding_rectangle)
 
 
-func draw_end(position: Vector2) -> void:
-	position = snap_position(position)
-	super.draw_end(position)
+func draw_end(pos: Vector2) -> void:
+	pos = snap_position(pos)
+	super.draw_end(pos)
 	if selection_node.arrow_key_move:
 		return
 	if _content_transformation_check == selection_node.is_moving_content:
 		if _move:
 			selection_node.move_borders_end()
 		else:
-			apply_selection(position)
+			apply_selection(pos)
 
 	_move = false
 	cursor_text = ""

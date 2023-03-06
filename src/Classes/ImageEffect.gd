@@ -20,10 +20,10 @@ func _ready() -> void:
 	set_nodes()
 	get_ok_button().size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	get_cancel_button().size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	current_frame.create(
+	current_frame = Image.create(
 		Global.current_project.size.x, Global.current_project.size.y, false, Image.FORMAT_RGBA8
 	)
-	selected_cels.create(
+	selected_cels = Image.create(
 		Global.current_project.size.x, Global.current_project.size.y, false, Image.FORMAT_RGBA8
 	)
 	connect("about_to_popup",Callable(self,"_about_to_popup"))
@@ -119,7 +119,6 @@ func _get_undo_data(project: Project) -> Dictionary:
 	var data := {}
 	var images := _get_selected_draw_images(project)
 	for image in images:
-		false # image.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 		data[image] = image.data
 	return data
 
@@ -155,8 +154,7 @@ func update_preview() -> void:
 		_:
 			preview_image.copy_from(current_frame)
 	commit_action(preview_image)
-	false # preview_image.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
-	preview_texture.create_from_image(preview_image) #,0
+	preview_texture = ImageTexture.create_from_image(preview_image)
 	preview.texture = preview_texture
 
 

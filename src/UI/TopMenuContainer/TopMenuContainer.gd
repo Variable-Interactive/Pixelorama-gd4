@@ -337,8 +337,8 @@ func _handle_metadata(id: int, menu_button: MenuButton) -> void:
 				metadata.call("menu_item_clicked")
 
 
-func _popup_dialog(dialog: Window, size := Vector2.ZERO) -> void:
-	dialog.popup_centered(size)
+func _popup_dialog(dialog: Window, _size := Vector2.ZERO) -> void:
+	dialog.popup_centered(_size)
 	Global.dialog_open(true)
 
 

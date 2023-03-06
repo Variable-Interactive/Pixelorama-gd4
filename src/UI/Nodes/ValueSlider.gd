@@ -244,10 +244,10 @@ func _confirm_text(confirm := true) -> void:
 	_reset_display(true)
 
 
-func _reset_display(theme_changed := false) -> void:
+func _reset_display(is_theme_changed := false) -> void:
 	_line_edit.selecting_enabled = false  # Remove the selection
 	_line_edit.editable = false
-	if theme_changed and not Engine.is_editor_hint():
+	if is_theme_changed and not Engine.is_editor_hint():
 		texture_under = get_theme_icon("texture_under", "ValueSlider")
 		texture_under = get_theme_icon("texture_under", "ValueSlider")
 		texture_over = get_theme_icon("texture_over", "ValueSlider")

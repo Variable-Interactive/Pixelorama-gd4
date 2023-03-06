@@ -35,7 +35,7 @@ func get_ellipse_points(pos: Vector2, size: Vector2) -> Array:
 	if y0 > y1:
 		y0 = y1
 
-# warning-ignore:integer_division
+	@warning_ignore("integer_division")
 	y0 += (b + 1) / 2
 	y1 = y0 - b1
 	a *= 8 * a
@@ -111,10 +111,7 @@ func get_ellipse_points_filled(pos: Vector2, size: Vector2, thickness := 1) -> P
 
 
 func scale_3x(sprite: Image, tol: float = 50) -> Image:
-	var scaled := Image.new()
-	scaled.create(sprite.get_width() * 3, sprite.get_height() * 3, false, Image.FORMAT_RGBA8)
-	false # scaled.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
-	false # sprite.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
+	var scaled := Image.create(sprite.get_width() * 3, sprite.get_height() * 3, false, Image.FORMAT_RGBA8)
 	var a: Color
 	var b: Color
 	var c: Color
@@ -177,8 +174,6 @@ func scale_3x(sprite: Image, tol: float = 50) -> Image:
 			)
 			scaled.set_pixel(xs + 1, ys + 1, f if (fh and !bf and !dh) else e)
 
-	false # scaled.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
-	false # sprite.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	return scaled
 
 
@@ -193,8 +188,6 @@ func rotxel(sprite: Image, angle: float, pivot: Vector2) -> void:
 	var ox: int
 	var oy: int
 	var p: Color
-	false # aux.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
-	false # sprite.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	for x in sprite.get_size().x:
 		for y in sprite.get_size().y:
 			var dx = 3 * (x - pivot.x)
@@ -202,7 +195,7 @@ func rotxel(sprite: Image, angle: float, pivot: Vector2) -> void:
 			var found_pixel: bool = false
 			for k in range(9):
 				var i = -1 + k % 3
-# warning-ignore:integer_division
+				@warning_ignore("integer_division")
 				var j = -1 + int(k / 3)
 				var dir = atan2(dy + j, dx + i)
 				var mag = sqrt(pow(dx + i, 2) + pow(dy + j, 2))
@@ -375,8 +368,6 @@ func rotxel(sprite: Image, angle: float, pivot: Vector2) -> void:
 							else e
 						)
 			sprite.set_pixel(x, y, p)
-	false # sprite.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
-	false # aux.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 
 
 func fake_rotsprite(sprite: Image, angle: float, pivot: Vector2) -> void:
@@ -384,17 +375,14 @@ func fake_rotsprite(sprite: Image, angle: float, pivot: Vector2) -> void:
 	selected_sprite.copy_from(sprite)
 	selected_sprite.copy_from(scale_3x(selected_sprite))
 	nn_rotate(selected_sprite, angle, pivot * 3)
-# warning-ignore:integer_division
-# warning-ignore:integer_division
-	selected_sprite.resize(selected_sprite.get_width() / 3, selected_sprite.get_height() / 3, 0)
+	@warning_ignore("integer_division")
+	selected_sprite.resize(selected_sprite.get_width() / 3, selected_sprite.get_height() / 3, Image.INTERPOLATE_NEAREST)
 	sprite.blit_rect(selected_sprite, Rect2(Vector2.ZERO, selected_sprite.get_size()), Vector2.ZERO)
 
 
 func nn_rotate(sprite: Image, angle: float, pivot: Vector2) -> void:
 	var aux: Image = Image.new()
 	aux.copy_from(sprite)
-	false # sprite.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
-	false # aux.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	var ox: int
 	var oy: int
 	for x in range(sprite.get_width()):
@@ -405,8 +393,6 @@ func nn_rotate(sprite: Image, angle: float, pivot: Vector2) -> void:
 				sprite.set_pixel(x, y, aux.get_pixel(ox, oy))
 			else:
 				sprite.set_pixel(x, y, Color(0, 0, 0, 0))
-	false # sprite.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
-	false # aux.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 
 
 func similar_colors(c1: Color, c2: Color, tol: float = 100) -> bool:
@@ -444,7 +430,7 @@ func scale_image(width: int, height: int, interpolation: int) -> void:
 				)
 				for _j in range(max(times.x, times.y)):
 					sprite.copy_from(scale_3x(sprite))
-				sprite.resize(width, height, 0)
+				sprite.resize(width, height, Image.INTERPOLATE_NEAREST)
 			elif interpolation == Interpolation.CLEANEDGE:
 				var params := {"angle": 0, "slope": true, "cleanup": true, "preview": false}
 				var gen := ShaderImageEffect.new()
@@ -481,8 +467,7 @@ func centralize() -> void:
 	for cel in Global.current_project.frames[Global.current_project.current_frame].cels:
 		if not cel is PixelCel:
 			continue
-		var sprite := Image.new()
-		sprite.create(
+		var sprite := Image.create(
 			Global.current_project.size.x, Global.current_project.size.y, false, Image.FORMAT_RGBA8
 		)
 		sprite.blend_rect(cel.image, used_rect, offset)
@@ -498,7 +483,6 @@ func crop_image() -> void:
 		for cel in f.cels:
 			if not cel is PixelCel:
 				continue
-			false # cel.image.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed  # May be unneeded now, but keep it just in case
 			var cel_used_rect: Rect2 = cel.image.get_used_rect()
 			if cel_used_rect == Rect2(0, 0, 0, 0):  # If the cel has no content
 				continue
@@ -533,8 +517,7 @@ func resize_canvas(width: int, height: int, offset_x: int, offset_y: int) -> voi
 		for c in f.cels:
 			if not c is PixelCel:
 				continue
-			var sprite := Image.new()
-			sprite.create(width, height, false, Image.FORMAT_RGBA8)
+			var sprite := Image.create(width, height, false, Image.FORMAT_RGBA8)
 			sprite.blend_rect(
 				c.image,
 				Rect2(Vector2.ZERO, Global.current_project.size),
@@ -618,8 +601,6 @@ func generate_outline(
 		return
 	var new_image := Image.new()
 	new_image.copy_from(image)
-	false # new_image.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
-	false # image.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 
 	for x in project.size.x:
 		for y in project.size.y:
@@ -774,6 +755,4 @@ func generate_outline(
 							if new_pixel.a == 0:
 								new_image.set_pixelv(new_pos, outline_color)
 
-	false # image.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
-	false # new_image.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	image.copy_from(new_image)

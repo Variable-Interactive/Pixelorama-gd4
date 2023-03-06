@@ -75,8 +75,7 @@ func process_spritesheet(project := Global.current_project) -> void:
 	var width := project.size.x * spritesheet_columns
 	var height := project.size.y * spritesheet_rows
 
-	var whole_image := Image.new()
-	whole_image.create(width, height, false, Image.FORMAT_RGBA8)
+	var whole_image := Image.create(width, height, false, Image.FORMAT_RGBA8)
 	var origin := Vector2.ZERO
 	var hh := 0
 	var vv := 0
@@ -110,8 +109,7 @@ func process_animation(project := Global.current_project) -> void:
 	durations.clear()
 	var frames := calculate_frames(project)
 	for frame in frames:
-		var image := Image.new()
-		image.create(project.size.x, project.size.y, false, Image.FORMAT_RGBA8)
+		var image := Image.create(project.size.x, project.size.y, false, Image.FORMAT_RGBA8)
 		blend_layers(image, frame)
 		processed_images.append(image)
 		durations.append(frame.duration * (1.0 / project.fps))
@@ -283,7 +281,6 @@ func increase_export_progress(export_dialog: Node) -> void:
 func scale_processed_images() -> void:
 	for processed_image in processed_images:
 		if resize != 100:
-			false # processed_image.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 			processed_image.resize(
 				processed_image.get_size().x * resize / 100,
 				processed_image.get_size().y * resize / 100,
@@ -396,7 +393,6 @@ func blend_all_layers(
 			var cel_image := Image.new()
 			cel_image.copy_from(cel.image)
 			if cel.opacity < 1:  # If we have cel transparency
-				false # cel_image.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 				for xx in cel_image.get_size().x:
 					for yy in cel_image.get_size().y:
 						var pixel_color := cel_image.get_pixel(xx, yy)
@@ -404,7 +400,6 @@ func blend_all_layers(
 						cel_image.set_pixel(
 							xx, yy, Color(pixel_color.r, pixel_color.g, pixel_color.b, alpha)
 						)
-				false # cel_image.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 			image.blend_rect(cel_image, Rect2(Vector2.ZERO, project.size), origin)
 		layer_i += 1
 
@@ -427,7 +422,6 @@ func blend_selected_cels(
 			var cel_image := Image.new()
 			cel_image.copy_from(cel.image)
 			if cel.opacity < 1:  # If we have cel transparency
-				false # cel_image.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 				for xx in cel_image.get_size().x:
 					for yy in cel_image.get_size().y:
 						var pixel_color := cel_image.get_pixel(xx, yy)
@@ -435,7 +429,6 @@ func blend_selected_cels(
 						cel_image.set_pixel(
 							xx, yy, Color(pixel_color.r, pixel_color.g, pixel_color.b, alpha)
 						)
-				false # cel_image.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 			image.blend_rect(cel_image, Rect2(Vector2.ZERO, project.size), origin)
 		layer_i += 1
 

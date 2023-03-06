@@ -7,7 +7,7 @@ func _ready() -> void:
 	update_transparent_shader()
 
 
-func _on_main_canvas_item_changed() -> void:
+func _on_main_canvas_item_rect_changed() -> void:
 	update_transparent_shader()
 
 

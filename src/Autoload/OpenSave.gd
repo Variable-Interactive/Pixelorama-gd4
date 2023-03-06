@@ -116,7 +116,7 @@ func handle_loading_aimg(path: String, frames: Array) -> void:
 func open_pxo_file(path: String, untitled_backup: bool = false, replace_empty: bool = true) -> void:
 	var file := FileAccess.open_compressed(path, FileAccess.READ, FileAccess.COMPRESSION_ZSTD)
 	if FileAccess.get_open_error() == ERR_FILE_UNRECOGNIZED:
-		file.open(path, FileAccess.READ)  # If the file is not compressed open it raw (pre-v0.7)
+		file = FileAccess.open(path, FileAccess.READ)  # If the file is not compressed open it raw (pre-v0.7)
 
 	if FileAccess.get_open_error() != OK:
 		Global.error_dialog.set_text(tr("File failed to open. Error code %s") % FileAccess.get_open_error())
@@ -158,8 +158,7 @@ func open_pxo_file(path: String, untitled_backup: bool = false, replace_empty: b
 				var b_width = brush.size_x
 				var b_height = brush.size_y
 				var buffer := file.get_buffer(b_width * b_height * 4)
-				var image := Image.new()
-				image.create_from_data(b_width, b_height, false, Image.FORMAT_RGBA8, buffer)
+				var image := Image.create_from_data(b_width, b_height, false, Image.FORMAT_RGBA8, buffer)
 				new_project.brushes.append(image)
 				Brushes.add_project_brush(image)
 
@@ -168,8 +167,7 @@ func open_pxo_file(path: String, untitled_backup: bool = false, replace_empty: b
 				var t_width = result.tile_mask.size_x
 				var t_height = result.tile_mask.size_y
 				var buffer := file.get_buffer(t_width * t_height * 4)
-				var image := Image.new()
-				image.create_from_data(t_width, t_height, false, Image.FORMAT_RGBA8, buffer)
+				var image := Image.create_from_data(t_width, t_height, false, Image.FORMAT_RGBA8, buffer)
 				new_project.tiles.tile_mask = image
 			else:
 				new_project.tiles.reset_mask()
@@ -267,8 +265,7 @@ func open_old_pxo_file(file: FileAccess, new_project: Project, first_line: Strin
 			var cel_opacity := 1.0
 			if file_major_version >= 0 and file_minor_version > 5:
 				cel_opacity = file.get_float()
-			var image := Image.new()
-			image.create_from_data(width, height, false, Image.FORMAT_RGBA8, buffer)
+			var image := Image.create_from_data(width, height, false, Image.FORMAT_RGBA8, buffer)
 			frame_class.cels.append(PixelCel.new(image, cel_opacity))
 			layer_i += 1
 			layer_line = file.get_line()
@@ -330,8 +327,7 @@ func open_old_pxo_file(file: FileAccess, new_project: Project, first_line: Strin
 		var b_width := file.get_16()
 		var b_height := file.get_16()
 		var buffer := file.get_buffer(b_width * b_height * 4)
-		var image := Image.new()
-		image.create_from_data(b_width, b_height, false, Image.FORMAT_RGBA8, buffer)
+		var image := Image.create_from_data(b_width, b_height, false, Image.FORMAT_RGBA8, buffer)
 		new_project.brushes.append(image)
 		Brushes.add_project_brush(image)
 		brush_line = file.get_line()
@@ -414,7 +410,7 @@ func save_pxo_file(
 		DirAccess.rename_absolute(temp_path, path)
 
 	if OS.get_name() == "HTML5" and OS.has_feature("JavaScript") and !autosave:
-		file.open(path, FileAccess.READ)
+		file = FileAccess.open(path, FileAccess.READ)
 		err = FileAccess.get_open_error()
 		if err == OK:
 			var file_data := Array(file.get_buffer(file.get_length()))
@@ -459,12 +455,12 @@ func open_image_as_new_tab(path: String, image: Image) -> void:
 	set_new_imported_tab(project, path)
 
 
-func open_image_as_spritesheet_tab(path: String, image: Image, horiz: int, vert: int) -> void:
+func open_image_as_spritesheet_tab(path: String, image: Image, horiz: float, vert: float) -> void:
 	var project := Project.new([], path.get_file())
 	project.layers.append(PixelLayer.new(project))
 	Global.projects.append(project)
-	horiz = min(horiz, image.get_size().x)
-	vert = min(vert, image.get_size().y)
+	horiz = minf(horiz, image.get_size().x)
+	vert = minf(vert, image.get_size().y)
 	var frame_width := image.get_size().x / horiz
 	var frame_height := image.get_size().y / vert
 	for yy in range(vert):
@@ -482,11 +478,11 @@ func open_image_as_spritesheet_tab(path: String, image: Image, horiz: int, vert:
 
 
 func open_image_as_spritesheet_layer(
-	_path: String, image: Image, file_name: String, horizontal: int, vertical: int, start_frame: int
+	_path: String, image: Image, file_name: String, horizontal: float, vertical: float, start_frame: int
 ) -> void:
 	# Data needed to slice images
-	horizontal = min(horizontal, image.get_size().x)
-	vertical = min(vertical, image.get_size().y)
+	horizontal = minf(horizontal, image.get_size().x)
+	vertical = minf(vertical, image.get_size().y)
 	var frame_width := image.get_size().x / horizontal
 	var frame_height := image.get_size().y / vertical
 

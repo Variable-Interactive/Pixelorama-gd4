@@ -98,8 +98,7 @@ func update_preview() -> void:
 	preview_rect.get_node("TransparentChecker").size = preview_rect.size
 
 	# Also update the tile_mask preview
-	var tex := ImageTexture.new()
-	tex.create_from_image(Global.current_project.tiles.tile_mask)
+	var tex := ImageTexture.create_from_image(Global.current_project.tiles.tile_mask)
 	mask_hint.texture = tex
 
 
@@ -113,13 +112,13 @@ func _on_TileModeOffsetsDialog_item_changed():
 
 
 func _on_Reset_pressed():
-	var size = Global.current_project.size
-	tile_mode.tiles.x_basis = Vector2(size.x, 0)
-	tile_mode.tiles.y_basis = Vector2(0, size.y)
-	x_basis_x_spinbox.value = size.x
+	var _size = Global.current_project.size
+	tile_mode.tiles.x_basis = Vector2(_size.x, 0)
+	tile_mode.tiles.y_basis = Vector2(0, _size.y)
+	x_basis_x_spinbox.value = _size.x
 	x_basis_y_spinbox.value = 0
 	y_basis_x_spinbox.value = 0
-	y_basis_y_spinbox.value = size.y
+	y_basis_y_spinbox.value = _size.y
 	update_preview()
 
 
@@ -127,9 +126,8 @@ func _on_LoadMask_pressed() -> void:
 	var frame_idx = Global.current_project.current_frame
 	var current_frame = Global.current_project.frames[frame_idx]
 	var tiles = Global.current_project.tiles
-	var size = tiles.tile_size
-	var image := Image.new()
-	image.create(size.x, size.y, false, Image.FORMAT_RGBA8)
+	var _size = tiles.tile_size
+	var image := Image.create(_size.x, _size.y, false, Image.FORMAT_RGBA8)
 	Export.blend_all_layers(image, current_frame)
 	if image.get_used_rect().size == Vector2i.ZERO:
 		reset_mask.disabled = true
