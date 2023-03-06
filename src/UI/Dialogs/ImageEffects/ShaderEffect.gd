@@ -14,7 +14,7 @@ func _about_to_popup() -> void:
 	Export.blend_selected_cels(selected_cels, frame)
 
 	preview_image.copy_from(selected_cels)
-	preview_texture = ImageTexture.create_from_image(preview_image)
+	preview_texture.create_from_image(preview_image) #,0
 	preview.texture = preview_texture
 	super._about_to_popup()
 
@@ -29,6 +29,7 @@ func commit_action(cel: Image, project: Project = Global.current_project) -> voi
 		params[param] = param_data
 	var gen := ShaderImageEffect.new()
 	gen.generate_image(cel, shader, params, project.size)
+	false # selected_cels.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	await gen.done
 
 
@@ -50,10 +51,10 @@ func set_nodes() -> void:
 	preview = $VBoxContainer/AspectRatioContainer/Preview
 
 
-func change_shader(shader_tmp: Shader, nam: String) -> void:
+func change_shader(shader_tmp: Shader, name: String) -> void:
 	shader = shader_tmp
 	preview.material.gdshader = shader_tmp
-	shader_loaded_label.text = tr("Shader loaded:") + " " + nam
+	shader_loaded_label.text = tr("Shader loaded:") + " " + name
 	param_names.clear()
 	for child in shader_params.get_children():
 		child.queue_free()
@@ -266,7 +267,8 @@ func _load_texture(path: String, param: String) -> void:
 	if !image:
 		print("Error loading texture")
 		return
-	var image_tex := ImageTexture.create_from_image(image)
-	# Disabled by variable (Cause: confusi0n on ImageTexture.FLAG_REPEAT)
+	var image_tex := ImageTexture.new()
+	image_tex.create_from_image(image) #,0
+	# Disabled by variable (Cause: confusin on ImageTexture.FLAG_REPEAT)
 #	image_tex.flags = ImageTexture.FLAG_REPEAT
 	set_shader_parameter(image_tex, param)

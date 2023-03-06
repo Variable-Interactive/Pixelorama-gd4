@@ -15,7 +15,8 @@ var image: Image
 
 func _on_ResizeCanvas_about_to_show() -> void:
 	Global.canvas.selection.transform_content_confirm()
-	image = Image.create(
+	image = Image.new()
+	image.create(
 		Global.current_project.size.x, Global.current_project.size.y, false, Image.FORMAT_RGBA8
 	)
 
@@ -24,6 +25,7 @@ func _on_ResizeCanvas_about_to_show() -> void:
 		if cel is PixelCel and Global.current_project.layers[layer_i].is_visible_in_hierarchy():
 			var cel_image := Image.new()
 			cel_image.copy_from(cel.image)
+			false # cel_image.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 			if cel.opacity < 1:  # If we have cel transparency
 				for xx in cel_image.get_size().x:
 					for yy in cel_image.get_size().y:
@@ -32,6 +34,7 @@ func _on_ResizeCanvas_about_to_show() -> void:
 						cel_image.set_pixel(
 							xx, yy, Color(pixel_color.r, pixel_color.g, pixel_color.b, alpha)
 						)
+			false # cel_image.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 			image.blend_rect(
 				cel_image, Rect2(Vector2.ZERO, Global.current_project.size), Vector2.ZERO
 			)
@@ -79,11 +82,13 @@ func _on_CenterButton_pressed() -> void:
 
 func update_preview() -> void:
 	# preview_image is the same as image but offsetted
-	var preview_image := Image.create(width, height, false, Image.FORMAT_RGBA8)
+	var preview_image := Image.new()
+	preview_image.create(width, height, false, Image.FORMAT_RGBA8)
 	preview_image.blend_rect(
 		image, Rect2(Vector2.ZERO, Global.current_project.size), Vector2(offset_x, offset_y)
 	)
-	var preview_texture := ImageTexture.create_from_image(preview_image)
+	var preview_texture := ImageTexture.new()
+	preview_texture.create_from_image(preview_image) #,0
 	preview_rect.texture = preview_texture
 	update_transparent_background_size(preview_image)
 
@@ -102,5 +107,6 @@ func update_transparent_background_size(preview_image: Image) -> void:
 	preview_rect.get_node("TransparentChecker").size.y = image_size_y
 
 
-func _on_ResizeCanvas_popup_hide() -> void:
-	Global.dialog_open(false)
+func _on_ResizeCanvas_visibility_changed() -> void:
+	if !visible:
+		Global.dialog_open(false)

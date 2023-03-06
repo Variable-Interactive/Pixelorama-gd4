@@ -428,11 +428,11 @@ func _initialize_keychain() -> void:
 
 
 func notification_label(text: String) -> void:
-	var _notification := NotificationLabel.new()
-	_notification.text = tr(text)
-	_notification.position = main_viewport.global_position
-	_notification.position.y += main_viewport.size.y
-	control.add_child(_notification)
+	var notification := NotificationLabel.new()
+	notification.text = tr(text)
+	notification.position = main_viewport.global_position
+	notification.position.y += main_viewport.size.y
+	control.add_child(notification)
 
 
 func general_undo(project: Project = current_project) -> void:
@@ -483,7 +483,7 @@ func undo_or_redo(
 			for i in project.frames.size():
 				for j in project.layers.size():
 					var current_cel: BaseCel = project.frames[i].cels[j]
-					current_cel.image_texture = ImageTexture.create_from_image(current_cel.get_image())
+					current_cel.image_texture.create_from_image(current_cel.get_image()) #,0
 			canvas.camera_zoom()
 			canvas.grid.queue_redraw()
 			canvas.pixel_grid.queue_redraw()

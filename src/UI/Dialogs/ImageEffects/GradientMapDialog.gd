@@ -17,9 +17,9 @@ func set_nodes() -> void:
 
 
 func commit_action(cel: Image, project: Project = Global.current_project) -> void:
-	var selection_tex: ImageTexture
+	var selection_tex := ImageTexture.new()
 	if selection_checkbox.button_pressed and project.has_selection:
-		selection_tex = ImageTexture.create_from_image(project.selection_map)
+		selection_tex.create_from_image(project.selection_map) #,0
 
 	var params := {"selection": selection_tex, "map": $VBoxContainer/GradientEdit.texture}
 

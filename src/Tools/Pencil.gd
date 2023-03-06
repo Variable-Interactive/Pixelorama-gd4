@@ -95,13 +95,13 @@ func update_config() -> void:
 	$StrokeGap/SpacingY.value = _spacing.y
 
 
-func draw_start(pos: Vector2) -> void:
+func draw_start(position: Vector2) -> void:
 	_old_spacing_mode = _spacing_mode
-	pos = snap_position(pos)
-	super.draw_start(pos)
+	position = snap_position(position)
+	super.draw_start(position)
 	if Input.is_action_pressed("draw_color_picker"):
 		_picking_color = true
-		_pick_color(pos)
+		_pick_color(position)
 		return
 	_picking_color = false
 
@@ -121,44 +121,44 @@ func draw_start(pos: Vector2) -> void:
 	_draw_line = Input.is_action_pressed("draw_create_line")
 	if _draw_line:
 		_spacing_mode = false  # spacing mode is disabled during line mode
-		_line_start = pos
-		_line_end = pos
+		_line_start = position
+		_line_end = position
 		update_line_polylines(_line_start, _line_end)
 	else:
 		if _fill_inside:
-			_draw_points.append(pos)
-		draw_tool(pos)
-		_last_position = pos
+			_draw_points.append(position)
+		draw_tool(position)
+		_last_position = position
 		Global.canvas.sprite_changed_this_frame = true
 	cursor_text = ""
 
 
-func draw_move(pos: Vector2) -> void:
-	pos = snap_position(pos)
-	super.draw_move(pos)
+func draw_move(position: Vector2) -> void:
+	position = snap_position(position)
+	super.draw_move(position)
 	if _picking_color:  # Still return even if we released Alt
 		if Input.is_action_pressed("draw_color_picker"):
-			_pick_color(pos)
+			_pick_color(position)
 		return
 
 	if _draw_line:
 		_spacing_mode = false  # spacing mode is disabled during line mode
-		var d := _line_angle_constraint(_line_start, pos)
+		var d := _line_angle_constraint(_line_start, position)
 		_line_end = d.position
 		cursor_text = d.text
 		update_line_polylines(_line_start, _line_end)
 	else:
-		draw_fill_gap(_last_position, pos)
-		_last_position = pos
+		draw_fill_gap(_last_position, position)
+		_last_position = position
 		cursor_text = ""
 		Global.canvas.sprite_changed_this_frame = true
 		if _fill_inside:
-			_draw_points.append(pos)
+			_draw_points.append(position)
 
 
-func draw_end(pos: Vector2) -> void:
-	pos = snap_position(pos)
-	super.draw_end(pos)
+func draw_end(position: Vector2) -> void:
+	position = snap_position(position)
+	super.draw_end(position)
 	if _picking_color:
 		return
 
@@ -169,7 +169,7 @@ func draw_end(pos: Vector2) -> void:
 		_draw_line = false
 	else:
 		if _fill_inside:
-			_draw_points.append(pos)
+			_draw_points.append(position)
 			if _draw_points.size() > 3:
 				var v = Vector2()
 				var image_size = Global.current_project.size

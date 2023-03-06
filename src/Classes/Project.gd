@@ -61,7 +61,7 @@ func _init(_frames := [],_name := tr("untitled"),_size := Vector2(64, 64)):
 	name = _name
 	tiles = Tiles.new(_size)
 	size = _size
-	selection_map.copy_from(Image.create(size.x, size.y, false, Image.FORMAT_LA8))
+	selection_map.create(size.x, size.y, false, Image.FORMAT_LA8)
 
 	Global.tabs.add_tab(name)
 	OpenSave.current_save_paths.append("")
@@ -144,7 +144,7 @@ func selection_map_changed() -> void:
 	var image_texture := ImageTexture.new()
 	has_selection = !selection_map.is_invisible()
 	if has_selection:
-		image_texture = ImageTexture.create_from_image(selection_map)
+		image_texture.create_from_image(selection_map) #,0
 	Global.canvas.selection.marching_ants_outline.texture = image_texture
 	var edit_menu_popup: PopupMenu = Global.top_menu_container.edit_menu_button.get_popup()
 	edit_menu_popup.set_item_disabled(Global.EditMenu.NEW_BRUSH, !has_selection)

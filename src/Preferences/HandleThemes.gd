@@ -81,15 +81,14 @@ func change_theme(id: int) -> void:
 	change_clear_color()
 	change_icon_colors()
 
-	# Disabled by Variable (Cause: use unknown, code is possibly redundant)
-#	# Temporary code
-#	var clear_color: Color = theme.get_color("clear_color", "Misc")
-#	if !theme.has_color("clear_color", "Misc"):
-#		var panel_stylebox: StyleBox = theme.get_stylebox("panel", "PanelContainer")
-#		if panel_stylebox is StyleBoxFlat:
-#			clear_color = panel_stylebox.bg_color
-#		else:
-#			clear_color = Color.GRAY
+	# Temporary code
+	var clear_color: Color = theme.get_color("clear_color", "Misc")
+	if !theme.has_color("clear_color", "Misc"):
+		var panel_stylebox: StyleBox = theme.get_stylebox("panel", "PanelContainer")
+		if panel_stylebox is StyleBoxFlat:
+			clear_color = panel_stylebox.bg_color
+		else:
+			clear_color = Color.GRAY
 
 	for child in Global.preferences_dialog.get_node("Popups").get_children():
 		child.theme = theme

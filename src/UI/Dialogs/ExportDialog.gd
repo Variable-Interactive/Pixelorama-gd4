@@ -96,7 +96,8 @@ func set_preview() -> void:
 func add_image_preview(image: Image, canvas_number: int = -1) -> void:
 	var container := create_preview_container()
 	var preview := create_preview_rect()
-	preview.texture = ImageTexture.create_from_image(image)
+	preview.texture = ImageTexture.new()
+	preview.texture.create_from_image(image) #,0
 	container.add_child(preview)
 
 	if canvas_number != -1:
@@ -113,7 +114,8 @@ func add_animated_preview() -> void:
 	preview_frames = []
 
 	for processed_image in Export.processed_images:
-		var texture := ImageTexture.create_from_image(processed_image)
+		var texture := ImageTexture.new()
+		texture.create_from_image(processed_image) #,0
 		preview_frames.push_back(texture)
 
 	var container := create_preview_container()
@@ -224,8 +226,8 @@ func open_path_validation_alert_popup(path_or_name: int = -1) -> void:
 	path_validation_alert_popup.popup_centered()
 
 
-func open_file_exists_alert_popup(dialog_tex: String) -> void:
-	file_exists_alert_popup.dialog_text = dialog_tex
+func open_file_exists_alert_popup(dialog_text: String) -> void:
+	file_exists_alert_popup.dialog_text = dialog_text
 	file_exists_alert_popup.popup_centered()
 
 

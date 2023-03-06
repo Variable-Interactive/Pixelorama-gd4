@@ -24,49 +24,49 @@ func _input(event: InputEvent) -> void:
 			Global.canvas.previews.queue_redraw()
 
 
-func draw_start(pos: Vector2) -> void:
+func draw_start(position: Vector2) -> void:
 	if !$DoubleClickTimer.is_stopped():
 		return
-	pos = snap_position(pos)
-	super.draw_start(pos)
-	if !_move and _draw_points.is_empty():
+	position = snap_position(position)
+	super.draw_start(position)
+	if !_move and !_draw_points:
 		_ongoing_selection = true
-		_draw_points.append(pos)
-		_last_position = pos
+		_draw_points.append(position)
+		_last_position = position
 
 
-func draw_move(pos: Vector2) -> void:
+func draw_move(position: Vector2) -> void:
 	if selection_node.arrow_key_move:
 		return
-	pos = snap_position(pos)
-	super.draw_move(pos)
+	position = snap_position(position)
+	super.draw_move(position)
 
 
-func draw_end(pos: Vector2) -> void:
+func draw_end(position: Vector2) -> void:
 	if selection_node.arrow_key_move:
 		return
-	pos = snap_position(pos)
-	if !_move and !_draw_points.is_empty():
-		append_gap(_draw_points[-1], pos, _draw_points)
-		if pos == _draw_points[0] and _draw_points.size() > 1:
+	position = snap_position(position)
+	if !_move and _draw_points:
+		append_gap(_draw_points[-1], position, _draw_points)
+		if position == _draw_points[0] and _draw_points.size() > 1:
 			_ready_to_apply = true
 
-	super.draw_end(pos)
+	super.draw_end(position)
 
 
 func draw_preview() -> void:
 	if _ongoing_selection and !_move:
 		var canvas: Node2D = Global.canvas.previews
-		var pos := canvas.position
-		var _scale := canvas.scale
+		var position := canvas.position
+		var scale := canvas.scale
 		if Global.mirror_view:
-			pos.x = pos.x + Global.current_project.size.x
-			_scale.x = -1
+			position.x = position.x + Global.current_project.size.x
+			scale.x = -1
 
 		var preview_draw_points := _draw_points.duplicate()
 		append_gap(_draw_points[-1], _last_position, preview_draw_points)
 
-		canvas.draw_set_transform(pos, canvas.rotation, _scale)
+		canvas.draw_set_transform(position, canvas.rotation, scale)
 		var indicator := _fill_bitmap_with_points(preview_draw_points, Global.current_project.size)
 
 		for line in _create_polylines(indicator):
@@ -146,9 +146,9 @@ func apply_selection(_position) -> void:
 
 func lasso_selection(selection_map: SelectionMap, points: PackedVector2Array) -> void:
 	var project: Project = Global.current_project
-	var _size := selection_map.get_size()
+	var size := selection_map.get_size()
 	for point in points:
-		if point.x < 0 or point.y < 0 or point.x >= _size.x or point.y >= _size.y:
+		if point.x < 0 or point.y < 0 or point.x >= size.x or point.y >= size.y:
 			continue
 		if _intersect:
 			if project.selection_map.is_pixel_selected(point):
@@ -162,7 +162,7 @@ func lasso_selection(selection_map: SelectionMap, points: PackedVector2Array) ->
 		v.x = x
 		for y in image_size.y:
 			v.y = y
-			if Geometry2D.is_point_in_polygon(v, points):
+			if Geometry.is_point_in_polygon(v, points):
 				if _intersect:
 					if project.selection_map.is_pixel_selected(v):
 						selection_map.select_pixel(v, true)

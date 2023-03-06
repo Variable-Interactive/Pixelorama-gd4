@@ -24,7 +24,8 @@ func deserialize(dict: Dictionary) -> void:
 
 
 func new_empty_cel() -> BaseCel:
-	var image := Image.create(project.size.x, project.size.y, false, Image.FORMAT_RGBA8)
+	var image := Image.new()
+	image.create(project.size.x, project.size.y, false, Image.FORMAT_RGBA8)
 	return PixelCel.new(image)
 
 

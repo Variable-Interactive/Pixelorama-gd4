@@ -23,3 +23,9 @@ mono_crash.*.json
 
 # Android ignores
 android/
+
+src/Main.gd
+src/Palette/PaletteScroll.gd
+src/Palette/PaletteSwatch.tscn
+src/UI/Nodes/ValueSlider.gd
+src/UI/Timeline/FrameScrollContainer.gd

@@ -8,7 +8,6 @@ var cursor_text := ""
 var _cursor := Vector2.INF
 
 var _draw_cache: PackedVector2Array = []  # for storing already drawn pixels
-@warning_ignore("unused_private_class_variable")
 var _for_frame := 0  # cache for which frame?
 
 # Only use "_spacing_mode" and "_spacing" variables (the others are set automatically)
@@ -54,18 +53,18 @@ func update_config() -> void:
 	pass
 
 
-func draw_start(pos: Vector2) -> void:
+func draw_start(position: Vector2) -> void:
 	_draw_cache = []
 	is_moving = true
 	Global.current_project.can_undo = false
-	_spacing_offset = _get_spacing_offset(pos)
+	_spacing_offset = _get_spacing_offset(position)
 
 
-func draw_move(pos: Vector2) -> void:
+func draw_move(position: Vector2) -> void:
 	# This can happen if the user switches between tools with a shortcut
 	# while using another tool
 	if !is_moving:
-		draw_start(pos)
+		draw_start(position)
 
 
 func draw_end(_position: Vector2) -> void:
@@ -74,18 +73,17 @@ func draw_end(_position: Vector2) -> void:
 	Global.current_project.can_undo = true
 
 
-func cursor_move(pos: Vector2) -> void:
-	_cursor = pos
+func cursor_move(position: Vector2) -> void:
+	_cursor = position
 	if _spacing_mode and is_moving:
-		_cursor = get_spacing_position(pos)
+		_cursor = get_spacing_position(position)
 
 
-func get_spacing_position(pos: Vector2) -> Vector2:
+func get_spacing_position(position: Vector2) -> Vector2:
 	# spacing_factor is the distance the mouse needs to get snapped by in order
 	# to keep a space "_spacing" between two strokes of dimensions "_stroke_dimensions"
 	var spacing_factor := _stroke_dimensions + _spacing
-	@warning_ignore("shadowed_variable")
-	var snap_position := pos.snapped(spacing_factor) + _spacing_offset
+	var snap_position := position.snapped(spacing_factor) + _spacing_offset
 
 	# keeping snap_position as is would have been fine but this adds extra accuracy as to
 	# which snap point (from the list below) is closest to mouse and occupy THAT point
@@ -100,17 +98,17 @@ func get_spacing_position(pos: Vector2) -> Vector2:
 	var b_r := snap_position + Vector2(spacing_factor.x, spacing_factor.y)
 	var vec_arr := [t_l, t_c, t_r, m_l, m_c, m_r, b_l, b_c, b_r]
 	for vec in vec_arr:
-		if vec.distance_to(pos) < snap_position.distance_to(pos):
+		if vec.distance_to(position) < snap_position.distance_to(position):
 			snap_position = vec
 
 	return snap_position
 
 
-func _get_spacing_offset(pos: Vector2) -> Vector2:
+func _get_spacing_offset(position: Vector2) -> Vector2:
 	var spacing_factor = _stroke_dimensions + _spacing  # spacing_factor is explained above
 	# since we just started drawing, the "position" is our intended location so the error
 	# (_spacing_offset) is measured by subtracting both quantities
-	return pos - pos.snapped(spacing_factor)
+	return position - position.snapped(spacing_factor)
 
 
 func draw_indicator(left: bool) -> void:
@@ -123,12 +121,12 @@ func draw_preview() -> void:
 	pass
 
 
-func snap_position(pos: Vector2) -> Vector2:
+func snap_position(position: Vector2) -> Vector2:
 	var snap_distance := Global.snapping_distance * Vector2.ONE
 	if Global.snap_to_rectangular_grid:
 		var grid_size := Vector2(Global.grid_width, Global.grid_height)
 		var grid_offset := Vector2(Global.grid_offset_x, Global.grid_offset_y)
-		var grid_pos := pos.snapped(grid_size)
+		var grid_pos := position.snapped(grid_size)
 		grid_pos += grid_offset
 		# keeping grid_pos as is would have been fine but this adds extra accuracy as to
 		# which snap point (from the list below) is closest to mouse and occupy THAT point
@@ -143,12 +141,12 @@ func snap_position(pos: Vector2) -> Vector2:
 		var b_r := grid_pos + Vector2(grid_size.x, grid_size.y)
 		var vec_arr := [t_l, t_c, t_r, m_l, m_c, m_r, b_l, b_c, b_r]
 		for vec in vec_arr:
-			if vec.distance_to(pos) < grid_pos.distance_to(pos):
+			if vec.distance_to(position) < grid_pos.distance_to(position):
 				grid_pos = vec
 
-		var closest_point_grid := _get_closest_point_to_grid(pos, snap_distance, grid_pos)
+		var closest_point_grid := _get_closest_point_to_grid(position, snap_distance, grid_pos)
 		if closest_point_grid != Vector2.INF:
-			pos = closest_point_grid.floor()
+			position = closest_point_grid.floor()
 
 	var snap_to := Vector2.INF
 	if Global.snap_to_guides:
@@ -157,7 +155,7 @@ func snap_position(pos: Vector2) -> Vector2:
 				continue
 			var s1: Vector2 = guide.points[0]
 			var s2: Vector2 = guide.points[1]
-			var snap := _snap_to_guide(snap_to, pos, snap_distance, s1, s2)
+			var snap := _snap_to_guide(snap_to, position, snap_distance, s1, s2)
 			if snap == Vector2.INF:
 				continue
 			snap_to = snap
@@ -172,24 +170,24 @@ func snap_position(pos: Vector2) -> Vector2:
 						var start = Vector2(point.pos_x, point.pos_y)
 						var s1: Vector2 = start
 						var s2 := s1 + Vector2(length * cos(angle), length * sin(angle))
-						var snap := _snap_to_guide(snap_to, pos, snap_distance, s1, s2)
+						var snap := _snap_to_guide(snap_to, position, snap_distance, s1, s2)
 						if snap == Vector2.INF:
 							continue
 						snap_to = snap
 	if snap_to != Vector2.INF:
-		pos = snap_to.floor()
+		position = snap_to.floor()
 
-	return pos
+	return position
 
 
 func _get_closest_point_to_grid(
-	pos: Vector2, snap_distance: Vector2, grid_pos: Vector2
+	position: Vector2, snap_distance: Vector2, grid_pos: Vector2
 ) -> Vector2:
 	# If the cursor is close to the start/origin of a grid cell, snap to that
 	var closest_point := Vector2.INF
 	var rect := Rect2()
-	rect.position = pos - (snap_distance / 4.0)
-	rect.end = pos + (snap_distance / 4.0)
+	rect.position = position - (snap_distance / 4.0)
+	rect.end = position + (snap_distance / 4.0)
 	if rect.has_point(grid_pos):
 		closest_point = grid_pos
 		return closest_point
@@ -198,17 +196,17 @@ func _get_closest_point_to_grid(
 	var grid_start_hor := Vector2(0, grid_pos.y)
 	var grid_end_hor := Vector2(Global.current_project.size.x, grid_pos.y)
 	var closest_point_hor := _get_closest_point_to_segment(
-		pos, snap_distance, grid_start_hor, grid_end_hor
+		position, snap_distance, grid_start_hor, grid_end_hor
 	)
 	# Look for a point close to a vertical grid line
 	var grid_start_ver := Vector2(grid_pos.x, 0)
 	var grid_end_ver := Vector2(grid_pos.x, Global.current_project.size.y)
 	var closest_point_ver := _get_closest_point_to_segment(
-		pos, snap_distance, grid_start_ver, grid_end_ver
+		position, snap_distance, grid_start_ver, grid_end_ver
 	)
 	# Snap to the closest point to the closest grid line
-	var horizontal_distance := (closest_point_hor - pos).length()
-	var vertical_distance := (closest_point_ver - pos).length()
+	var horizontal_distance := (closest_point_hor - position).length()
+	var vertical_distance := (closest_point_ver - position).length()
 	if horizontal_distance < vertical_distance:
 		closest_point = closest_point_hor
 	elif horizontal_distance > vertical_distance:
@@ -219,27 +217,27 @@ func _get_closest_point_to_grid(
 
 
 func _get_closest_point_to_segment(
-	pos: Vector2, distance: Vector2, s1: Vector2, s2: Vector2
+	position: Vector2, distance: Vector2, s1: Vector2, s2: Vector2
 ) -> Vector2:
 	var test_line := (s2 - s1).rotated(deg_to_rad(90)).normalized()
-	var from_a := pos - test_line * distance.length()
-	var from_b := pos + test_line * distance.length()
+	var from_a := position - test_line * distance.length()
+	var from_b := position + test_line * distance.length()
 	var closest_point := Vector2.INF
 	if Geometry2D.segment_intersects_segment(from_a, from_b, s1, s2):
-		closest_point = Geometry2D.get_closest_point_to_segment(pos, s1, s2)
+		closest_point = Geometry2D.get_closest_point_to_segment(position, s1, s2)
 	return closest_point
 
 
 func _snap_to_guide(
-	snap_to: Vector2, pos: Vector2, distance: Vector2, s1: Vector2, s2: Vector2
+	snap_to: Vector2, position: Vector2, distance: Vector2, s1: Vector2, s2: Vector2
 ) -> Vector2:
-	var closest_point := _get_closest_point_to_segment(pos, distance, s1, s2)
+	var closest_point := _get_closest_point_to_segment(position, distance, s1, s2)
 	if closest_point == Vector2.INF:  # Is not close to a guide
 		return Vector2.INF
 	# Snap to the closest guide
 	if (
 		snap_to == Vector2.INF
-		or (snap_to - pos).length() > (closest_point - pos).length()
+		or (snap_to - position).length() > (closest_point - position).length()
 	):
 		snap_to = closest_point
 
@@ -267,22 +265,22 @@ func _get_selected_draw_images() -> Array:  # Array of Images
 	return images
 
 
-func _flip_rect(rect: Rect2, _size: Vector2, _horizontal: bool, _vertical: bool) -> Rect2:
+func _flip_rect(rect: Rect2, size: Vector2, horizontal: bool, vertical: bool) -> Rect2:
 	var result := rect
-	if _horizontal:
-		result.position.x = _size.x - rect.end.x
-		result.end.x = _size.x - rect.position.x
-	if _vertical:
-		result.position.y = _size.y - rect.end.y
-		result.end.y = _size.y - rect.position.y
+	if horizontal:
+		result.position.x = size.x - rect.end.x
+		result.end.x = size.x - rect.position.x
+	if vertical:
+		result.position.y = size.y - rect.end.y
+		result.end.y = size.y - rect.position.y
 	return result.abs()
 
 
 func _create_polylines(bitmap: BitMap) -> Array:
 	var lines := []
-	var _size := bitmap.get_size()
-	for y in _size.y:
-		for x in _size.x:
+	var size := bitmap.get_size()
+	for y in size.y:
+		for x in size.x:
 			var p := Vector2(x, y)
 			if not bitmap.get_bitv(p):
 				continue
@@ -290,16 +288,16 @@ func _create_polylines(bitmap: BitMap) -> Array:
 				_add_polylines_segment(lines, p, p + Vector2(0, 1))
 			if y <= 0 or not bitmap.get_bitv(p - Vector2(0, 1)):
 				_add_polylines_segment(lines, p, p + Vector2(1, 0))
-			if x + 1 >= _size.x or not bitmap.get_bitv(p + Vector2(1, 0)):
+			if x + 1 >= size.x or not bitmap.get_bitv(p + Vector2(1, 0)):
 				_add_polylines_segment(lines, p + Vector2(1, 0), p + Vector2(1, 1))
-			if y + 1 >= _size.y or not bitmap.get_bitv(p + Vector2(0, 1)):
+			if y + 1 >= size.y or not bitmap.get_bitv(p + Vector2(0, 1)):
 				_add_polylines_segment(lines, p + Vector2(0, 1), p + Vector2(1, 1))
 	return lines
 
 
-func _fill_bitmap_with_points(points: Array, _size: Vector2) -> BitMap:
+func _fill_bitmap_with_points(points: Array, size: Vector2) -> BitMap:
 	var bitmap := BitMap.new()
-	bitmap.create(_size)
+	bitmap.create(size)
 
 	for point in points:
 		if point.x < 0 or point.y < 0 or point.x >= size.x or point.y >= size.y:

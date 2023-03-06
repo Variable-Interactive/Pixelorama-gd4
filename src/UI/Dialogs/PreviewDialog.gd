@@ -59,7 +59,8 @@ func _on_PreviewDialog_about_to_show() -> void:
 	import_options.select(OpenSave.last_dialog_option)
 	import_options.emit_signal("item_selected", OpenSave.last_dialog_option)
 
-	var img_texture := ImageTexture.create_from_image(image)
+	var img_texture := ImageTexture.new()
+	img_texture.create_from_image(image) #,0
 	texture_rect.texture = img_texture
 	spritesheet_tab_options.get_node("HorizontalFrames").max_value = min(
 		spritesheet_tab_options.get_node("HorizontalFrames").max_value, image.get_size().x
@@ -352,8 +353,8 @@ func spritesheet_frame_value_changed(value: int, vertical: bool) -> void:
 				line_2d.add_point(Vector2(i * line_distance + offset_x, image_size_y + offset_y))
 				texture_rect.get_node("HorizLines").add_child(line_2d)
 
-	var frame_width = floor(image.get_size().x / float(spritesheet_horizontal))
-	var frame_height = floor(image.get_size().y / float(spritesheet_vertical))
+	var frame_width = floor(image.get_size().x / spritesheet_horizontal)
+	var frame_height = floor(image.get_size().y / spritesheet_vertical)
 	frame_size_label.text = tr("Frame Size") + ": " + str(frame_width) + "×" + str(frame_height)
 
 
@@ -390,7 +391,7 @@ func add_brush() -> void:
 		if !dir.dir_exists(brush_name):
 			dir.make_dir(brush_name)
 
-		dir = DirAccess.open(Global.directory_module.xdg_data_home.path_join("Brushes").path_join(brush_name))
+		dir.open(Global.directory_module.xdg_data_home.path_join("Brushes").path_join(brush_name))
 		var random_brushes := []
 		dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var curr_file := dir.get_next()
@@ -410,14 +411,14 @@ func add_brush() -> void:
 # Checks if the file already exists
 # If it does, add a number to its name, for example
 # "Brush_Name" will become "Brush_Name (2)", "Brush_Name (3)", etc.
-func file_name_replace(nam: String, folder: String) -> String:
+func file_name_replace(name: String, folder: String) -> String:
 	var i := 1
-	var file_ext = nam.get_extension()
-	var temp_name := nam
+	var file_ext = name.get_extension()
+	var temp_name := name
 	var dir := DirAccess.open(Global.directory_module.xdg_data_home.path_join(folder))
 	while dir.file_exists(temp_name):
 		i += 1
-		temp_name = nam.get_basename() + " (%s)" % i
+		temp_name = name.get_basename() + " (%s)" % i
 		temp_name += "." + file_ext
-	nam = temp_name
-	return nam
+	name = temp_name
+	return name

@@ -74,7 +74,7 @@ func move_bitmap_values(project, move_offset := true) -> void:
 	blit_rect(smaller_image, Rect2(Vector2.ZERO, Vector2(nw, nh)), dst)
 
 
-func resize_bitmap_values(project, new_size: Vector2, x_flip: bool, y_flip: bool) -> void:
+func resize_bitmap_values(project, new_size: Vector2, flip_x: bool, flip_y: bool) -> void:
 	var size: Vector2 = project.size
 	var selection_node: Node2D = Global.canvas.selection
 	var selection_position: Vector2 = selection_node.big_bounding_rectangle.position
@@ -96,9 +96,9 @@ func resize_bitmap_values(project, new_size: Vector2, x_flip: bool, y_flip: bool
 		project.selection_offset.y = 0
 	clear()
 	smaller_image.resize(new_size.x, new_size.y, Image.INTERPOLATE_NEAREST)
-	if x_flip:
+	if flip_x:
 		smaller_image.flip_x()
-	if y_flip:
+	if flip_y:
 		smaller_image.flip_y()
 	if new_bitmap_size != size:
 		crop(new_bitmap_size.x, new_bitmap_size.y)

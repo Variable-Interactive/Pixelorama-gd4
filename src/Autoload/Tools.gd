@@ -294,6 +294,7 @@ func set_tool(tool_name: String, button: int) -> void:
 	var slot = _slots[button]
 	var panel: Node = _panels[button]
 	var node: Node = tools[tool_name].scene.instantiate()
+	var nod: PackedScene = tools[tool_name].scene
 	if button == MOUSE_BUTTON_LEFT:  # As guides are only moved with left mouse
 		if tool_name == "Pan":  # @tool you want to give more access at guides
 			Global.move_guides_on_canvas = true
@@ -306,20 +307,20 @@ func set_tool(tool_name: String, button: int) -> void:
 	panel.add_child(slot.tool_node)
 
 
-func assign_tool(nam: String, button: int) -> void:
+func assign_tool(name: String, button: int) -> void:
 	var slot = _slots[button]
 	var panel: Node = _panels[button]
 
 	if slot.tool_node != null:
-		if slot.tool_node.name == nam:
+		if slot.tool_node.name == name:
 			return
 		panel.remove_child(slot.tool_node)
 		slot.tool_node.queue_free()
 
-	set_tool(nam, button)
+	set_tool(name, button)
 	update_tool_buttons()
 	update_tool_cursors()
-	Global.config_cache.set_value(slot.kname, "@tool", nam)
+	Global.config_cache.set_value(slot.kname, "@tool", name)
 
 
 func default_color() -> void:

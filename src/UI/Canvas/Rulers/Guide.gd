@@ -121,9 +121,9 @@ func _draw() -> void:
 			intersection.distance_squared_to(viewport_poly[0])
 			< intersection.distance_squared_to(viewport_poly[1])
 		):
-			draw_string(font, Vector2(x_offset, font_height), string, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, color)
+			draw_string(font, Vector2(x_offset, font_height), string, 0, -1, 16, color)
 		else:
-			draw_string(font, Vector2(-font_string_size.x - x_offset, font_height), string, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, color)
+			draw_string(font, Vector2(-font_string_size.x - x_offset, font_height), string, 0, -1, 16, color)
 		return
 
 	intersection = Geometry2D.segment_intersects_segment(
@@ -135,9 +135,9 @@ func _draw() -> void:
 			intersection.distance_squared_to(viewport_poly[3])
 			< intersection.distance_squared_to(viewport_poly[0])
 		):
-			draw_string(font, Vector2(x_offset, y_offset), string, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, color)
+			draw_string(font, Vector2(x_offset, y_offset), string, 0, -1, 16, color)
 		else:
-			draw_string(font, Vector2(x_offset, font_height), string, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, color)
+			draw_string(font, Vector2(x_offset, font_height), string, 0, -1, 16, color)
 		return
 
 	intersection = Geometry2D.segment_intersects_segment(
@@ -150,14 +150,14 @@ func _draw() -> void:
 			intersection.distance_squared_to(viewport_poly[1])
 			< intersection.distance_squared_to(viewport_poly[2])
 		):
-			draw_string(font, Vector2(-font_string_size.x - x_offset, font_height), string, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, color)
+			draw_string(font, Vector2(-font_string_size.x - x_offset, font_height), string, 0, -1, 16, color)
 		else:
-			draw_string(font, Vector2(-font_string_size.x - x_offset, y_offset), string, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, color)
+			draw_string(font, Vector2(-font_string_size.x - x_offset, y_offset), string, 0, -1, 16, color)
 		return
 
 	# If there's no intersection with a viewport edge, show string in top left corner
 	draw_set_transform(viewport_poly[0], Global.camera.rotation, zoom * 2)
-	draw_string(font, Vector2(x_offset, font_height), string, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, color)
+	draw_string(font, Vector2(x_offset, font_height), string, 0, -1, 16, color)
 
 
 func _outside_canvas() -> bool:

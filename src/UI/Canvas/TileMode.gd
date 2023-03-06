@@ -47,6 +47,6 @@ func get_tile_positions() -> Array:
 		for c in x_range:
 			if not draw_center and r == 0 and c == 0:
 				continue
-			var pos: Vector2 = r * y_basis + c * x_basis
-			positions.append(pos)
+			var position: Vector2 = r * y_basis + c * x_basis
+			positions.append(position)
 	return positions
