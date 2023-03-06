@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" path="res://src/UI/Canvas/CanvasPreview.tscn" id="2"]
 [ext_resource type="Script" path="res://src/UI/Tabs.gd" id="3"]
 [ext_resource type="Script" path="res://src/UI/Canvas/Rulers/VerticalRuler.gd" id="4"]
-[ext_resource type="Resource" uid="uid://bgtve8utysgiu" path="res://assets/layouts/tallscreen.tres" id="4_yvvsy"]
+[ext_resource type="Resource" uid="uid://dbmnpv8554aqf" path="res://assets/layouts/default.tres" id="4_jax8i"]
 [ext_resource type="PackedScene" path="res://src/UI/Nodes/TransparentChecker.tscn" id="5"]
 [ext_resource type="Script" path="res://src/UI/Canvas/Rulers/HorizontalRuler.gd" id="6"]
 [ext_resource type="Script" path="res://src/UI/Canvas/CameraMovement.gd" id="7"]
@@ -73,13 +73,14 @@ anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("35")
-layout = ExtResource("4_yvvsy")
+layout = ExtResource("4_jax8i")
 
 [node name="Tools" parent="DockableContainer" instance=ExtResource("1")]
 visible = false
 layout_mode = 2
 
 [node name="Main Canvas" type="VBoxContainer" parent="DockableContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -129,8 +130,8 @@ script = ExtResource("23")
 
 [node name="SubViewport" type="SubViewport" parent="DockableContainer/Main Canvas/ViewportandVerticalRuler/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(1260, 665)
-render_target_update_mode = 4
+size = Vector2i(1260, 116)
+render_target_update_mode = 0
 
 [node name="TransparentChecker" parent="DockableContainer/Main Canvas/ViewportandVerticalRuler/SubViewportContainer/SubViewport" instance=ExtResource("5")]
 material = SubResource("2")
@@ -202,7 +203,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Right Tool Options" type="ScrollContainer" parent="DockableContainer"]
-visible = false
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 

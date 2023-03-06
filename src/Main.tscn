@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://6gdspkx8ntpw" path="res://assets/themes/dark/theme.tres" id="1"]
 [ext_resource type="Script" path="res://src/Main.gd" id="2"]
-[ext_resource type="PackedScene" path="res://src/UI/TopMenuContainer/TopMenuContainer.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://does65dlqgbny" path="res://src/UI/TopMenuContainer/TopMenuContainer.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://do5nm0mx2ob8i" path="res://src/UI/UI.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://src/UI/Buttons/PatternsPopup.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://src/UI/Buttons/BrushesPopup.tscn" id="6"]
@@ -12,11 +12,11 @@
 [ext_resource type="PackedScene" uid="uid://dvmdp1paslwt7" path="res://src/UI/Dialogs/WindowOpacityDialog.tscn" id="10"]
 [ext_resource type="PackedScene" path="res://src/UI/Dialogs/SaveSprite.tscn" id="11"]
 [ext_resource type="PackedScene" path="res://src/UI/Dialogs/OpenSprite.tscn" id="12"]
-[ext_resource type="PackedScene" path="res://src/UI/Dialogs/ManageLayouts.tscn" id="13"]
+[ext_resource type="PackedScene" uid="uid://c8tejc1n7kj0x" path="res://src/UI/Dialogs/ManageLayouts.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://xvlyyjyv846g" path="res://src/UI/Dialogs/TileModeOffsetsDialog.tscn" id="14"]
 [ext_resource type="PackedScene" path="res://src/UI/Dialogs/SplashDialog.tscn" id="27"]
 [ext_resource type="PackedScene" path="res://src/UI/Dialogs/CreateNewImage.tscn" id="28"]
-[ext_resource type="PackedScene" path="res://src/Preferences/PreferencesDialog.tscn" id="32"]
+[ext_resource type="PackedScene" uid="uid://dbge2hn7vtrh4" path="res://src/Preferences/PreferencesDialog.tscn" id="32"]
 [ext_resource type="PackedScene" uid="uid://dlvty4n5vfdxr" path="res://src/UI/Dialogs/AboutDialog.tscn" id="34"]
 [ext_resource type="PackedScene" uid="uid://dxth650xuwss4" path="res://src/UI/Dialogs/ExportDialog.tscn" id="39"]
 

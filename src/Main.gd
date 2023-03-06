@@ -69,7 +69,7 @@ func _ready() -> void:
 	_handle_backup()
 
 	_handle_cmdline_arguments()
-	get_tree().connect("files_dropped",Callable(self,"_on_files_dropped"))
+	get_window().connect("files_dropped",Callable(self,"_on_files_dropped"))
 
 	if OS.get_name() == "Android":
 		OS.request_permissions()
@@ -200,7 +200,6 @@ func _handle_backup() -> void:
 
 func _handle_cmdline_arguments() -> void:
 	var args := OS.get_cmdline_args()
-	print("args  ", args)
 	if args.is_empty():
 		return
 
