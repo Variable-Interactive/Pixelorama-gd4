@@ -36,7 +36,7 @@ var export_progress := 0.0
 
 
 func _exit_tree() -> void:
-	if gif_export_thread.is_active():
+	if gif_export_thread.is_started():
 		gif_export_thread.wait_to_finish()
 
 
@@ -203,7 +203,7 @@ func export_processed_images(
 		if OS.get_name() == "HTML5":
 			export_animated(details)
 		else:
-			if gif_export_thread.is_active():
+			if gif_export_thread.is_started():
 				gif_export_thread.wait_to_finish()
 			gif_export_thread.start(Callable(self,"export_animated").bind(details))
 	else:

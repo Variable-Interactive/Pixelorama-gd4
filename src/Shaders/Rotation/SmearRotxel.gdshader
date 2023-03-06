@@ -29,7 +29,7 @@ vec4 rotate(sampler2D tex, vec2 uv, vec2 tex_pixel_size) {
 	for (float angle = ending_angle; angle >= init_angle && color.a == 0.0; angle -= 1.0) {
 		float ang = angle*3.1416/180.0;
 
-		for (k = 0; k < 9; k++) {
+		for (int k = 0; k < 9; k++) {
 			int i = -1 + int(k % 3);
 			int j = -1 + k / 3;
 			dir = atan(float(dy + j), float(dx + i));
