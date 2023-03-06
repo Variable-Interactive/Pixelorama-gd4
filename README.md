@@ -1,3 +1,4 @@
+in sync with https://github.com/Variable-ind/Pixelorama/commit/e88ba2cb7348fd57753148d3fcd148f59142af61
 <p align="center">
     <h1 align = "center">Pixelorama - pixelate your dreams!</h1>
 </p>
