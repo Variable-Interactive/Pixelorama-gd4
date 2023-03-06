@@ -338,6 +338,7 @@ layout_mode = 2
 text = "©2019-present by Orama Interactive and contributors"
 
 [connection signal="about_to_popup" from="." to="." method="_on_AboutDialog_about_to_show"]
+[connection signal="visibility_changed" from="." to="." method="_on_AboutDialog_visibility_changed"]
 [connection signal="pressed" from="AboutUI/IconsButtons/SloganAndLinks/VBoxContainer/LinkButtons/Website" to="." method="_on_Website_pressed"]
 [connection signal="pressed" from="AboutUI/IconsButtons/SloganAndLinks/VBoxContainer/LinkButtons/GitHub" to="." method="_on_GitHub_pressed"]
 [connection signal="pressed" from="AboutUI/IconsButtons/SloganAndLinks/VBoxContainer/LinkButtons/Donate" to="." method="_on_Donate_pressed"]

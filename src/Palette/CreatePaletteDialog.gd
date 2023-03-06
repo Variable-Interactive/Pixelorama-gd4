@@ -68,8 +68,9 @@ func toggle_ok_button_disability(disable: bool) -> void:
 	enter_name_warning.visible = disable
 
 
-func _on_CreatePaletteDialog_popup_hide() -> void:
-	Global.dialog_open(false)
+func _on_CreatePaletteDialog_visibility_changed() -> void:
+	if !visible:
+		Global.dialog_open(false)
 
 
 func _on_CreatePaletteDialog_confirmed() -> void:

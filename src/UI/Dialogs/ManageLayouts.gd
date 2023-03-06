@@ -36,7 +36,7 @@ func _on_SavedLayouts_item_selected(index: int) -> void:
 	refresh_preview()
 
 
-func _on_SavedLayouts_nothing_selected() -> void:
+func _on_SavedLayouts_empty_clicked(_at_position: Vector2, _mouse_button_index: int) -> void:
 	edit_layout.disabled = true
 	delete_layout.disabled = true
 

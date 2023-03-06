@@ -226,7 +226,7 @@ func _on_InstalledExtensions_item_selected(index: int) -> void:
 	uninstall_button.disabled = false
 
 
-func _on_InstalledExtensions_nothing_selected() -> void:
+func _on_InstalledExtensions_empty_clicked(_at_position: Vector2, _mouse_button_index: int) -> void:
 	enable_button.disabled = true
 	uninstall_button.disabled = true
 
@@ -257,3 +257,5 @@ func _on_OpenFolderButton_pressed() -> void:
 func _on_AddExtensionFileDialog_files_selected(paths: PackedStringArray) -> void:
 	for path in paths:
 		install_extension(path)
+
+
