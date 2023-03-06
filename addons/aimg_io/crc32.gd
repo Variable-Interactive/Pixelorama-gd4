@@ -32,7 +32,6 @@ func ensure_ready():
 					crc >>= 1
 			crc32_table.push_back(crc & mask)
 		_table_initialized = true
-	_table_init_mutex.unlock()
 
 
 # Performs the update step of CRC32 over some bytes.

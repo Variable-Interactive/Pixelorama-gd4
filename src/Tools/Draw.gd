@@ -211,7 +211,6 @@ func commit_undo() -> void:
 	project.undos += 1
 	for image in redo_data:
 		project.undo_redo.add_do_property(image, "data", redo_data[image])
-		image.unlock()
 	for image in _undo_data:
 		project.undo_redo.add_undo_property(image, "data", _undo_data[image])
 	project.undo_redo.add_do_method(Callable(Global, "undo_or_redo").bind(false, frame, layer))
@@ -418,13 +417,11 @@ func remove_unselected_parts_of_brush(brush: Image, dst: Vector2) -> Image:
 	var new_brush := Image.new()
 	new_brush.copy_from(brush)
 
-	new_brush.lock()
 	for x in _size.x:
 		for y in _size.y:
 			var pos := Vector2(x, y) + dst
 			if !project.selection_map.is_pixel_selected(pos):
 				new_brush.set_pixel(x, y, Color(0))
-	new_brush.unlock()
 	return new_brush
 
 
@@ -517,7 +514,6 @@ func _create_blended_brush_image(image: Image) -> Image:
 
 func _blend_image(image: Image, color: Color, factor: float) -> Image:
 	var _size := image.get_size()
-	image.lock()
 	for y in _size.y:
 		for x in _size.x:
 			var color_old := image.get_pixel(x, y)
@@ -525,7 +521,6 @@ func _blend_image(image: Image, color: Color, factor: float) -> Image:
 				var color_new := color_old.lerp(color, factor)
 				color_new.a = color_old.a
 				image.set_pixel(x, y, color_new)
-	image.unlock()
 	return image
 
 
@@ -651,9 +646,7 @@ func _get_undo_data() -> Dictionary:
 		if not cel is PixelCel:
 			continue
 		var image: Image = cel.image
-		image.unlock()
 		data[image] = image.data
-		image.lock()
 	return data
 
 
@@ -675,9 +668,7 @@ func _pick_color(pos: Vector2) -> void:
 		var idx = (project.layers.size() - 1) - layer
 		if project.layers[idx].can_layer_get_drawn():
 			image = curr_frame.cels[idx].get_image()
-			image.lock()
 			color = image.get_pixelv(pos)
-			image.unlock()
 			if color != Color(0, 0, 0, 0):
 				break
 	var button := MOUSE_BUTTON_LEFT if Tools._slots[MOUSE_BUTTON_LEFT].tool_node == self else MOUSE_BUTTON_RIGHT

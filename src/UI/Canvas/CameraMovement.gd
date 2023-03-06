@@ -26,19 +26,17 @@ func _ready() -> void:
 	update_transparent_checker_offset()
 
 	# signals regarding rotation stats
-	Global.rotation_level_button.connect("pressed",Callable(self,"_rotation_button_pressed"))
-	Global.rotation_level_spinbox.connect("value_changed",Callable(self,"_rotation_value_changed"))
-	# Disabled by Variable (cause: child(0) confusion)
-#	Global.rotation_level_spinbox.get_child(0).connect(
-#		"focus_exited", Callable(self, "_rotation_focus_exited")
-#	)
+	Global.rotation_level_button.connect("pressed", Callable(self,"_rotation_button_pressed"))
+	Global.rotation_level_spinbox.connect("value_changed", Callable(self,"_rotation_value_changed"))
+	Global.rotation_level_spinbox.get_line_edit().connect(
+		"focus_exited", Callable(self, "_rotation_focus_exited")
+	)
 
 	# signals regarding zoom stats
-	Global.zoom_level_button.connect("pressed",Callable(self,"_zoom_button_pressed"))
-	Global.zoom_level_spinbox.connect("value_changed",Callable(self,"_zoom_value_changed"))
+	Global.zoom_level_button.connect("pressed", Callable(self,"_zoom_button_pressed"))
+	Global.zoom_level_spinbox.connect("value_changed", Callable(self,"_zoom_value_changed"))
 	Global.zoom_level_spinbox.max_value = 100.0 / zoom_min.x
-	# Disabled by Variable (cause: child(0) confusion)
-#	Global.zoom_level_spinbox.get_child(0).connect("focus_exited",Callable(self,"_zoom_focus_exited"))
+	Global.rotation_level_spinbox.get_line_edit().connect("focus_exited",Callable(self,"_zoom_focus_exited"))
 
 
 func _rotation_button_pressed() -> void:
@@ -49,7 +47,7 @@ func _rotation_button_pressed() -> void:
 		Global.rotation_level_button.text.replace("°", "")
 	)
 	# Since the actual LineEdit is the first child of SpinBox
-	Global.rotation_level_spinbox.get_child(0).grab_focus()
+	Global.rotation_level_spinbox.get_line_edit().grab_focus()
 
 
 func _rotation_value_changed(value) -> void:
@@ -73,7 +71,7 @@ func _zoom_button_pressed() -> void:
 	Global.zoom_level_spinbox.editable = true
 	Global.zoom_level_spinbox.value = str_to_var(Global.zoom_level_button.text.replace("%", ""))
 	# Since the actual LineEdit is the first child of SpinBox
-	Global.zoom_level_spinbox.get_child(0).grab_focus()
+	Global.zoom_level_spinbox.get_line_edit().grab_focus()
 
 
 func _zoom_value_changed(value) -> void:

@@ -38,7 +38,6 @@ func _convert(image: Image, colors: Array) -> PackedByteArray:
 	var lut = Image.new()
 	lut.create(256, 1, false, Image.FORMAT_RGB8)
 	lut.fill(Color8(colors[0][0], colors[0][1], colors[0][2]))
-	false # lut.lock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	for i in colors.size():
 		lut.set_pixel(i, 0, Color8(colors[i][0], colors[i][1], colors[i][2]))
 	var lut_tex = ImageTexture.new()

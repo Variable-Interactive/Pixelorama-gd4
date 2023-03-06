@@ -403,10 +403,10 @@ func _use_osx_shortcuts() -> void:
 		var event: InputEvent = action_list[0]
 
 		if event.is_action("show_pixel_grid"):
-			event.shift = true
+			event.shift_pressed = true
 
-		if event.control:
-			event.control = false
+		if event.ctrl_pressed:
+			event.ctrl_pressed = false
 			event.command = true
 
 
