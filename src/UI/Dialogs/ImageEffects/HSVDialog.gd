@@ -29,9 +29,9 @@ func set_nodes() -> void:
 
 
 func commit_action(cel: Image, project: Project = Global.current_project) -> void:
-	var selection_tex := ImageTexture.new()
+	var selection_tex: ImageTexture
 	if selection_checkbox.button_pressed and project.has_selection:
-		selection_tex.create_from_image(project.selection_map) #,0
+		selection_tex = ImageTexture.create_from_image(project.selection_map)
 
 	var params := {
 		"hue_shift_amount": hue_slider.value / 360,

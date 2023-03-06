@@ -226,7 +226,7 @@ func _on_InstalledExtensions_item_selected(index: int) -> void:
 	uninstall_button.disabled = false
 
 
-func _on_InstalledExtensions_empty_clicked(_at_position: Vector2, _mouse_button_index: int) -> void:
+func _on_InstalledExtensions_nothing_selected() -> void:
 	enable_button.disabled = true
 	uninstall_button.disabled = true
 

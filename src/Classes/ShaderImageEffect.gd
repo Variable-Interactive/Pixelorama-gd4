@@ -5,7 +5,6 @@ signal done
 
 
 func generate_image(img: Image, shader: Shader, params: Dictionary, size: Vector2) -> void:
-	false # img.unlock() # TODOConverter40, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 	# duplicate shader before modifying code to avoid affecting original resource
 	shader = shader.duplicate()
 	shader.code = shader.code.replace("unshaded", "unshaded, blend_premul_alpha")
@@ -14,7 +13,7 @@ func generate_image(img: Image, shader: Shader, params: Dictionary, size: Vector
 	RenderingServer.viewport_attach_canvas(vp, canvas)
 	RenderingServer.viewport_set_size(vp, size.x, size.y)
 	RenderingServer.viewport_set_disable_3d(vp, true)
-	# TODO I changed the line below but don't know if it's correct
+	# TODO (by Variable) I changed the line below but don't know if it's correct
 	RenderingServer.viewport_set_environment_mode(vp, RenderingServer.VIEWPORT_ENVIRONMENT_DISABLED)
 	RenderingServer.viewport_set_active(vp, true)
 	RenderingServer.viewport_set_transparent_background(vp, true)
@@ -22,7 +21,7 @@ func generate_image(img: Image, shader: Shader, params: Dictionary, size: Vector
 	var ci_rid := RenderingServer.canvas_item_create()
 	RenderingServer.viewport_set_canvas_transform(vp, canvas, Transform3D())
 	RenderingServer.canvas_item_set_parent(ci_rid, canvas)
-	var texture := RenderingServer.texture_2d_create(img) #,0
+	var texture := RenderingServer.texture_2d_create(img)
 	RenderingServer.canvas_item_add_texture_rect(ci_rid, Rect2(Vector2.ZERO, size), texture)
 
 	var mat_rid := RenderingServer.material_create()

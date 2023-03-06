@@ -19,7 +19,7 @@ func _init(_image := Image.new(),_opacity := 1.0,_image_texture: ImageTexture = 
 func image_changed(value: Image) -> void:
 	image = value
 	if !image.is_empty():
-		image_texture.create_from_image(image) #,0
+		image_texture = ImageTexture.create_from_image(image)
 
 
 func get_content():
@@ -31,20 +31,18 @@ func set_content(content, texture: ImageTexture = null) -> void:
 	if is_instance_valid(texture):
 		image_texture = texture
 		if Vector2(image_texture.get_size()) != Vector2(image.get_size()):
-			image_texture.create_from_image(image) #,0
+			image_texture = ImageTexture.create_from_image(image)
 	else:
-		image_texture.create_from_image(image) #,0
+		image_texture = ImageTexture.create_from_image(image)
 
 
 func create_empty_content():
-	var empty_image := Image.new()
-	empty_image.create(image.get_size().x, image.get_size().y, false, Image.FORMAT_RGBA8)
+	var empty_image := Image.create(image.get_size().x, image.get_size().y, false, Image.FORMAT_RGBA8)
 	return empty_image
 
 
 func copy_content():
-	var copy_image := Image.new()
-	copy_image.create_from_data(
+	var copy_image := Image.create_from_data(
 		image.get_width(), image.get_height(), false, Image.FORMAT_RGBA8, image.get_data()
 	)
 	return copy_image
@@ -64,7 +62,7 @@ func save_image_data_to_pxo(file: FileAccess) -> void:
 
 func load_image_data_from_pxo(file: FileAccess, project_size: Vector2) -> void:
 	var buffer := file.get_buffer(project_size.x * project_size.y * 4)
-	image.create_from_data(project_size.x, project_size.y, false, Image.FORMAT_RGBA8, buffer)
+	image = Image.create_from_data(project_size.x, project_size.y, false, Image.FORMAT_RGBA8, buffer)
 	image_changed(image)
 
 

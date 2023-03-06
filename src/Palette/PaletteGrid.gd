@@ -176,9 +176,9 @@ func _on_PaletteSwatch_pressed(mouse_button: int, index: int) -> void:
 	emit_signal("swatch_pressed", mouse_button, palette_index)
 
 
-func _on_PaletteSwatch_double_clicked(mouse_button: int, position: Vector2, index: int) -> void:
+func _on_PaletteSwatch_double_clicked(mouse_button: int, pos: Vector2, index: int) -> void:
 	var palette_index = convert_grid_index_to_palette_index(index)
-	emit_signal("swatch_double_clicked", mouse_button, palette_index, position)
+	emit_signal("swatch_double_clicked", mouse_button, palette_index, pos)
 
 
 func _on_PaletteSwatch_dropped(source_index: int, target_index: int) -> void:

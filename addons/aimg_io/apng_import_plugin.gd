@@ -19,7 +19,7 @@ func _get_resource_type() -> String:
 	return "AnimatedTexture"
 
 
-func _get_recognized_extensions() -> Array:
+func _get_recognized_extensions() -> PackedStringArray:
 	return ["png"]
 
 

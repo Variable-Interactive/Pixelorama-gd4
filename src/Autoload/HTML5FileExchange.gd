@@ -11,8 +11,8 @@ func _ready() -> void:
 		_define_js()
 
 
-func _notification(notification: int) -> void:
-	if notification == MainLoop.NOTIFICATION_APPLICATION_FOCUS_IN:
+func _notification(notific: int) -> void:
+	if notific == MainLoop.NOTIFICATION_APPLICATION_FOCUS_IN:
 		emit_signal("in_focus")
 
 

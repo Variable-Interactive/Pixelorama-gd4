@@ -12,11 +12,11 @@
 [ext_resource type="PackedScene" path="res://src/UI/Dialogs/WindowOpacityDialog.tscn" id="10"]
 [ext_resource type="PackedScene" path="res://src/UI/Dialogs/SaveSprite.tscn" id="11"]
 [ext_resource type="PackedScene" path="res://src/UI/Dialogs/OpenSprite.tscn" id="12"]
-[ext_resource type="PackedScene" uid="uid://ce8wja0mnler7" path="res://src/UI/Dialogs/ManageLayouts.tscn" id="13"]
-[ext_resource type="PackedScene" uid="uid://h4tggu2xwfd1" path="res://src/UI/Dialogs/TileModeOffsetsDialog.tscn" id="14"]
+[ext_resource type="PackedScene" path="res://src/UI/Dialogs/ManageLayouts.tscn" id="13"]
+[ext_resource type="PackedScene" path="res://src/UI/Dialogs/TileModeOffsetsDialog.tscn" id="14"]
 [ext_resource type="PackedScene" path="res://src/UI/Dialogs/SplashDialog.tscn" id="27"]
 [ext_resource type="PackedScene" path="res://src/UI/Dialogs/CreateNewImage.tscn" id="28"]
-[ext_resource type="PackedScene" uid="uid://0nol21davhom" path="res://src/Preferences/PreferencesDialog.tscn" id="32"]
+[ext_resource type="PackedScene" path="res://src/Preferences/PreferencesDialog.tscn" id="32"]
 [ext_resource type="PackedScene" uid="uid://dlvty4n5vfdxr" path="res://src/UI/Dialogs/AboutDialog.tscn" id="34"]
 [ext_resource type="PackedScene" uid="uid://dxth650xuwss4" path="res://src/UI/Dialogs/ExportDialog.tscn" id="39"]
 
@@ -93,7 +93,6 @@ dialog_autowrap = true
 [node name="WindowOpacityDialog" parent="Dialogs" instance=ExtResource("10")]
 
 [node name="TileModeOffsetsDialog" parent="Dialogs" instance=ExtResource("14")]
-size = Vector2i(327, 486)
 
 [node name="Extensions" type="Control" parent="."]
 anchors_preset = 0

@@ -140,20 +140,20 @@ func _on_DeleteColor_gui_input(event: InputEvent) -> void:
 
 func _on_CreatePaletteDialog_saved(
 	preset: int,
-	name: String,
+	nam: String,
 	comment: String,
 	width: int,
 	height: int,
 	add_alpha_colors: bool,
 	colors_from: int
 ) -> void:
-	Palettes.create_new_palette(preset, name, comment, width, height, add_alpha_colors, colors_from)
+	Palettes.create_new_palette(preset, nam, comment, width, height, add_alpha_colors, colors_from)
 	setup_palettes_selector()
 	redraw_current_palette()
 
 
-func _on_EditPaletteDialog_saved(name: String, comment: String, width: int, height: int) -> void:
-	Palettes.current_palette_edit(name, comment, width, height)
+func _on_EditPaletteDialog_saved(nam: String, comment: String, width: int, height: int) -> void:
+	Palettes.current_palette_edit(nam, comment, width, height)
 	setup_palettes_selector()
 	redraw_current_palette()
 

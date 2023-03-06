@@ -26,9 +26,9 @@ class GradientCursor:
 	var color: Color
 	var sliding := false
 
-	onready var parent: TextureRect = get_parent()
-	onready var grand_parent: Container = parent.get_parent()
-	onready var label: Label = parent.get_node("Value")
+	@onready var parent: TextureRect = get_parent()
+	@onready var grand_parent: Container = parent.get_parent()
+	@onready var label: Label = parent.get_node("Value")
 
 	func _ready() -> void:
 		position = Vector2(0, 15)
@@ -39,7 +39,7 @@ class GradientCursor:
 		var polygon := PackedVector2Array(
 			[
 				Vector2(0, 5),
-				Vector2(WIDTH / 2, 0),
+				Vector2(float(WIDTH) / 2, 0),
 				Vector2(WIDTH, 5),
 				Vector2(WIDTH, 15),
 				Vector2(0, 15),

@@ -37,6 +37,5 @@ func set_window_opacity(value: float) -> void:
 	Global.transparent_checker.update_transparency(value)
 
 
-func _on_WindowOpacityDialog_visibility_changed() -> void:
-	if !visible:
-		Global.dialog_open(false)
+func _on_WindowOpacityDialog_popup_hide() -> void:
+	Global.dialog_open(false)
