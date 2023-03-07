@@ -110,8 +110,8 @@ func get_names() -> PackedStringArray:
 	return names
 
 
-func is_empty() -> bool:
-	return _first.is_empty() and _second.is_empty()
+func empty() -> bool:
+	return _first.empty() and _second.empty()
 
 
 func is_horizontal() -> bool:
