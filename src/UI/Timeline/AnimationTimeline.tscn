@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3]
+[gd_scene load_steps=38 format=3 uid="uid://j0kjxfjwci2o"]
 
 [ext_resource type="Script" path="res://src/UI/Timeline/AnimationTimeline.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://cd888ul6217gn" path="res://assets/graphics/layers/new.png" id="2"]
@@ -24,7 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://b27aju074311c" path="res://assets/graphics/timeline/onion_skinning_off.png" id="29"]
 [ext_resource type="Texture2D" uid="uid://co6psw6wr3hqw" path="res://assets/graphics/timeline/expandable.png" id="30"]
 [ext_resource type="Texture2D" uid="uid://dsu6a8kwvkv0q" path="res://assets/graphics/timeline/loop.png" id="31"]
-[ext_resource type="PackedScene" path="res://src/UI/Timeline/FrameTagDialog.tscn" id="42"]
+[ext_resource type="PackedScene" uid="uid://vy36bsy7a16i" path="res://src/UI/Timeline/FrameTagDialog.tscn" id="42"]
 
 [sub_resource type="StyleBoxEmpty" id="15"]
 

@@ -3,6 +3,7 @@ extends Container
 
 const SplitHandle = preload("split_handle.gd")
 const DockablePanel = preload("dockable_panel.gd")
+const ReferenceControl = preload("dockable_panel_reference_control.gd")
 const DragNDropPanel = preload("drag_n_drop_panel.gd")
 const Layout = preload("layout.gd")
 
@@ -24,7 +25,7 @@ const Layout = preload("layout.gd")
 		return get_use_hidden_tabs_for_min_size()
 	set(value):
 		# TODO: Manually copy the code from this method.
-		set_use_hidden_tabs_for_custom_minimum_size(value)
+		set_use_hidden_tabs_for_min_size(value)
 @export var rearrange_group: int = 0
 @export var layout: Resource = Layout.new():
 	get:
@@ -43,8 +44,8 @@ var _panel_container = Container.new()
 var _split_container = Container.new()
 var _drag_n_drop_panel = DragNDropPanel.new()
 var _drag_panel: DockablePanel
+var _tab_align = TabBar.ALIGNMENT_CENTER
 var _tabs_visible = true
-var _tab_align = 1
 var _use_hidden_tabs_for_min_size = false
 var _current_panel_index = 0
 var _current_split_index = 0
@@ -98,15 +99,15 @@ func _input(event: InputEvent) -> void:
 		fit_child_in_rect(_drag_n_drop_panel, panel.get_child_rect())
 
 
-func add_child(node: Node, legible_unique_name: bool = false, internal: InternalMode = 0) -> void:
-	super.add_child(node, legible_unique_name, internal)
+func add_child(node: Node, force_readable_name: bool = false, internal: InternalMode = 0) -> void:
+	super.add_child(node, force_readable_name, internal)
 	_drag_n_drop_panel.move_to_front()
 	_track_and_add_node(node)
 
 
-func add_child_below_node(node: Node, child_node: Node, legible_unique_name: bool = false) -> void:
+func add_child_below_node(node: Node, child_node: Node, force_readable_name: bool = false) -> void:
 	#super.add_child_below_node(node, child_node, legible_unique_name)
-	super.add_sibling(child_node, legible_unique_name)
+	super.add_sibling(child_node, force_readable_name)
 	_drag_n_drop_panel.move_to_front()
 	_track_and_add_node(child_node)
 
@@ -205,7 +206,7 @@ func get_tabs_visible() -> bool:
 	return _tabs_visible
 
 
-func set_use_hidden_tabs_for_custom_minimum_size(value: bool) -> void:
+func set_use_hidden_tabs_for_min_size(value: bool) -> void:
 	_use_hidden_tabs_for_min_size = value
 	for i in range(1, _panel_container.get_child_count()):
 		var panel = _panel_container.get_child(i)

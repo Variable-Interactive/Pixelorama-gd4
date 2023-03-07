@@ -1,0 +1,31 @@
+[gd_resource type="Resource" load_steps=7 format=3 uid="uid://b6usljnqrsvm4"]
+
+[ext_resource type="Script" path="res://addons/dockable_container/layout_panel.gd" id="1_273s6"]
+[ext_resource type="Script" path="res://addons/dockable_container/layout_split.gd" id="2_aa71d"]
+[ext_resource type="Script" path="res://addons/dockable_container/layout.gd" id="3_jx7e4"]
+
+[sub_resource type="Resource" id="Resource_18nd4"]
+resource_name = "Tabs"
+script = ExtResource("1_273s6")
+names = PackedStringArray("Control1", "Control6", "Control0", "Control3", "Control5", "Control2")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_gobeb"]
+resource_name = "Tabs"
+script = ExtResource("1_273s6")
+names = PackedStringArray("Control4")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_3dtdy"]
+resource_name = "Split"
+script = ExtResource("2_aa71d")
+direction = 1
+percent = 0.5
+first = SubResource("Resource_18nd4")
+second = SubResource("Resource_gobeb")
+
+[resource]
+resource_name = "Layout"
+script = ExtResource("3_jx7e4")
+root = SubResource("Resource_3dtdy")
+hidden_tabs = {}

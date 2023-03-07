@@ -57,9 +57,11 @@ func _input(event: InputEvent) -> void:
 
 
 func _get_minimum_size() -> Vector2:
+	if Global.layer_vbox:
 	# X targets enough to see layers, 1 frame, vertical scrollbar, and padding
 	# Y targets engough to see 1 layer
-	return Vector2(Global.layer_vbox.size.x + cel_size + 26, cel_size + 105)
+		return Vector2(Global.layer_vbox.size.x + cel_size + 26, cel_size + 105)
+	return Vector2.ZERO
 
 
 func _frame_scroll_changed(value: float) -> void:

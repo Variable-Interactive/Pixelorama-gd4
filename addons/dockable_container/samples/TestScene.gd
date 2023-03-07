@@ -11,30 +11,30 @@ func _ready() -> void:
 	if not OS.is_userfs_persistent():
 		$HBoxContainer/SaveLayoutButton.visible = false
 		$HBoxContainer/LoadLayoutButton.visible = false
-	
+
 	var tabs = _container.get_tabs()
 	for i in tabs.size():
 		var checkbox = CheckBox.new()
 		checkbox.text = str(i)
 		checkbox.button_pressed = not _container.is_control_hidden(tabs[i])
-		checkbox.connect(&"toggled", self._on_CheckButton_toggled, [tabs[i]])
+		checkbox.connect(&"toggled", Callable(self._on_CheckButton_toggled).bindv([tabs[i]]))
 		_checkbox_container.add_child(checkbox)
 
 
 func _on_add_pressed() -> void:
 	var control = _clone_control.duplicate()
-	control.get_node(^"Buttons/Rename").connect(&"pressed", self._on_control_rename_button_pressed, [control])
-	control.get_node(^"Buttons/Remove").connect(&"pressed", self._on_control_remove_button_pressed, [control])
+	control.get_node(^"Buttons/Rename").connect(&"pressed", Callable(self._on_control_rename_button_pressed).bindv([control]))
+	control.get_node(^"Buttons/Remove").connect(&"pressed", Callable(self._on_control_remove_button_pressed).bindv([control]))
 	control.color = Color(randf(), randf(), randf())
 	control.name = "Control0"
-	
+
 	_container.add_child(control, true)
 	await _container.sort_children
 	_container.set_control_as_current_tab(control)
 
 
 func _on_save_pressed() -> void:
-	if ResourceSaver.save(SAVED_LAYOUT_PATH, _container.get_layout()) != OK:
+	if ResourceSaver.save(_container.get_layout(), SAVED_LAYOUT_PATH) != OK:
 		print("ERROR")
 
 

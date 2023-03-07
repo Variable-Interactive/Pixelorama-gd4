@@ -36,11 +36,13 @@ func set_reference_to(control: Control) -> void:
 	if _reference_to != control:
 		if _reference_to:
 			_reference_to.disconnect("renamed", Callable(self, "_on_reference_to_renamed"))
+			_reference_to.disconnect("minimum_size_changed", Callable(self, "update_minimum_size"))
 		_reference_to = control
-		emit_signal("minimum_size_changed")
+		update_minimum_size()
 		if not _reference_to:
 			return
 		_reference_to.connect("renamed", Callable(self, "_on_reference_to_renamed"))
+		_reference_to.connect("minimum_size_changed", Callable(self, "update_minimum_size"))
 		_reference_to.visible = visible
 
 

@@ -44,21 +44,21 @@ func get_hover_margin() -> int:
 
 func _find_hover_margin(point: Vector2):
 	var half_size = size * 0.5
-	
+
 	var left = point.distance_squared_to(Vector2(0, half_size.y))
 	var lesser = left
 	var lesser_margin = MARGIN_LEFT
-	
+
 	var top = point.distance_squared_to(Vector2(half_size.x, 0))
 	if lesser > top:
 		lesser = top
 		lesser_margin = MARGIN_TOP
-	
+
 	var right = point.distance_squared_to(Vector2(size.x, half_size.y))
 	if lesser > right:
 		lesser = right
 		lesser_margin = MARGIN_RIGHT
-	
+
 	var bottom = point.distance_squared_to(Vector2(half_size.x, size.y))
 	if lesser > bottom:
 		#lesser = bottom  # unused result
