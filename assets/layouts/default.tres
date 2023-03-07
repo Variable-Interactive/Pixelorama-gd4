@@ -14,5 +14,15 @@ resource_name = "Layout"
 script = ExtResource("1")
 root = SubResource("1")
 hidden_tabs = {
-"Second Canvas": true
+"Animation Timeline": true,
+"Canvas Preview": true,
+"Color Pickers": true,
+"Global Tool Options": true,
+"Left Tool Options": true,
+"Palettes": true,
+"Perspective Editor": true,
+"RefCounted Images": true,
+"Right Tool Options": true,
+"Second Canvas": true,
+"Tools": true
 }

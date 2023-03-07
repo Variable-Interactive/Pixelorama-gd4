@@ -1,6 +1,6 @@
 [gd_scene load_steps=27 format=3 uid="uid://do5nm0mx2ob8i"]
 
-[ext_resource type="PackedScene" path="res://src/UI/Tools/Tools.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://m551j5vribpq" path="res://src/UI/Tools/Tools.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://src/UI/Canvas/CanvasPreview.tscn" id="2"]
 [ext_resource type="Script" path="res://src/UI/Tabs.gd" id="3"]
 [ext_resource type="Script" path="res://src/UI/Canvas/Rulers/VerticalRuler.gd" id="4"]
@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" path="res://src/UI/GlobalToolOptions/GlobalToolOptions.tscn" id="10"]
 [ext_resource type="PackedScene" path="res://src/UI/ReferenceImages/ReferencesPanel.tscn" id="11"]
 [ext_resource type="PackedScene" path="res://src/UI/PerspectiveEditor/PerspectiveEditor.tscn" id="12"]
-[ext_resource type="PackedScene" path="res://src/UI/CanvasPreviewContainer/CanvasPreviewContainer.tscn" id="16"]
+[ext_resource type="PackedScene" uid="uid://tk64ilw3yj3u" path="res://src/UI/CanvasPreviewContainer/CanvasPreviewContainer.tscn" id="16"]
 [ext_resource type="PackedScene" path="res://src/UI/ColorPickers/ColorPickers.tscn" id="17"]
 [ext_resource type="PackedScene" path="res://src/UI/Timeline/AnimationTimeline.tscn" id="18"]
 [ext_resource type="PackedScene" path="res://src/UI/Canvas/Canvas.tscn" id="19"]
@@ -80,7 +80,6 @@ visible = false
 layout_mode = 2
 
 [node name="Main Canvas" type="VBoxContainer" parent="DockableContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -130,8 +129,8 @@ script = ExtResource("23")
 
 [node name="SubViewport" type="SubViewport" parent="DockableContainer/Main Canvas/ViewportandVerticalRuler/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(1260, 116)
-render_target_update_mode = 0
+size = Vector2i(1260, 665)
+render_target_update_mode = 4
 
 [node name="TransparentChecker" parent="DockableContainer/Main Canvas/ViewportandVerticalRuler/SubViewportContainer/SubViewport" instance=ExtResource("5")]
 material = SubResource("2")
@@ -139,7 +138,6 @@ material = SubResource("2")
 [node name="Canvas" parent="DockableContainer/Main Canvas/ViewportandVerticalRuler/SubViewportContainer/SubViewport" instance=ExtResource("19")]
 
 [node name="Camera2D" type="Camera2D" parent="DockableContainer/Main Canvas/ViewportandVerticalRuler/SubViewportContainer/SubViewport"]
-zoom = Vector2(0.15, 0.15)
 script = ExtResource("7")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="DockableContainer/Main Canvas/ViewportandVerticalRuler/SubViewportContainer/SubViewport"]
@@ -172,7 +170,6 @@ material = SubResource("3")
 [node name="CanvasPreview" parent="DockableContainer/Second Canvas/SubViewport" instance=ExtResource("2")]
 
 [node name="Camera2D2" type="Camera2D" parent="DockableContainer/Second Canvas/SubViewport"]
-zoom = Vector2(0.15, 0.15)
 script = ExtResource("7")
 
 [node name="Animation Timeline" parent="DockableContainer" instance=ExtResource("18")]
@@ -203,6 +200,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Right Tool Options" type="ScrollContainer" parent="DockableContainer"]
+visible = false
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 

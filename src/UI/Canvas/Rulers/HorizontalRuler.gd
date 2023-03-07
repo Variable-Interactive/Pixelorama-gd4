@@ -74,7 +74,7 @@ func _draw() -> void:
 				Vector2(pos.x + RULER_WIDTH, RULER_WIDTH),
 				Color.WHITE
 			)
-			var val = (ruler_transform * major_subdivide * minor_subdivide) * Vector2(j, 0).x
+			var val = ((ruler_transform * major_subdivide * minor_subdivide) * Vector2(j, 0)).x
 			draw_string(
 				font,
 				Vector2(pos.x + RULER_WIDTH + 2, font.get_height() - 4),
