@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://domy3xmg3yft4"]
+[gd_scene load_steps=12 format=3 uid="uid://domy3xmg3yft4"]
 
 [ext_resource type="Script" path="res://addons/dockable_container/dockable_container.gd" id="1"]
 [ext_resource type="Script" path="res://addons/dockable_container/layout.gd" id="2"]
@@ -6,30 +6,44 @@
 [ext_resource type="Script" path="res://addons/dockable_container/layout_split.gd" id="4_d882g"]
 [ext_resource type="Script" path="res://addons/dockable_container/layout_panel.gd" id="5"]
 
-[sub_resource type="Resource" id="Resource_g1p2q"]
+[sub_resource type="Resource" id="Resource_lqfo2"]
 resource_name = "Tabs"
 script = ExtResource("5")
-names = PackedStringArray("Control0")
+names = PackedStringArray("Control1")
 current_tab = 0
 
-[sub_resource type="Resource" id="Resource_p5f4h"]
+[sub_resource type="Resource" id="Resource_kf6qt"]
 resource_name = "Tabs"
 script = ExtResource("5")
-names = PackedStringArray("Control1", "Control2", "Control3", "Control4", "Control5", "Control6")
+names = PackedStringArray("Control4", "Control2", "Control5", "Control6", "Control0")
 current_tab = 0
 
-[sub_resource type="Resource" id="Resource_yivv7"]
+[sub_resource type="Resource" id="Resource_1tp01"]
+resource_name = "Tabs"
+script = ExtResource("5")
+names = PackedStringArray("Control3")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_10vkb"]
+resource_name = "Split"
+script = ExtResource("4_d882g")
+direction = 1
+percent = 0.5
+first = SubResource("Resource_kf6qt")
+second = SubResource("Resource_1tp01")
+
+[sub_resource type="Resource" id="Resource_7rwy1"]
 resource_name = "Split"
 script = ExtResource("4_d882g")
 direction = 0
 percent = 0.5
-first = SubResource("Resource_g1p2q")
-second = SubResource("Resource_p5f4h")
+first = SubResource("Resource_lqfo2")
+second = SubResource("Resource_10vkb")
 
 [sub_resource type="Resource" id="Resource_8mc3q"]
 resource_name = "Layout"
 script = ExtResource("2")
-root = SubResource("Resource_yivv7")
+root = SubResource("Resource_7rwy1")
 hidden_tabs = {}
 
 [node name="SampleScene" type="VBoxContainer"]
@@ -89,6 +103,7 @@ script = ExtResource("1")
 layout = SubResource("Resource_8mc3q")
 
 [node name="Control0" type="ColorRect" parent="DockableContainer"]
+visible = false
 layout_mode = 2
 
 [node name="Control1" type="ColorRect" parent="DockableContainer"]
@@ -101,12 +116,10 @@ layout_mode = 2
 color = Color(0.533333, 0.380392, 0.380392, 1)
 
 [node name="Control3" type="ColorRect" parent="DockableContainer"]
-visible = false
 layout_mode = 2
 color = Color(0.741176, 0.188235, 0.188235, 1)
 
 [node name="Control4" type="ColorRect" parent="DockableContainer"]
-visible = false
 layout_mode = 2
 color = Color(0.129412, 0.121569, 0.121569, 1)
 

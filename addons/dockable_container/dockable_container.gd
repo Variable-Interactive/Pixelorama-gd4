@@ -76,8 +76,11 @@ func _ready() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_SORT_CHILDREN:
 		_resort()
-	elif what == NOTIFICATION_DRAG_BEGIN:
-		_drag_n_drop_panel.visible = true
+	elif (
+		what == NOTIFICATION_DRAG_BEGIN
+		and _can_handle_drag_data(get_viewport().gui_get_drag_data())
+	):
+		_drag_n_drop_panel.set_enabled(true, not _layout.root.empty())
 		set_process_input(true)
 	elif what == NOTIFICATION_DRAG_END:
 		_drag_n_drop_panel.visible = false
@@ -125,24 +128,31 @@ func _can_drop_data_fw(position: Vector2, data: Dictionary) -> bool:
 
 #func _drop_data_fw(position: Vector2, data, from_control) -> void:
 func _drop_data_fw(position: Vector2, data) -> void:
-#	assert(from_control == _drag_n_drop_panel, "FIXME")
 
-	var from_node: DockablePanel = get_node(data.from_path)
-	if _drag_panel == null or (from_node == _drag_panel and _drag_panel.get_child_count() == 1):
+	var from_node: TabContainer = get_node(data.from_path)
+	if from_node == _drag_panel and _drag_panel.get_child_count() == 1:
 		return
 
 	var moved_tab = from_node.get_tab_control(data.tabc_element)
-	var moved_reference = moved_tab.reference_to
+	if moved_tab is ReferenceControl:
+		moved_tab = moved_tab.reference_to
+	if not _is_managed_node(moved_tab):
+		moved_tab.get_parent().remove_child(moved_tab)
+		add_child(moved_tab)
 
-	var margin = _drag_n_drop_panel.get_hover_margin()
-	_layout.split_leaf_with_node(_drag_panel.leaf, moved_reference, margin)
+	if _drag_panel != null:
+		var margin = _drag_n_drop_panel.get_hover_margin()
+		_layout.split_leaf_with_node(_drag_panel.leaf, moved_tab, margin)
+
 	_layout_dirty = true
-
 	queue_sort()
 
 
 func set_control_as_current_tab(control: Control) -> void:
-	assert(control.get_parent_control() == self, "Trying to focus a control not managed by this container")
+	assert(
+	control.get_parent_control() == self,
+	"Trying to focus a control not managed by this container"
+	)
 	if is_control_hidden(control):
 		push_warning("Trying to focus a hidden control")
 		return
@@ -163,7 +173,7 @@ func set_control_as_current_tab(control: Control) -> void:
 	panel.current_tab = clamp(position_in_leaf, 0, panel.get_tab_count() - 1)
 
 
-func set_layout(value) -> void:
+func set_layout(value: Layout) -> void:
 	if value == null:
 		value = Layout.new()
 	if value == _layout:
@@ -210,7 +220,7 @@ func set_use_hidden_tabs_for_min_size(value: bool) -> void:
 	_use_hidden_tabs_for_min_size = value
 	for i in range(1, _panel_container.get_child_count()):
 		var panel = _panel_container.get_child(i)
-		panel.use_hidden_tabs_for_custom_minimum_size = value
+		panel.set_use_hidden_tabs_for_min_size = value
 
 
 func get_use_hidden_tabs_for_min_size() -> bool:
@@ -243,11 +253,25 @@ func get_tab_count() -> int:
 	return count
 
 
+func _can_handle_drag_data(data):
+	if data is Dictionary and data.get("type") == "tabc_element":
+		var tabc = get_node_or_null(data.get("from_path"))
+		return (
+			tabc
+			and tabc.has_method("get_tabs_rearrange_group")
+			and tabc.get_tabs_rearrange_group() == rearrange_group
+		)
+	return false
+
+
 func _is_managed_node(node: Node) -> bool:
-	return (node != _panel_container
-			and node != _drag_n_drop_panel
-			and node is Control
-			) # REMOVED and not node.is_set_as_toplevel()
+	return (
+		node.get_parent() == self
+		and node != _panel_container
+		and node != _drag_n_drop_panel
+		and node is Control
+		and not node.is_set_as_top_level()
+	)
 
 
 func _update_layout_with_children() -> void:
@@ -331,9 +355,11 @@ func _calculate_panel_and_split_list(result: Array, layout_node: Layout.LayoutNo
 		for n in layout_node.names:
 			var node: Control = _children_names.get(n)
 			if node:
-				# REMOVETHIS assert isnt working correctly
-				#assert(node is Control, "FIXME: node is not a control %s" % node)
-				#assert(node.get_parent_control() == self, "FIXME: node is not child of container %s" % node)
+				assert(node is Control, "FIXME: node is not a control %s" % node)
+				assert(
+					node.get_parent_control() == self,
+					"FIXME: node is not child of container %s" % node
+				)
 				if is_control_hidden(node):
 					node.visible = false
 				else:
@@ -390,6 +416,7 @@ func _get_panel(idx: int) -> DockablePanel:
 		return _panel_container.get_child(idx)
 	var panel = DockablePanel.new()
 	panel.tab_alignment = _tab_align
+	panel.tabs_visible = _tabs_visible
 	panel.use_hidden_tabs_for_min_size = _use_hidden_tabs_for_min_size
 	panel.set_tabs_rearrange_group(max(0, rearrange_group))
 	_panel_container.add_child(panel)
@@ -418,8 +445,13 @@ static func _untrack_children_after(node, idx: int) -> void:
 func _on_panel_tab_layout_changed(tab: int, panel: DockablePanel) -> void:
 	# Handler for `DockablePanel.tab_layout_changed`, update its LayoutPanel
 	_layout_dirty = true
-	var tab_reference = panel.get_tab_control(tab)
-	_layout.move_node_to_leaf(tab_reference.reference_to, panel.leaf, tab)
+	var control = panel.get_tab_control(tab)
+	if control is ReferenceControl:
+		control = control.reference_to
+	if not _is_managed_node(control):
+		control.get_parent().remove_child(control)
+		add_child(control)
+	_layout.move_node_to_leaf(control, panel.leaf, tab)
 	queue_sort()
 
 
@@ -427,7 +459,7 @@ func _on_child_renamed(child: Node) -> void:
 	# Handler for `Node.renamed` signal, updates tracked name for node
 	var old_name = _children_names.get(child)
 
-	if old_name == str(child.name): # NEED FIX
+	if not old_name:
 		return
 	_children_names.erase(old_name)
 	_children_names[child] = child.name

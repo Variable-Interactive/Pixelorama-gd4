@@ -5,7 +5,7 @@ const MARGIN_NONE = -1
 enum {MARGIN_LEFT, MARGIN_RIGHT, MARGIN_TOP, MARGIN_BOTTOM}
 
 var _hover_margin = MARGIN_NONE
-
+var _should_split = false
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_MOUSE_EXIT:
@@ -15,7 +15,7 @@ func _notification(what: int) -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
+	if _should_split and event is InputEventMouseMotion:
 		_find_hover_margin(event.position)
 		queue_redraw()
 
@@ -36,6 +36,14 @@ func _draw() -> void:
 		rect = Rect2(0, half_height, size.x, half_height)
 	var stylebox = get_theme_stylebox("panel", "TooltipPanel")
 	draw_style_box(stylebox, rect)
+
+
+func set_enabled(enabled: bool, should_split: bool = true) -> void:
+	visible = enabled
+	_should_split = should_split
+	if enabled:
+		_hover_margin = MARGIN_NONE
+		queue_redraw()
 
 
 func get_hover_margin() -> int:
