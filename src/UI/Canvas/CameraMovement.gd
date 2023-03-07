@@ -135,7 +135,6 @@ func _input(event: InputEvent) -> void:
 		offset = offset + (event.delta.rotated(rotation) * 7 / zoom)  # for moving the canvas
 	elif event is InputEventMouseMotion && drag:
 		offset = offset - (event.relative.rotated(rotation) / zoom)
-		print("mouse")
 		update_transparent_checker_offset()
 		_update_rulers()
 
