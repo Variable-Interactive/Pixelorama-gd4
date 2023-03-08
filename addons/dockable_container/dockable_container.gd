@@ -73,18 +73,18 @@ func _ready() -> void:
 		set_layout(_layout.clone())
 
 
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_SORT_CHILDREN:
-		_resort()
-	elif (
-		what == NOTIFICATION_DRAG_BEGIN
-		and _can_handle_drag_data(get_viewport().gui_get_drag_data())
-	):
-		_drag_n_drop_panel.set_enabled(true, not _layout.root.empty())
-		set_process_input(true)
-	elif what == NOTIFICATION_DRAG_END:
-		_drag_n_drop_panel.visible = false
-		set_process_input(false)
+#func _notification(what: int) -> void:
+#	if what == NOTIFICATION_SORT_CHILDREN:
+#		_resort()
+#	elif (
+#		what == NOTIFICATION_DRAG_BEGIN
+#		and _can_handle_drag_data(get_viewport().gui_get_drag_data())
+#	):
+#		_drag_n_drop_panel.set_enabled(true, not _layout.root.empty())
+#		set_process_input(true)
+#	elif what == NOTIFICATION_DRAG_END:
+#		_drag_n_drop_panel.visible = false
+#		set_process_input(false)
 
 func _input(event: InputEvent) -> void:
 	assert(get_viewport().gui_is_dragging(), "FIXME: should only be called when dragging")

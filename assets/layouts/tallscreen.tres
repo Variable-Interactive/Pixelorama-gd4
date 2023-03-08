@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=23 format=3 uid="uid://c7rnv1ra6nkhx"]
+[gd_resource type="Resource" load_steps=23 format=3 uid="uid://c8wyagxisutn0"]
 
 [ext_resource type="Script" path="res://addons/dockable_container/layout_panel.gd" id="1"]
 [ext_resource type="Script" path="res://addons/dockable_container/layout.gd" id="2"]

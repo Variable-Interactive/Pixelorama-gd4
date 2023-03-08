@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" path="res://src/UI/Canvas/CanvasPreview.tscn" id="2"]
 [ext_resource type="Script" path="res://src/UI/Tabs.gd" id="3"]
 [ext_resource type="Script" path="res://src/UI/Canvas/Rulers/VerticalRuler.gd" id="4"]
-[ext_resource type="Resource" uid="uid://t3god6vn3a50" path="res://assets/layouts/default.tres" id="4_jax8i"]
+[ext_resource type="Resource" uid="uid://dfvtpi6l4quto" path="res://assets/layouts/default.tres" id="4_jax8i"]
 [ext_resource type="PackedScene" path="res://src/UI/Nodes/TransparentChecker.tscn" id="5"]
 [ext_resource type="Script" path="res://src/UI/Canvas/Rulers/HorizontalRuler.gd" id="6"]
 [ext_resource type="Script" path="res://src/UI/Canvas/CameraMovement.gd" id="7"]
@@ -73,10 +73,10 @@ anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("35")
+tabs_visible = false
 layout = ExtResource("4_jax8i")
 
 [node name="Tools" parent="DockableContainer" instance=ExtResource("1")]
-visible = false
 layout_mode = 2
 
 [node name="Main Canvas" type="VBoxContainer" parent="DockableContainer"]
@@ -129,7 +129,7 @@ script = ExtResource("23")
 
 [node name="SubViewport" type="SubViewport" parent="DockableContainer/Main Canvas/ViewportandVerticalRuler/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(1260, 665)
+size = Vector2i(861, 622)
 render_target_update_mode = 4
 
 [node name="TransparentChecker" parent="DockableContainer/Main Canvas/ViewportandVerticalRuler/SubViewportContainer/SubViewport" instance=ExtResource("5")]
@@ -173,23 +173,18 @@ material = SubResource("3")
 script = ExtResource("7")
 
 [node name="Animation Timeline" parent="DockableContainer" instance=ExtResource("18")]
-visible = false
 layout_mode = 2
 
 [node name="Canvas Preview" parent="DockableContainer" instance=ExtResource("16")]
-visible = false
 layout_mode = 2
 
 [node name="Color Pickers" parent="DockableContainer" instance=ExtResource("17")]
-visible = false
 layout_mode = 2
 
 [node name="Global Tool Options" parent="DockableContainer" instance=ExtResource("10")]
-visible = false
 layout_mode = 2
 
 [node name="Left Tool Options" type="ScrollContainer" parent="DockableContainer"]
-visible = false
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 
@@ -200,7 +195,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Right Tool Options" type="ScrollContainer" parent="DockableContainer"]
-visible = false
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 
@@ -211,7 +205,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Palettes" parent="DockableContainer" instance=ExtResource("20")]
-visible = false
 layout_mode = 2
 
 [node name="RefCounted Images" parent="DockableContainer" instance=ExtResource("11")]
