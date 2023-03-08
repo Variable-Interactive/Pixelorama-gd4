@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://src/UI/Nodes/CollapsibleContainer.gd" id="3"]
 
 [node name="ExportDialog" type="ConfirmationDialog"]
+size = Vector2i(581, 649)
 dialog_hide_on_ok = false
 script = ExtResource("1")
 
@@ -12,8 +13,8 @@ script = ExtResource("1")
 custom_minimum_size = Vector2(330, 0)
 offset_left = 8.0
 offset_top = 8.0
-offset_right = 524.0
-offset_bottom = 494.0
+offset_right = 573.0
+offset_bottom = 600.0
 size_flags_vertical = 3
 
 [node name="TabBar" type="TabBar" parent="VBoxContainer"]
@@ -32,6 +33,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="PreviewPanel" type="Panel" parent="VBoxContainer/VSplitContainer"]
+texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -227,6 +229,10 @@ text = "Create new folder for each frame tag"
 [node name="Popups" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 573.0
+offset_bottom = 600.0
 mouse_filter = 2
 
 [node name="PathDialog" type="FileDialog" parent="Popups"]

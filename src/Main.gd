@@ -20,6 +20,9 @@ func _init():
 
 
 func _ready() -> void:
+	# make windows real
+	get_tree().root.gui_embed_subwindows = false
+
 	randomize()
 	get_tree().set_auto_accept_quit(false)
 	_setup_application_window_size()

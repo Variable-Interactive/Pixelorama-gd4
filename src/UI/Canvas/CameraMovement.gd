@@ -286,4 +286,4 @@ func save_values_to_project() -> void:
 	Global.current_project.cameras_rotation[index] = rotation
 	Global.current_project.cameras_zoom[index] = zoom
 	Global.current_project.cameras_offset[index] = offset
-	Global.current_project.cameras_zoom_max[index] = zoom_out_max
+	Global.current_project.cameras_zoom_out_max[index] = zoom_out_max

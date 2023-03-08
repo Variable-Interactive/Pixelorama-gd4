@@ -67,9 +67,9 @@ var has_selection := false
 
 # For every camera (currently there are 3)
 var cameras_rotation := [0.0, 0.0, 0.0]  # Array of float
-var cameras_zoom := [Vector2(0.15, 0.15), Vector2(0.15, 0.15), Vector2(0.15, 0.15)]
+var cameras_zoom := [Vector2(150, 150), Vector2(150, 150), Vector2(150, 150)]
 var cameras_offset := [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]
-var cameras_zoom_max := [Vector2.ONE, Vector2.ONE, Vector2.ONE]
+var cameras_zoom_out_max := [Vector2.ONE, Vector2.ONE, Vector2.ONE]
 
 # Export directory path and export file name
 var directory_path := ""
@@ -265,7 +265,7 @@ func change_project() -> void:
 
 	var i := 0
 	for camera in Global.cameras:
-		camera.zoom_max = cameras_zoom_max[i]
+		camera.zoom_out_max = cameras_zoom_out_max[i]
 		if camera == Global.camera_preview:
 			Global.preview_zoom_slider.disconnect(
 				"value_changed",
@@ -274,7 +274,7 @@ func change_project() -> void:
 					"_on_PreviewZoomSlider_value_changed"
 				)
 			)
-			Global.preview_zoom_slider.min_value = -camera.zoom_max.x
+			Global.preview_zoom_slider.min_value = 100 * camera.zoom_out_max.x
 			Global.preview_zoom_slider.connect(
 				"value_changed",
 				Callable(
@@ -284,7 +284,7 @@ func change_project() -> void:
 			)
 
 		if camera == Global.camera:
-			Global.zoom_level_spinbox.min_value = 100.0 / camera.zoom_max.x
+			Global.zoom_level_spinbox.min_value = 100.0 * camera.zoom_out_max.x
 		camera.rotation = cameras_rotation[i]
 		camera.zoom = cameras_zoom[i]
 		camera.offset = cameras_offset[i]

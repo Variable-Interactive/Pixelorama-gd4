@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://c8tejc1n7kj0x" path="res://src/UI/Dialogs/ManageLayouts.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://xvlyyjyv846g" path="res://src/UI/Dialogs/TileModeOffsetsDialog.tscn" id="14"]
 [ext_resource type="PackedScene" uid="uid://72n7r566l442" path="res://src/UI/Dialogs/SplashDialog.tscn" id="27"]
-[ext_resource type="PackedScene" path="res://src/UI/Dialogs/CreateNewImage.tscn" id="28"]
+[ext_resource type="PackedScene" uid="uid://ufbr6e634hk7" path="res://src/UI/Dialogs/CreateNewImage.tscn" id="28"]
 [ext_resource type="PackedScene" uid="uid://dbge2hn7vtrh4" path="res://src/Preferences/PreferencesDialog.tscn" id="32"]
 [ext_resource type="PackedScene" uid="uid://dlvty4n5vfdxr" path="res://src/UI/Dialogs/AboutDialog.tscn" id="34"]
 [ext_resource type="PackedScene" uid="uid://dxth650xuwss4" path="res://src/UI/Dialogs/ExportDialog.tscn" id="39"]
@@ -103,7 +103,8 @@ visible = false
 visible = false
 
 [connection signal="close_requested" from="Dialogs/SplashDialog" to="." method="_can_draw_true"]
-[connection signal="custom_action" from="Dialogs/CreateNewImage" to="." method="_can_draw_true"]
+[connection signal="close_requested" from="Dialogs/CreateNewImage" to="." method="_can_draw_true"]
+[connection signal="confirmed" from="Dialogs/CreateNewImage" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/OpenSprite" to="." method="_on_OpenSprite_close_requested"]
 [connection signal="files_selected" from="Dialogs/OpenSprite" to="." method="_on_OpenSprite_files_selected"]
 [connection signal="close_requested" from="Dialogs/SaveSprite" to="." method="_can_draw_true"]
@@ -111,6 +112,7 @@ visible = false
 [connection signal="close_requested" from="Dialogs/SaveSpriteHTML5" to="." method="_can_draw_true"]
 [connection signal="confirmed" from="Dialogs/SaveSpriteHTML5" to="." method="_on_SaveSpriteHTML5_confirmed"]
 [connection signal="close_requested" from="Dialogs/ExportDialog" to="." method="_can_draw_true"]
+[connection signal="confirmed" from="Dialogs/ExportDialog" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/PreferencesDialog" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/AboutDialog" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/UnsavedCanvasDialog" to="." method="_can_draw_true"]
