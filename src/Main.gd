@@ -407,7 +407,7 @@ func _use_osx_shortcuts() -> void:
 
 		if event.ctrl_pressed:
 			event.ctrl_pressed = false
-			event.command = true
+#			event.command = true  # (Cause: command not found)
 
 
 func _exit_tree() -> void:
