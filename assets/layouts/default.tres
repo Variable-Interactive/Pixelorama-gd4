@@ -6,7 +6,7 @@
 [sub_resource type="Resource" id="Resource_kj4ib"]
 resource_name = "Tabs"
 script = ExtResource("2")
-names = PackedStringArray("Main Canvas", "Tools", "RefCounted Images", "Perspective Editor", "Second Canvas", "Canvas Preview", "Color Pickers", "Global Tool Options", "Left Tool Options", "Right Tool Options", "Palettes", "Animation Timeline")
+names = PackedStringArray("Main Canvas", "Tools", "RefCounted Images", "Perspective Editor", "Canvas Preview", "Second Canvas", "Color Pickers", "Global Tool Options", "Left Tool Options", "Right Tool Options", "Palettes", "Animation Timeline")
 current_tab = 0
 
 [resource]

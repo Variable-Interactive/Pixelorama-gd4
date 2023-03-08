@@ -228,7 +228,7 @@ func _zoom_changed() -> void:
 			guide.width = zoom.x * 2
 
 	elif index == Cameras.SMALL:
-		Global.preview_zoom_slider.value = -zoom.x
+		Global.preview_zoom_slider.value = zoom.x
 
 
 func _update_rulers() -> void:
@@ -247,6 +247,7 @@ func zoom_100() -> void:
 
 
 func fit_to_frame(size: Vector2) -> void:
+	await get_tree().process_frame
 	offset = size / 2
 
 	# Adjust to the rotated size:
@@ -266,7 +267,7 @@ func fit_to_frame(size: Vector2) -> void:
 	var v_ratio := viewport_container.size.y / size.y
 	var ratio := minf(h_ratio, v_ratio)
 	if ratio == 0 or !viewport_container.visible:
-		ratio = 0.1  # Set it to a non-zero value just in case
+		ratio = zoom_out_max.x  # Set it to a non-zero value just in case
 		# If the ratio is 0, it means that the viewport container is hidden
 		# in that case, use the other viewport to get the ratio
 		if index == Cameras.MAIN:

@@ -20,7 +20,7 @@ func _draw() -> void:
 	var ruler_transform := Transform2D()
 	var major_subdivide := Transform2D()
 	var minor_subdivide := Transform2D()
-	var zoom: float = 1 / Global.camera.zoom.x
+	var zoom: float = Global.camera.zoom.x
 	transform.y = Vector2(zoom, zoom)
 
 	# This tracks the "true" top left corner of the drawing:
@@ -84,8 +84,8 @@ func _draw() -> void:
 				)
 			else:
 				draw_line(
-					Vector2(RULER_WIDTH * 0.66, position.y),
-					Vector2(RULER_WIDTH, position.y),
+					Vector2(RULER_WIDTH * 0.66, pos.y),
+					Vector2(RULER_WIDTH, pos.y),
 					Color.WHITE
 				)
 
