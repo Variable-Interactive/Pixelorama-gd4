@@ -202,7 +202,6 @@ func _get_drag_data(_position):
 
 
 func _can_drop_data(_pos, data) -> bool:
-	print(data)
 	if typeof(data) == TYPE_ARRAY:
 		if data[0] == "Layer":
 			var curr_layer: BaseLayer = Global.current_project.layers[layer]
