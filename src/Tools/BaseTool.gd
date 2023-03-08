@@ -3,6 +3,7 @@ extends VBoxContainer
 
 var is_moving = false
 var kname: String
+var dname: String
 var tool_slot = null  # Tools.Slot, can't have static typing due to cyclic errors
 var cursor_text := ""
 var _cursor := Vector2.INF
@@ -27,9 +28,7 @@ func _ready() -> void:
 	else:
 		color_rect.color = Global.right_tool_color
 
-	# Disabled by Variable (Cause: I suspect this line is causing tools to not get instanced)
-#	$Label.text = Tools.tools[name].display_name
-
+	$Label.text = dname
 	load_config()
 
 

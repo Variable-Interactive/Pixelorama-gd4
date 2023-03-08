@@ -301,6 +301,7 @@ func set_tool(tool_name: String, button: int) -> void:
 			Global.move_guides_on_canvas = true
 		else:
 			Global.move_guides_on_canvas = false
+	node.dname = Tools.tools[tool_name].display_name
 	node.name = tool_name
 	node.tool_slot = slot
 	slot.tool_node = node

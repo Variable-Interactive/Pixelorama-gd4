@@ -120,5 +120,5 @@ visible = false
 [connection signal="confirmed" from="Dialogs/QuitAndSaveDialog" to="." method="_on_QuitAndSaveDialog_confirmed"]
 [connection signal="custom_action" from="Dialogs/QuitAndSaveDialog" to="." method="_on_QuitAndSaveDialog_custom_action"]
 [connection signal="close_requested" from="Dialogs/ErrorDialog" to="." method="_can_draw_true"]
-[connection signal="close_requested" from="Dialogs/BackupConfirmation" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/BackupConfirmation" to="." method="_on_BackupConfirmation_close_requested"]
+[connection signal="close_requested" from="Dialogs/BackupConfirmation" to="." method="_can_draw_true"]

@@ -31,8 +31,6 @@ func _ready() -> void:
 func _draw() -> void:
 	Global.second_viewport.get_child(0).get_node("CanvasPreview").queue_redraw()
 	Global.small_preview_viewport.get_child(0).get_node("CanvasPreview").queue_redraw()
-	Global.horizontal_ruler.queue_redraw()
-	Global.vertical_ruler.queue_redraw()
 
 	var current_cels: Array = Global.current_project.frames[Global.current_project.current_frame].cels
 	var position_tmp := position
