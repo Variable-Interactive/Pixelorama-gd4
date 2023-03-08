@@ -1,0 +1,76 @@
+[gd_scene load_steps=4 format=3 uid="uid://byhh6mmy3rej0"]
+
+[ext_resource type="PackedScene" uid="uid://b3aqevttqe4x7" path="res://src/Tools/BaseTool.tscn" id="1_6nog0"]
+[ext_resource type="Script" path="res://src/Tools/Bucket.gd" id="2_2cdrd"]
+[ext_resource type="PackedScene" uid="uid://bp5q28e2nu60e" path="res://src/UI/Nodes/ValueSlider.tscn" id="2_aqlv7"]
+
+[node name="ToolOptions" instance=ExtResource("1_6nog0")]
+script = ExtResource("2_2cdrd")
+
+[node name="FillArea" type="Label" parent="." index="2"]
+layout_mode = 2
+text = "Fill area:"
+
+[node name="FillAreaOptions" type="OptionButton" parent="." index="3"]
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = "Similar area"
+popup/item_0/id = 0
+popup/item_1/text = "Similar colors"
+popup/item_1/id = 1
+popup/item_2/text = "Whole selection"
+popup/item_2/id = 2
+
+[node name="SimilaritySlider" parent="." index="4" instance=ExtResource("2_aqlv7")]
+visible = false
+layout_mode = 2
+value = 100.0
+prefix = "Similarity:"
+suffix = "%"
+
+[node name="FillWith" type="Label" parent="." index="5"]
+layout_mode = 2
+text = "Fill with:"
+
+[node name="FillWithOptions" type="OptionButton" parent="." index="6"]
+layout_mode = 2
+item_count = 2
+selected = 0
+popup/item_0/text = "Selected color"
+popup/item_0/id = 0
+popup/item_1/text = "Pattern"
+popup/item_1/id = 1
+
+[node name="FillPattern" type="VBoxContainer" parent="." index="7"]
+layout_mode = 2
+
+[node name="Type" type="Button" parent="FillPattern" index="0"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="TextureRect" type="TextureRect" parent="FillPattern/Type" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
+
+[node name="OffsetX" parent="FillPattern" index="1" instance=ExtResource("2_aqlv7")]
+layout_mode = 2
+prefix = "Offset X:"
+
+[node name="Offset Y" parent="FillPattern" index="2" instance=ExtResource("2_aqlv7")]
+layout_mode = 2
+prefix = "Offset Y:"
+
+[connection signal="item_selected" from="FillAreaOptions" to="." method="_on_FillAreaOptions_item_selected"]
+[connection signal="value_changed" from="SimilaritySlider" to="." method="_on_SimilaritySlider_value_changed"]
+[connection signal="item_selected" from="FillWithOptions" to="." method="_on_FillWithOptions_item_selected"]
+[connection signal="pressed" from="FillPattern/Type" to="." method="_on_PatternType_pressed"]
+[connection signal="value_changed" from="FillPattern/OffsetX" to="." method="_on_PatternOffsetX_value_changed"]
+[connection signal="value_changed" from="FillPattern/Offset Y" to="." method="_on_PatternOffsetY_value_changed"]

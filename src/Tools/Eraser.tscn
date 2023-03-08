@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1rvpdy3s6y11"]
+
+[ext_resource type="PackedScene" uid="uid://bvla4ooetasmw" path="res://src/Tools/Draw.tscn" id="1_o6rd8"]
+[ext_resource type="Script" path="res://src/Tools/Eraser.gd" id="2_mdijn"]
+[ext_resource type="PackedScene" uid="uid://bp5q28e2nu60e" path="res://src/UI/Nodes/ValueSlider.tscn" id="3_4av32"]
+
+[node name="ToolOptions" instance=ExtResource("1_o6rd8")]
+script = ExtResource("2_mdijn")
+
+[node name="OpacitySlider" parent="." index="3" instance=ExtResource("3_4av32")]
+layout_mode = 2
+max_value = 255.0
+value = 255.0
+prefix = "Opacity:"
+
+[connection signal="value_changed" from="OpacitySlider" to="." method="_on_Opacity_value_changed"]

@@ -20,7 +20,7 @@ func _on_ManageLayouts_about_to_show() -> void:
 		layout_list.select(layout_selected)
 
 
-func _on_ManageLayouts_popup_hide() -> void:
+func _on_close_requested() -> void:
 	layout_list.clear()
 	Global.dialog_open(false)
 
@@ -107,8 +107,8 @@ func refresh_preview():
 		var box := TextEdit.new()
 		box.name = item.name
 		box.text = item.name
-		box.wrap_enabled = true
-		box.readonly = true
+		box.wrap_mode = TextEdit.LINE_WRAPPING_BOUNDARY
+		box.editable = true
 		mimic_ui.add_child(box)
 	if layout_selected == -1:
 		mimic_ui.visible = false

@@ -78,14 +78,14 @@ var tools := {
 #	"Move": Tool.new("Move", "Move", "move", preload("res://src/Tools/Move.tscn")),
 #	"Zoom": Tool.new("Zoom", "Zoom", "zoom", preload("res://src/Tools/Zoom.tscn")),
 #	"Pan": Tool.new("Pan", "Pan", "pan", preload("res://src/Tools/Pan.tscn")),
-#	"ColorPicker":
-#	Tool.new(
-#		"ColorPicker",
-#		"Color Picker",
-#		"colorpicker",
-#		preload("res://src/Tools/ColorPicker.tscn"),
-#		"Select a color from a pixel of the sprite"
-#	),
+	"ColorPicker":
+	Tool.new(
+		"ColorPicker",
+		"Color Picker",
+		"colorpicker",
+		preload("res://src/Tools/ColorPicker.tscn"),
+		"Select a color from a pixel of the sprite"
+	),
 	"Pencil":
 	Tool.new(
 		"Pencil",
@@ -100,11 +100,11 @@ var tools := {
 		"Eraser",
 		"Eraser",
 		"eraser",
-		preload("res://src/Tools/Pencil.tscn"),
+		preload("res://src/Tools/Eraser.tscn"),
 		"Hold %s to make a line",
 		["draw_create_line"]
 	),
-#	"Bucket": Tool.new("Bucket", "Bucket", "fill", preload("res://src/Tools/Bucket.tscn")),
+	"Bucket": Tool.new("Bucket", "Bucket", "fill", preload("res://src/Tools/Bucket.tscn")),
 #	"Shading":
 #	Tool.new("Shading", "Shading Tool", "shading", preload("res://src/Tools/Shading.tscn")),
 #	"LineTool":
@@ -173,6 +173,8 @@ class Tool:
 		display_name = _display_name
 		shortcut = _shortcut
 		scene = _scene
+		# Line added by Variable (Cause: Debugging)
+		print(name, " ", scene.can_instantiate())
 		extra_hint = _extra_hint
 		extra_shortcuts = _extra_shortucts
 		icon = load("res://assets/graphics/tools/%s.png" % name.to_lower())

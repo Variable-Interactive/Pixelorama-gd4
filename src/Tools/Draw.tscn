@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://bvla4ooetasmw"]
 
-[ext_resource type="PackedScene" path="res://src/Tools/BaseTool.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://b3aqevttqe4x7" path="res://src/Tools/BaseTool.tscn" id="2"]
 [ext_resource type="Script" path="res://src/Tools/Draw.gd" id="3"]
-[ext_resource type="PackedScene" path="res://src/UI/Nodes/ValueSlider.tscn" id="3_dk8e4"]
+[ext_resource type="PackedScene" uid="uid://bp5q28e2nu60e" path="res://src/UI/Nodes/ValueSlider.tscn" id="3_dk8e4"]
 
 [node name="ToolOptions" instance=ExtResource("2")]
 script = ExtResource("3")
@@ -27,7 +27,6 @@ stretch_mode = 6
 
 [node name="BrushSize" parent="Brush" index="1" instance=ExtResource("3_dk8e4")]
 layout_mode = 2
-theme_type_variation = &"ValueSlider"
 min_value = 1.0
 max_value = 25.0
 value = 1.0
@@ -40,7 +39,6 @@ is_global = true
 visible = false
 layout_mode = 2
 tooltip_text = "0: Color from the brush itself, 100: the currently selected color"
-theme_type_variation = &"ValueSlider"
 prefix = "Brush color from:"
 
 [connection signal="pressed" from="Brush/Type" to="." method="_on_BrushType_pressed"]

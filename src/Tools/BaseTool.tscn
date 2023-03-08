@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://b3aqevttqe4x7"]
 
 [ext_resource type="Script" path="res://src/Tools/BaseTool.gd" id="1"]
-[ext_resource type="PackedScene" path="res://src/UI/Nodes/ValueSlider.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://bp5q28e2nu60e" path="res://src/UI/Nodes/ValueSlider.tscn" id="2"]
 
 [node name="ToolOptions" type="VBoxContainer"]
 offset_left = 7.0
@@ -19,6 +19,7 @@ layout_mode = 2
 layout_mode = 2
 theme_type_variation = &"Header"
 text = "Tool Name"
+horizontal_alignment = 1
 
 [node name="SpacingMode" type="CheckBox" parent="."]
 visible = false
@@ -31,12 +32,10 @@ layout_mode = 2
 
 [node name="SpacingX" parent="StrokeGap" instance=ExtResource("2")]
 layout_mode = 2
-theme_type_variation = &"ValueSlider"
 prefix = "Gap X:"
 suffix = "px"
 
 [node name="SpacingY" parent="StrokeGap" instance=ExtResource("2")]
 layout_mode = 2
-theme_type_variation = &"ValueSlider"
 prefix = "Gap Y:"
 suffix = "px"

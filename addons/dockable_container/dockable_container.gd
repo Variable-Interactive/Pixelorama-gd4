@@ -45,7 +45,7 @@ var _split_container = Container.new()
 var _drag_n_drop_panel = DragNDropPanel.new()
 var _drag_panel: DockablePanel
 var _tab_align = TabBar.ALIGNMENT_CENTER
-var _tabs_visible = true
+var _tabs_visible = false
 var _use_hidden_tabs_for_min_size = false
 var _current_panel_index = 0
 var _current_split_index = 0

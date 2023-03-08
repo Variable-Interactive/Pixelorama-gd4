@@ -26,7 +26,9 @@ func _ready() -> void:
 		color_rect.color = Global.left_tool_color
 	else:
 		color_rect.color = Global.right_tool_color
-	$Label.text = Tools.tools[name].display_name
+
+	# Disabled by Variable (Cause: I suspect this line is causing tools to not get instanced)
+#	$Label.text = Tools.tools[name].display_name
 
 	load_config()
 
