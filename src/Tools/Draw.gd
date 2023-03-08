@@ -33,6 +33,7 @@ var _circle_tool_shortcut: PackedVector2Array
 
 
 func _ready() -> void:
+	super._ready()
 	Global.global_tool_options.connect("dynamics_changed",Callable(self, "_reset_dynamics"))
 	Tools.connect("color_changed", Callable(self, "_on_Color_changed"))
 	Global.brushes_popup.connect("brush_removed", Callable(self, "_on_Brush_removed"))

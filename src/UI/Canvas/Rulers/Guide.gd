@@ -13,11 +13,15 @@ var project = Global.current_project
 
 
 func _ready() -> void:
-	width = Global.camera.zoom.x * 2
+	width = 1/Global.camera.zoom.x * 2
 	default_color = Global.guide_color
 	project.guides.append(self)
 	if _outside_canvas():
 		modulate.a = 0.5
+
+
+func force_input(event: InputEvent) -> void:
+	_input(event)
 
 
 func _input(_event: InputEvent) -> void:
@@ -77,6 +81,7 @@ func _draw() -> void:
 		return
 	var viewport_size: Vector2 = Global.main_viewport.size
 	var zoom: Vector2 = Global.camera.zoom
+	zoom = Vector2(1/zoom.x, 1/zoom.y)
 
 	# viewport_poly is an array of the points that make up the corners of the viewport
 	var viewport_poly := [

@@ -27,7 +27,7 @@ func _ready() -> void:
 		Global.current_project.size.x, Global.current_project.size.y, false, Image.FORMAT_RGBA8
 	)
 	connect("about_to_popup",Callable(self,"_about_to_popup"))
-	connect("popup_hide",Callable(self,"_popup_hide"))
+	connect("close_requested" ,Callable(self,"_close_requested"))
 	connect("confirmed",Callable(self,"_confirmed"))
 	if selection_checkbox:
 		selection_checkbox.connect("toggled",Callable(self,"_on_SelectionCheckBox_toggled"))
@@ -174,7 +174,7 @@ func update_transparent_background_size() -> void:
 	preview.get_node("TransparentChecker").size.y = image_size_y
 
 
-func _popup_hide() -> void:
+func _close_requested() -> void:
 	Global.dialog_open(false)
 
 

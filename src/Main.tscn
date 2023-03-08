@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dk2xqoymoh4du" path="res://src/UI/Timeline/FrameProperties.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://dvmdp1paslwt7" path="res://src/UI/Dialogs/WindowOpacityDialog.tscn" id="10"]
 [ext_resource type="PackedScene" path="res://src/UI/Dialogs/SaveSprite.tscn" id="11"]
-[ext_resource type="PackedScene" path="res://src/UI/Dialogs/OpenSprite.tscn" id="12"]
+[ext_resource type="PackedScene" uid="uid://c64hgbkf2o81g" path="res://src/UI/Dialogs/OpenSprite.tscn" id="12"]
 [ext_resource type="PackedScene" uid="uid://c8tejc1n7kj0x" path="res://src/UI/Dialogs/ManageLayouts.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://xvlyyjyv846g" path="res://src/UI/Dialogs/TileModeOffsetsDialog.tscn" id="14"]
 [ext_resource type="PackedScene" uid="uid://72n7r566l442" path="res://src/UI/Dialogs/SplashDialog.tscn" id="27"]
@@ -104,6 +104,7 @@ visible = false
 
 [connection signal="close_requested" from="Dialogs/SplashDialog" to="." method="_can_draw_true"]
 [connection signal="custom_action" from="Dialogs/CreateNewImage" to="." method="_can_draw_true"]
+[connection signal="close_requested" from="Dialogs/OpenSprite" to="." method="_on_OpenSprite_close_requested"]
 [connection signal="files_selected" from="Dialogs/OpenSprite" to="." method="_on_OpenSprite_files_selected"]
 [connection signal="close_requested" from="Dialogs/SaveSprite" to="." method="_can_draw_true"]
 [connection signal="file_selected" from="Dialogs/SaveSprite" to="." method="_on_SaveSprite_file_selected"]
@@ -120,3 +121,4 @@ visible = false
 [connection signal="custom_action" from="Dialogs/QuitAndSaveDialog" to="." method="_on_QuitAndSaveDialog_custom_action"]
 [connection signal="close_requested" from="Dialogs/ErrorDialog" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/BackupConfirmation" to="." method="_can_draw_true"]
+[connection signal="close_requested" from="Dialogs/BackupConfirmation" to="." method="_on_BackupConfirmation_close_requested"]

@@ -109,5 +109,6 @@ allow_greater = true
 [connection signal="close_requested" from="." to="." method="_on_FrameTagDialog_close_requested"]
 [connection signal="pressed" from="VBoxContainer/ScrollContainer/VBoxTagContainer/AddTag" to="." method="_on_AddTag_pressed"]
 [connection signal="toggled" from="VBoxContainer/PlayOnlyTags" to="." method="_on_PlayOnlyTags_toggled"]
+[connection signal="close_requested" from="TagOptions" to="." method="_on_TagOptions_close_requested"]
 [connection signal="confirmed" from="TagOptions" to="." method="_on_TagOptions_confirmed"]
 [connection signal="custom_action" from="TagOptions" to="." method="_on_TagOptions_custom_action"]

@@ -86,6 +86,7 @@ func _notification(what: int) -> void:
 		_drag_n_drop_panel.visible = false
 		set_process_input(false)
 
+
 func _input(event: InputEvent) -> void:
 	assert(get_viewport().gui_is_dragging(), "FIXME: should only be called when dragging")
 	if event is InputEventMouseMotion:

@@ -78,6 +78,11 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	# Forced Inputs by Variable (Cause: for some reason _inputs were not being called where they were supposed to)
+	Global.canvas.force_input(event)
+	for guide in Global.current_project.guides:
+		guide.force_input(event)
+
 	left_cursor.position = get_global_mouse_position() + Vector2(-32, 32)
 	right_cursor.position = get_global_mouse_position() + Vector2(32, 32)
 
@@ -315,7 +320,7 @@ func _on_SaveSpriteHTML5_confirmed() -> void:
 	OpenSave.save_pxo_file(path, false, false)
 
 
-func _on_OpenSprite_popup_hide() -> void:
+func _on_OpenSprite_close_requested() -> void:
 	if !opensprite_file_selected:
 		_can_draw_true()
 
@@ -390,7 +395,7 @@ func _on_BackupConfirmation_custom_action(
 		load_last_project()
 
 
-func _on_BackupConfirmation_popup_hide() -> void:
+func _on_BackupConfirmation_close_requested() -> void:
 	if Global.enable_autosave:
 		OpenSave.autosave_timer.start()
 

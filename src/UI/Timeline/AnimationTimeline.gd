@@ -811,7 +811,7 @@ func _on_OpacitySlider_value_changed(value) -> void:
 	Global.canvas.queue_redraw()
 
 
-func _on_OnionSkinningSettings_popup_hide() -> void:
+func _on_OnionSkinningSettings_close_requested() -> void:
 	Global.can_draw = true
 
 

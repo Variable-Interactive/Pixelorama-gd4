@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cfwcgexbmvjix" path="res://assets/graphics/layers/delete.png" id="6"]
 [ext_resource type="Texture2D" uid="uid://b13nb8ameqhf0" path="res://assets/graphics/layers/clone.png" id="7"]
 [ext_resource type="Texture2D" uid="uid://d1bt4lvq6h76g" path="res://assets/graphics/timeline/move_arrow.png" id="8"]
-[ext_resource type="PackedScene" path="res://src/UI/Nodes/ValueSlider.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://bp5q28e2nu60e" path="res://src/UI/Nodes/ValueSlider.tscn" id="9"]
 [ext_resource type="Texture2D" uid="uid://i5lmukardiiw" path="res://assets/graphics/layers/group_new.png" id="10"]
 [ext_resource type="Script" path="res://src/UI/Timeline/FrameScrollContainer.gd" id="11"]
 [ext_resource type="Texture2D" uid="uid://8tih5u1dlejf" path="res://assets/graphics/timeline/new_frame.png" id="19"]
@@ -244,7 +244,6 @@ custom_minimum_size = Vector2(207, 24)
 layout_mode = 2
 size_flags_horizontal = 1
 size_flags_vertical = 0
-theme_type_variation = &"ValueSlider"
 value = 100.0
 prefix = "Opacity:"
 
@@ -796,6 +795,7 @@ color = Color(0, 0.741176, 1, 0.501961)
 [connection signal="gui_input" from="TimelineContainer/PanelContainer/VBoxContainer/TimelineScroll/LayerFrameHSplit" to="." method="_on_LayerFrameSplitContainer_gui_input"]
 [connection signal="resized" from="TimelineContainer/PanelContainer/VBoxContainer/TimelineScroll/LayerFrameHSplit/VBoxContainer/LayerVBox" to="." method="_on_LayerVBox_resized"]
 [connection signal="timeout" from="AnimationTimer" to="." method="_on_AnimationTimer_timeout"]
+[connection signal="close_requested" from="OnionSkinningSettings" to="." method="_on_OnionSkinningSettings_close_requested"]
 [connection signal="value_changed" from="OnionSkinningSettings/OnionSkinningButtons/PastOnionSkinning" to="." method="_on_PastOnionSkinning_value_changed"]
 [connection signal="value_changed" from="OnionSkinningSettings/OnionSkinningButtons/FutureOnionSkinning" to="." method="_on_FutureOnionSkinning_value_changed"]
 [connection signal="toggled" from="OnionSkinningSettings/OnionSkinningButtons/BlueRedMode" to="." method="_on_BlueRedMode_toggled"]

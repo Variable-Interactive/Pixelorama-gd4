@@ -160,7 +160,7 @@ func _on_TagOptions_custom_action(action: String) -> void:
 		_on_FrameTagDialog_about_to_show()
 
 
-func _on_TagOptions_popup_hide() -> void:
+func _on_TagOptions_close_requested() -> void:
 	if delete_tag_button:
 		delete_tag_button.visible = false
 

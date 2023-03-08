@@ -372,7 +372,7 @@ func _on_FrameTimer_timeout() -> void:
 	frame_timer.start()
 
 
-func _on_ExportDialog_popup_hide() -> void:
+func _on_ExportDialog_close_requested() -> void:
 	frame_timer.stop()
 
 

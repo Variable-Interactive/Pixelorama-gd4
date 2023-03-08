@@ -85,7 +85,7 @@ func _on_PreviewDialog_about_to_show() -> void:
 		apply_all.visible = true
 
 
-func _on_PreviewDialog_popup_hide() -> void:
+func _on_PreviewDialog_close_requested() -> void:
 	if hiding:  # if the popup is hiding because of master
 		return
 	elif is_master:  # if the master is closed then close others too
@@ -170,9 +170,9 @@ func _on_ApplyAll_toggled(pressed) -> void:
 	is_master = pressed
 	# below 4 (and the last) line is needed for correct popup placement
 	var old_rect = Rect2i(position, size)
-	disconnect("popup_hide",Callable(self,"_on_PreviewDialog_popup_hide"))
+	disconnect("close_requested",Callable(self,"_on_PreviewDialog_close_requested"))
 	hide()
-	connect("popup_hide",Callable(self,"_on_PreviewDialog_popup_hide"))
+	connect("close_requested",Callable(self,"_on_PreviewDialog_close_requested"))
 	for child in Global.control.get_children():
 		if child != self and "PreviewDialog" in child.name:
 			child.hiding = pressed

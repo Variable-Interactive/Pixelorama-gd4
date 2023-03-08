@@ -224,7 +224,7 @@ func _zoom_changed() -> void:
 		Global.zoom_level_button.text = str(round(100 * zoom.x)) + " %"
 		_update_rulers()
 		for guide in Global.current_project.guides:
-			guide.width = zoom.x * 2
+			guide.width = 1/zoom.x * 2
 
 	elif index == Cameras.SMALL:
 		Global.preview_zoom_slider.value = zoom.x

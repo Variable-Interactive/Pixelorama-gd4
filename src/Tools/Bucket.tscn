@@ -64,7 +64,7 @@ stretch_mode = 5
 layout_mode = 2
 prefix = "Offset X:"
 
-[node name="Offset Y" parent="FillPattern" index="2" instance=ExtResource("2_aqlv7")]
+[node name="OffsetY" parent="FillPattern" index="2" instance=ExtResource("2_aqlv7")]
 layout_mode = 2
 prefix = "Offset Y:"
 
@@ -73,4 +73,4 @@ prefix = "Offset Y:"
 [connection signal="item_selected" from="FillWithOptions" to="." method="_on_FillWithOptions_item_selected"]
 [connection signal="pressed" from="FillPattern/Type" to="." method="_on_PatternType_pressed"]
 [connection signal="value_changed" from="FillPattern/OffsetX" to="." method="_on_PatternOffsetX_value_changed"]
-[connection signal="value_changed" from="FillPattern/Offset Y" to="." method="_on_PatternOffsetY_value_changed"]
+[connection signal="value_changed" from="FillPattern/OffsetY" to="." method="_on_PatternOffsetY_value_changed"]
