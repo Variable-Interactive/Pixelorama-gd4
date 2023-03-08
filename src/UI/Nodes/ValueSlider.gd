@@ -248,10 +248,10 @@ func _reset_display(is_theme_changed := false) -> void:
 	_line_edit.selecting_enabled = false  # Remove the selection
 	_line_edit.editable = false
 	if is_theme_changed and not Engine.is_editor_hint():
-		texture_under = get_theme_icon("texture_under", "ValueSlider")
-		texture_under = get_theme_icon("texture_under", "ValueSlider")
-		texture_over = get_theme_icon("texture_over", "ValueSlider")
-		texture_progress = get_theme_icon("texture_progress", "ValueSlider")
+		# disabled by Variable (Cause: abnormal value sliders)
+#		texture_under = get_theme_icon("texture_under", "ValueSlider")
+#		texture_over = get_theme_icon("texture_over", "ValueSlider")
+#		texture_progress = get_theme_icon("texture_progress", "ValueSlider")
 		_value_up_button.texture_normal = get_theme_icon("arrow_normal", "ValueSlider")
 		_value_up_button.texture_pressed = get_theme_icon("arrow_pressed", "ValueSlider")
 		_value_up_button.texture_hover = get_theme_icon("arrow_hover", "ValueSlider")
