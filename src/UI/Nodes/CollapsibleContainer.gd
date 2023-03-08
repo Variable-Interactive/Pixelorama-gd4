@@ -2,8 +2,14 @@
 class_name CollapsibleContainer
 extends VBoxContainer
 
-@export var text := "" : set = _set_text
-@export var visible_content := false : set = _set_visible_content
+@export var text := "" :
+	set(value):
+		text = value
+		_label.text = value
+@export var visible_content := false:
+	set(value):
+		visible_content = value
+		_button.button_pressed = value
 
 var _button := Button.new()
 var _texture_rect := TextureRect.new()
@@ -44,16 +50,6 @@ func _ready() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_THEME_CHANGED:
 		_texture_rect.texture = get_theme_icon("arrow_normal", "CollapsibleContainer")
-
-
-func _set_text(value: String) -> void:
-	text = value
-	_label.text = value
-
-
-func _set_visible_content(value: bool) -> void:
-	visible_content = value
-	_button.button_pressed = value
 
 
 func _on_Button_toggled(button_pressed: bool) -> void:
