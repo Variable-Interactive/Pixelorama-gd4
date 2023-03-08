@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://i68scyjugi7w" path="res://addons/keychain/ShortcutEdit.tscn" id="3"]
 [ext_resource type="Script" path="res://src/Preferences/HandleLanguages.gd" id="4"]
 [ext_resource type="Script" path="res://src/Preferences/HandleThemes.gd" id="5"]
-[ext_resource type="PackedScene" path="res://src/UI/Nodes/ValueSlider.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://bp5q28e2nu60e" path="res://src/UI/Nodes/ValueSlider.tscn" id="6"]
 
 [node name="PreferencesDialog" type="AcceptDialog"]
 script = ExtResource("1")
@@ -134,7 +134,6 @@ layout_mode = 2
 [node name="ShrinkSlider" parent="HSplitContainer/VBoxContainer/ScrollContainer/RightSide/Interface/InterfaceOptions/ShrinkContainer" instance=ExtResource("6")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"ValueSlider"
 min_value = 0.5
 max_value = 4.0
 step = 0.25
@@ -1079,6 +1078,7 @@ show_hidden_files = true
 
 [connection signal="about_to_popup" from="." to="." method="_on_PreferencesDialog_about_to_show"]
 [connection signal="close_requested" from="." to="." method="_on_PreferencesDialog_close_requested"]
+[connection signal="confirmed" from="." to="." method="_on_PreferencesDialog_close_requested"]
 [connection signal="item_selected" from="HSplitContainer/List" to="." method="_on_List_item_selected"]
 [connection signal="pressed" from="HSplitContainer/VBoxContainer/ScrollContainer/RightSide/Language/System Language" to="HSplitContainer/VBoxContainer/ScrollContainer/RightSide/Language" method="_on_Language_pressed" binds= [1]]
 [connection signal="pressed" from="HSplitContainer/VBoxContainer/ScrollContainer/RightSide/Interface/InterfaceOptions/ShrinkContainer/ShrinkApplyButton" to="." method="_on_ShrinkApplyButton_pressed"]

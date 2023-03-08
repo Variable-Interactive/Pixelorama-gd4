@@ -173,7 +173,6 @@ func _rotation_changed() -> void:
 # Zoom Camera3D
 func zoom_camera(dir: int) -> void:
 	var viewport_size := viewport_container.size
-	Global.smooth_zoom = false
 	if Global.smooth_zoom:
 		var zoom_margin = zoom * dir / 5
 		var new_zoom = zoom + zoom_margin
