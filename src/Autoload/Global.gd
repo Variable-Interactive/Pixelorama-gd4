@@ -52,11 +52,10 @@ enum HelpMenu {
 const OVERRIDE_FILE := "override.cfg"
 
 var root_directory := "."
-var window_title := "" # Why doesn't Godot have get_window_title()?
-# Disabled by Variable (cause: Infinite recursion)
-#var window_title := "": # Why doesn't Godot have get_window_title()?
-#	set(value):
-#		_title_changed(value)
+var window_title := "": # Why doesn't Godot have get_window_title()?
+	set(value):
+		window_title = value
+		get_window().set_title(value)
 var config_cache := ConfigFile.new()
 var XDGDataPaths = preload("res://src/XDGDataPaths.gd")
 var directory_module: RefCounted
@@ -495,11 +494,6 @@ func undo_or_redo(
 		project.has_changed = true
 		if project == current_project:
 			self.window_title = window_title + "(*)"
-
-
-func _title_changed(value: String) -> void:
-	window_title = value
-	get_window().set_title(value)
 
 
 func _project_changed(value: int) -> void:
