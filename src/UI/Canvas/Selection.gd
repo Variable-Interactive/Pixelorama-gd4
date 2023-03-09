@@ -259,9 +259,10 @@ func _big_bounding_rectangle_changed(value: Rect2) -> void:
 
 
 func _update_gizmos() -> void:
+	var zoom_vec := Vector2(1 / Global.camera.zoom.x, 1 / Global.camera.zoom.y)
 	var pos: Vector2 = big_bounding_rectangle.position
 	var end: Vector2 = big_bounding_rectangle.end
-	var size: Vector2 = Vector2.ONE * Global.camera.zoom * 10
+	var size: Vector2 = Vector2.ONE * zoom_vec * 10
 	# Clockwise, starting from top-left corner
 	gizmos[0].rect = Rect2(pos - size, size)
 	gizmos[1].rect = Rect2(

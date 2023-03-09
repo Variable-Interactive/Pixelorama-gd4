@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://fgc8da0hwd5t"]
+
+[ext_resource type="PackedScene" uid="uid://bvla4ooetasmw" path="res://src/Tools/Draw.tscn" id="1_sgtvl"]
+[ext_resource type="Script" path="res://src/Tools/ShapeDrawer.gd" id="2_3g2js"]
+[ext_resource type="PackedScene" uid="uid://bp5q28e2nu60e" path="res://src/UI/Nodes/ValueSlider.tscn" id="2_27hkh"]
+
+[node name="ToolOptions" instance=ExtResource("1_sgtvl")]
+script = ExtResource("2_3g2js")
+
+[node name="ThicknessSlider" parent="." index="2" instance=ExtResource("2_27hkh")]
+layout_mode = 2
+min_value = 1.0
+value = 1.0
+allow_greater = true
+prefix = "Size:"
+suffix = "px"
+
+[node name="FillCheckbox" type="CheckBox" parent="." index="3"]
+layout_mode = 2
+text = "Fill Shape"
+
+[node name="Brush" parent="." index="4"]
+visible = false
+
+[connection signal="value_changed" from="ThicknessSlider" to="." method="_on_Thickness_value_changed"]
+[connection signal="toggled" from="FillCheckbox" to="." method="_on_FillCheckbox_toggled"]

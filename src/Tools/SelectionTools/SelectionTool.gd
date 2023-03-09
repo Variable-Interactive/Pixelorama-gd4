@@ -204,7 +204,7 @@ func draw_end(pos: Vector2) -> void:
 	cursor_text = ""
 
 
-func apply_selection(_position: Vector2) -> void:
+func apply_selection(_pos: Vector2) -> void:
 	# if a shortcut is activated then that will be obeyed instead
 	match _mode_selected:
 		Mode.ADD:
