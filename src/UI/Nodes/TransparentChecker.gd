@@ -23,9 +23,8 @@ func update_offset(offset: Vector2, checker_scale: Vector2) -> void:
 	material.set_shader_parameter("scale", checker_scale)
 
 
-# Disabled by Variable (Cause: i don't think this is needed with godot 4)
-#func _on_TransparentChecker_resized() -> void:
-#	material.set_shader_parameter("size", size)
+func _on_TransparentChecker_resized() -> void:
+	material.set_shader_parameter("rect_size", size)
 
 
 func fit_rect(rect: Rect2) -> void:
