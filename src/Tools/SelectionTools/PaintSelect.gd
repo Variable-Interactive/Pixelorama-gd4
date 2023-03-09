@@ -274,7 +274,7 @@ func _compute_draw_tool_brush(_position: Vector2) -> PackedVector2Array:
 func _on_BrushType_pressed() -> void:
 	if not Global.brushes_popup.is_connected("brush_selected",Callable(self,"_on_Brush_selected")):
 		Global.brushes_popup.connect(
-			"brush_selected", Callable(self, "_on_Brush_selected").bindv([]), CONNECT_ONE_SHOT
+			"brush_selected", Callable(self, "_on_Brush_selected"), CONNECT_ONE_SHOT
 		)
 	# Now we set position and columns
 	var tool_option_container = get_node("../../")

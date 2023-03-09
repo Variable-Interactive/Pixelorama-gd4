@@ -303,7 +303,7 @@ func _fill_bitmap_with_points(points: Array, _size: Vector2) -> BitMap:
 	bitmap.create(_size)
 
 	for point in points:
-		if point.x < 0 or point.y < 0 or point.x >= size.x or point.y >= size.y:
+		if point.x < 0 or point.y < 0 or point.x >= _size.x or point.y >= _size.y:
 			continue
 		bitmap.set_bitv(point, 1)
 

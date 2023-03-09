@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://does65dlqgbny" path="res://src/UI/TopMenuContainer/TopMenuContainer.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://do5nm0mx2ob8i" path="res://src/UI/UI.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://src/UI/Buttons/PatternsPopup.tscn" id="5"]
-[ext_resource type="PackedScene" path="res://src/UI/Buttons/BrushesPopup.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://b0mr3i3yr1jgy" path="res://src/UI/Buttons/BrushesPopup.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://dwo2a01owhqh0" path="res://src/UI/Dialogs/ImageEffects/ImageEffects.tscn" id="7"]
 [ext_resource type="PackedScene" path="res://src/UI/Dialogs/SaveSpriteHTML5.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://dk2xqoymoh4du" path="res://src/UI/Timeline/FrameProperties.tscn" id="9"]
@@ -49,6 +49,7 @@ mouse_filter = 2
 [node name="ImageEffects" parent="Dialogs" instance=ExtResource("7")]
 
 [node name="BrushesPopup" parent="Dialogs" instance=ExtResource("6")]
+visible = false
 
 [node name="PatternsPopup" parent="Dialogs" instance=ExtResource("5")]
 

@@ -1,59 +1,90 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=9 format=3 uid="uid://c35anvf26yksc"]
 
-[ext_resource type="PackedScene" path="res://src/Tools/SelectionTools/SelectionTool.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://cw4te6r7h271c" path="res://src/Tools/SelectionTools/SelectionTool.tscn" id="1"]
 [ext_resource type="Script" path="res://src/Tools/SelectionTools/PaintSelect.gd" id="2"]
-[ext_resource type="PackedScene" path="res://src/UI/Nodes/ValueSlider.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://bp5q28e2nu60e" path="res://src/UI/Nodes/ValueSlider.tscn" id="3"]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 1, 1, 1, 1 )
-border_color = Color( 1, 1, 1, 1 )
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sdhd3"]
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 1, 1, 1, 1 )
-border_color = Color( 1, 1, 1, 1 )
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ms4s"]
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 anti_aliasing = false
 
-[node name="ToolOptions" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vclwa"]
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ed2x"]
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r8kxl"]
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+anti_aliasing = false
+
+[node name="ToolOptions" instance=ExtResource("1")]
+script = ExtResource("2")
 
 [node name="Brush" type="HBoxContainer" parent="." index="2"]
-offset_top = 26.0
-offset_right = 116.0
-offset_bottom = 58.0
+texture_filter = 1
+layout_mode = 2
 alignment = 1
 
 [node name="Type" type="Button" parent="Brush" index="0"]
-offset_right = 32.0
-offset_bottom = 32.0
-custom_minimum_size = Vector2( 32, 32 )
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 0
 tooltip_text = "Select a brush"
 mouse_default_cursor_shape = 2
-size_flags_horizontal = 0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 1 )
-custom_styles/focus = SubResource( 2 )
-custom_styles/disabled = SubResource( 2 )
-custom_styles/normal = SubResource( 1 )
+theme_override_styles/normal = SubResource("StyleBoxFlat_sdhd3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5ms4s")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vclwa")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_7ed2x")
+theme_override_styles/focus = SubResource("StyleBoxFlat_r8kxl")
 
 [node name="Texture2D" type="TextureRect" parent="Brush/Type" index="0"]
-offset_right = 32.0
-offset_bottom = 32.0
-expand = true
-stretch_mode = 6
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
 
-[node name="BrushSize" parent="Brush" index="1" instance=ExtResource( 3 )]
-offset_left = 36.0
-offset_right = 116.0
-offset_bottom = 32.0
+[node name="BrushSize" parent="Brush" index="1" instance=ExtResource("3")]
+layout_mode = 2
 min_value = 1.0
 max_value = 25.0
 value = 1.0
@@ -61,30 +92,6 @@ allow_greater = true
 prefix = "Size:"
 suffix = "px"
 is_global = true
-
-[node name="PositionLabel" parent="." index="3"]
-offset_top = 62.0
-offset_bottom = 76.0
-
-[node name="XSpinBox" parent="." index="4"]
-offset_top = 80.0
-offset_bottom = 104.0
-
-[node name="YSpinBox" parent="." index="5"]
-offset_top = 108.0
-offset_bottom = 132.0
-
-[node name="SizeLabel" parent="." index="6"]
-offset_top = 136.0
-offset_bottom = 150.0
-
-[node name="WSpinBox" parent="." index="7"]
-offset_top = 154.0
-offset_bottom = 178.0
-
-[node name="HSpinBox" parent="." index="8"]
-offset_top = 182.0
-offset_bottom = 206.0
 
 [connection signal="pressed" from="Brush/Type" to="." method="_on_BrushType_pressed"]
 [connection signal="value_changed" from="Brush/BrushSize" to="." method="_on_BrushSize_value_changed"]
