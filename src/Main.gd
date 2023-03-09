@@ -81,11 +81,6 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	# Forced Inputs by Variable (Cause: for some reason _inputs were not being called where they were supposed to)
-	Global.canvas.force_input(event)
-	for guide in Global.current_project.guides:
-		guide.force_input(event)
-
 	left_cursor.position = get_global_mouse_position() + Vector2(-32, 32)
 	right_cursor.position = get_global_mouse_position() + Vector2(32, 32)
 

@@ -10,6 +10,14 @@ var first: Vector2
 var last: Vector2
 
 
+func  _gui_input(event: InputEvent) -> void:
+	# Forced Inputs by Variable
+	# (Cause: we need _input() of below items to be called when we hover this node)
+	Global.canvas.force_input(event)
+	for guide in Global.current_project.guides:
+		guide.force_input(event)
+
+
 func _ready() -> void:
 	Global.main_viewport.connect("item_rect_changed",Callable(self,"queue_redraw"))
 
