@@ -5,7 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://dhsu1wyhhex63" path="res://assets/graphics/splash_screen/orama_64x64.png" id="4"]
 
 [node name="AboutDialog" type="Window"]
+size = Vector2i(679, 450)
 visible = false
+wrap_controls = true
 script = ExtResource("1")
 licenses = ["MIT License
 
@@ -291,6 +293,7 @@ size_flags_horizontal = 3
 [node name="LicenseText" type="TextEdit" parent="AboutUI/Credits/Licenses"]
 layout_mode = 2
 size_flags_vertical = 3
+wrap_mode = 1
 
 [node name="LicenseButtonsContainer" type="GridContainer" parent="AboutUI/Credits/Licenses"]
 layout_mode = 2

@@ -174,10 +174,6 @@ func _on_ShortcutSelectorDialog_about_to_show() -> void:
 			_on_OptionButton_item_selected(0)
 
 
-func _on_ShortcutSelectorDialog_close_requested() -> void:
-		Global.dialog_open(false)
-
-
 func _on_OptionButton_item_selected(index: int) -> void:
 	if input_type == InputTypes.MOUSE:
 		listened_input = InputEventMouseButton.new()

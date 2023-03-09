@@ -163,6 +163,7 @@ func _on_AboutDialog_close_requested() -> void:
 		groups.clear()
 		developers.clear()
 		translators.clear()
+		hide()
 
 
 func _on_Groups_item_selected() -> void:

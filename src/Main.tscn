@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" path="res://src/UI/Dialogs/SaveSpriteHTML5.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://dk2xqoymoh4du" path="res://src/UI/Timeline/FrameProperties.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://dvmdp1paslwt7" path="res://src/UI/Dialogs/WindowOpacityDialog.tscn" id="10"]
-[ext_resource type="PackedScene" path="res://src/UI/Dialogs/SaveSprite.tscn" id="11"]
+[ext_resource type="PackedScene" uid="uid://bbehg66m5v2t1" path="res://src/UI/Dialogs/SaveSprite.tscn" id="11"]
 [ext_resource type="PackedScene" uid="uid://c64hgbkf2o81g" path="res://src/UI/Dialogs/OpenSprite.tscn" id="12"]
 [ext_resource type="PackedScene" uid="uid://c8tejc1n7kj0x" path="res://src/UI/Dialogs/ManageLayouts.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://xvlyyjyv846g" path="res://src/UI/Dialogs/TileModeOffsetsDialog.tscn" id="14"]
@@ -34,6 +34,7 @@ script = ExtResource("2")
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme_override_constants/separation = 0
 
 [node name="TopMenuContainer" parent="MenuAndUI" instance=ExtResource("3")]
 layout_mode = 2
@@ -54,6 +55,7 @@ mouse_filter = 2
 [node name="SplashDialog" parent="Dialogs" instance=ExtResource("27")]
 
 [node name="CreateNewImage" parent="Dialogs" instance=ExtResource("28")]
+size = Vector2i(381, 276)
 
 [node name="OpenSprite" parent="Dialogs" instance=ExtResource("12")]
 mode = 1
@@ -71,23 +73,29 @@ mode = 1
 [node name="AboutDialog" parent="Dialogs" instance=ExtResource("34")]
 
 [node name="UnsavedCanvasDialog" type="ConfirmationDialog" parent="Dialogs"]
+size = Vector2i(617, 100)
 dialog_text = "You have unsaved changes. If you proceed, the progress you have made will be lost."
 
 [node name="QuitDialog" type="ConfirmationDialog" parent="Dialogs"]
+size = Vector2i(320, 100)
 dialog_text = "Are you sure you want to exit Pixelorama?"
 
 [node name="QuitAndSaveDialog" type="ConfirmationDialog" parent="Dialogs"]
+size = Vector2i(436, 100)
 dialog_text = "You have unsaved progress. How do you wish to proceed?"
 
 [node name="ErrorDialog" type="AcceptDialog" parent="Dialogs"]
+size = Vector2i(204, 100)
 dialog_text = "This is an error message!"
 
 [node name="BackupConfirmation" type="ConfirmationDialog" parent="Dialogs"]
+size = Vector2i(450, 174)
 dialog_text = "Autosaved project(s) from a crashed session were found.
 Do you want to recover the data?"
 dialog_autowrap = true
 
 [node name="FrameProperties" parent="Dialogs" instance=ExtResource("9")]
+size = Vector2i(219, 162)
 
 [node name="WindowOpacityDialog" parent="Dialogs" instance=ExtResource("10")]
 
@@ -106,22 +114,37 @@ visible = false
 [connection signal="canceled" from="Dialogs/CreateNewImage" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/CreateNewImage" to="." method="_can_draw_true"]
 [connection signal="confirmed" from="Dialogs/CreateNewImage" to="." method="_can_draw_true"]
+[connection signal="canceled" from="Dialogs/OpenSprite" to="." method="_on_OpenSprite_close_requested"]
 [connection signal="close_requested" from="Dialogs/OpenSprite" to="." method="_on_OpenSprite_close_requested"]
+[connection signal="confirmed" from="Dialogs/OpenSprite" to="." method="_on_OpenSprite_close_requested"]
 [connection signal="files_selected" from="Dialogs/OpenSprite" to="." method="_on_OpenSprite_files_selected"]
+[connection signal="canceled" from="Dialogs/SaveSprite" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/SaveSprite" to="." method="_can_draw_true"]
+[connection signal="confirmed" from="Dialogs/SaveSprite" to="." method="_can_draw_true"]
 [connection signal="file_selected" from="Dialogs/SaveSprite" to="." method="_on_SaveSprite_file_selected"]
+[connection signal="canceled" from="Dialogs/SaveSpriteHTML5" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/SaveSpriteHTML5" to="." method="_can_draw_true"]
 [connection signal="confirmed" from="Dialogs/SaveSpriteHTML5" to="." method="_on_SaveSpriteHTML5_confirmed"]
+[connection signal="confirmed" from="Dialogs/SaveSpriteHTML5" to="." method="_can_draw_true"]
+[connection signal="canceled" from="Dialogs/ExportDialog" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/ExportDialog" to="." method="_can_draw_true"]
 [connection signal="confirmed" from="Dialogs/ExportDialog" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/PreferencesDialog" to="." method="_can_draw_true"]
+[connection signal="confirmed" from="Dialogs/PreferencesDialog" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/AboutDialog" to="." method="_can_draw_true"]
+[connection signal="canceled" from="Dialogs/UnsavedCanvasDialog" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/UnsavedCanvasDialog" to="." method="_can_draw_true"]
+[connection signal="confirmed" from="Dialogs/UnsavedCanvasDialog" to="." method="_can_draw_true"]
+[connection signal="canceled" from="Dialogs/QuitDialog" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/QuitDialog" to="." method="_can_draw_true"]
 [connection signal="confirmed" from="Dialogs/QuitDialog" to="." method="_on_QuitDialog_confirmed"]
+[connection signal="canceled" from="Dialogs/QuitAndSaveDialog" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/QuitAndSaveDialog" to="." method="_can_draw_true"]
 [connection signal="confirmed" from="Dialogs/QuitAndSaveDialog" to="." method="_on_QuitAndSaveDialog_confirmed"]
 [connection signal="custom_action" from="Dialogs/QuitAndSaveDialog" to="." method="_on_QuitAndSaveDialog_custom_action"]
 [connection signal="close_requested" from="Dialogs/ErrorDialog" to="." method="_can_draw_true"]
+[connection signal="confirmed" from="Dialogs/ErrorDialog" to="." method="_can_draw_true"]
+[connection signal="canceled" from="Dialogs/BackupConfirmation" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/BackupConfirmation" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/BackupConfirmation" to="." method="_on_BackupConfirmation_close_requested"]
+[connection signal="confirmed" from="Dialogs/BackupConfirmation" to="." method="_can_draw_true"]

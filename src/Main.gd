@@ -21,7 +21,7 @@ func _init():
 
 func _ready() -> void:
 	# make windows real
-#	get_tree().root.gui_embed_subwindows = false
+	get_tree().root.gui_embed_subwindows = false
 
 	randomize()
 	get_tree().set_auto_accept_quit(false)
@@ -247,7 +247,7 @@ func _notification(what: int) -> void:
 				Global.has_focus = true
 
 
-func _on_files_dropped(files: PackedStringArray, _screen: int) -> void:
+func _on_files_dropped(files: PackedStringArray) -> void:
 	for file in files:
 		OpenSave.handle_loading_file(file)
 	var splash_dialog = Global.control.get_node("Dialogs/SplashDialog")
