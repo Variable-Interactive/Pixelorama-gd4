@@ -11,6 +11,7 @@ var live_preview := true
 
 
 func _ready() -> void:
+	super._ready()
 	var sm := ShaderMaterial.new()
 	sm.shader = shader
 	if preview:

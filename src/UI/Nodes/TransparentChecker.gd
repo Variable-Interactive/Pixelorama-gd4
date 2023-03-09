@@ -16,15 +16,20 @@ func update_rect() -> void:
 	material.set_shader_parameter("color2", Global.checker_color_2)
 	material.set_shader_parameter("follow_movement", Global.checker_follow_movement)
 	material.set_shader_parameter("follow_scale", Global.checker_follow_scale)
+	print("============")
+	print(Global.checker_follow_movement)
+	print(Global.checker_follow_scale)
 
 
 func update_offset(offset: Vector2, checker_scale: Vector2) -> void:
+	print(offset.y)
 	material.set_shader_parameter("offset", offset)
 	material.set_shader_parameter("scale", checker_scale)
 
 
-func _on_TransparentChecker_resized() -> void:
-	material.set_shader_parameter("size", size)
+# Disabled by Variable (Cause: i don't think this is needed with godot 4)
+#func _on_TransparentChecker_resized() -> void:
+#	material.set_shader_parameter("size", size)
 
 
 func fit_rect(rect: Rect2) -> void:

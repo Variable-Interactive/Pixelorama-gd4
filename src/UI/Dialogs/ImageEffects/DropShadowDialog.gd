@@ -10,6 +10,7 @@ var shader: Shader = load("res://src/Shaders/DropShadow.tres")
 
 
 func _ready() -> void:
+	super._ready()
 	shadow_color.get_picker().presets_visible = false
 	color = shadow_color.color
 	var sm := ShaderMaterial.new()

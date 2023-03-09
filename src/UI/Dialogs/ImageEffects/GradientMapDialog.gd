@@ -4,6 +4,7 @@ var shader: Shader = preload("res://src/Shaders/GradientMap.gdshader")
 
 
 func _ready() -> void:
+	super._ready()
 	var sm := ShaderMaterial.new()
 	sm.shader = shader
 	if preview:

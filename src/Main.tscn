@@ -103,6 +103,7 @@ visible = false
 visible = false
 
 [connection signal="close_requested" from="Dialogs/SplashDialog" to="." method="_can_draw_true"]
+[connection signal="canceled" from="Dialogs/CreateNewImage" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/CreateNewImage" to="." method="_can_draw_true"]
 [connection signal="confirmed" from="Dialogs/CreateNewImage" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/OpenSprite" to="." method="_on_OpenSprite_close_requested"]
@@ -122,5 +123,5 @@ visible = false
 [connection signal="confirmed" from="Dialogs/QuitAndSaveDialog" to="." method="_on_QuitAndSaveDialog_confirmed"]
 [connection signal="custom_action" from="Dialogs/QuitAndSaveDialog" to="." method="_on_QuitAndSaveDialog_custom_action"]
 [connection signal="close_requested" from="Dialogs/ErrorDialog" to="." method="_can_draw_true"]
-[connection signal="close_requested" from="Dialogs/BackupConfirmation" to="." method="_on_BackupConfirmation_close_requested"]
 [connection signal="close_requested" from="Dialogs/BackupConfirmation" to="." method="_can_draw_true"]
+[connection signal="close_requested" from="Dialogs/BackupConfirmation" to="." method="_on_BackupConfirmation_close_requested"]

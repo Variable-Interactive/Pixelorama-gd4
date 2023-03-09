@@ -10,6 +10,7 @@ var shader: Shader
 
 
 func _ready() -> void:
+	super._ready()
 	# Disabled by Variable (Cause: no OS.get_current_video_driver())
 #	if _is_webgl1():
 #		$VBoxContainer/OptionsContainer/PatternOptionButton.disabled = true

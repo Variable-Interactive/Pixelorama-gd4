@@ -22,6 +22,7 @@ var drag_pivot := false
 
 
 func _ready() -> void:
+	super._ready()
 	# Disabled by Variable (Cause: no OS.get_current_video_driver())
 #	if not _is_webgl1():
 #		type_option_button.add_item("Rotxel with Smear", ROTXEL_SMEAR)

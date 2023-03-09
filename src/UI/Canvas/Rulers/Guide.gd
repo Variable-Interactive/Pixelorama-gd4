@@ -13,7 +13,7 @@ var project = Global.current_project
 
 
 func _ready() -> void:
-	width = 1/Global.camera.zoom.x * 2
+	width = 1 / Global.camera.zoom.x * 2
 	default_color = Global.guide_color
 	project.guides.append(self)
 	if _outside_canvas():

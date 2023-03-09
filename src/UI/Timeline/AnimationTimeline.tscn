@@ -697,7 +697,9 @@ size_flags_horizontal = 3
 [node name="AnimationTimer" type="Timer" parent="."]
 
 [node name="OnionSkinningSettings" type="Window" parent="."]
+size = Vector2i(472, 393)
 visible = false
+wrap_controls = true
 
 [node name="OnionSkinningButtons" type="VBoxContainer" parent="OnionSkinningSettings"]
 anchors_preset = 14
@@ -757,6 +759,8 @@ mouse_default_cursor_shape = 2
 [node name="Label" type="Label" parent="OnionSkinningSettings/OnionSkinningButtons"]
 layout_mode = 2
 text = "If you want a layer to ignore onion skinning simply add the \"_io\" suffix in its name."
+horizontal_alignment = 1
+autowrap_mode = 3
 
 [node name="FrameTagDialog" parent="." instance=ExtResource("42")]
 
