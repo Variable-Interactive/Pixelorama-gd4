@@ -249,8 +249,8 @@ func _drop_data(_pos, data) -> void:
 
 	project.undo_redo.create_action("Move Cels")
 	if Input.is_action_pressed("ctrl") or layer != drop_layer:  # Swap cels
-		project.undo_redo.add_do_method(project, "swap_cel", frame, layer, drop_frame, drop_layer)
-		project.undo_redo.add_undo_method(project, "swap_cel", frame, layer, drop_frame, drop_layer)
+		project.undo_redo.add_do_method(Callable(project, "swap_cel").bind(frame, layer, drop_frame, drop_layer))
+		project.undo_redo.add_undo_method(Callable(project, "swap_cel").bind(frame, layer, drop_frame, drop_layer))
 	else:  # Move cels
 		var to_frame: int
 		if _get_region_rect(0, 0.5).has_point(get_global_mouse_position()):  # Left
@@ -259,15 +259,15 @@ func _drop_data(_pos, data) -> void:
 			to_frame = frame + 1
 		if drop_frame < frame:
 			to_frame -= 1
-		project.undo_redo.add_do_method(project, "move_cel", drop_frame, to_frame, layer)
-		project.undo_redo.add_undo_method(project, "move_cel", to_frame, drop_frame, layer)
+		project.undo_redo.add_do_method(Callable(project, "move_cel").bind(drop_frame, to_frame, layer))
+		project.undo_redo.add_undo_method(Callable(project, "move_cel").bind(to_frame, drop_frame, layer))
 
-	project.undo_redo.add_do_method(project, "change_cel", frame, layer)
+	project.undo_redo.add_do_method(Callable(project, "change_cel").bind(frame, layer))
 	project.undo_redo.add_undo_method(
-		project, "change_cel", project.current_frame, project.current_layer
+		Callable(project, "change_cel").bind(project.current_frame, project.current_layer)
 	)
-	project.undo_redo.add_undo_method(Global, "undo_or_redo", true)
-	project.undo_redo.add_do_method(Global, "undo_or_redo", false)
+	project.undo_redo.add_undo_method(Callable(Global, "undo_or_redo").bind(true))
+	project.undo_redo.add_do_method(Callable(Global, "undo_or_redo").bind(false))
 	project.undo_redo.commit_action()
 
 

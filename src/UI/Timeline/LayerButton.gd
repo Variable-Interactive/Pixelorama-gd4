@@ -289,12 +289,12 @@ func _drop_data(_pos, data) -> void:
 		a.to_parents[-1] = drop_from_parents[-1]
 		b.to_parents[-1] = a_from_parents[-1]
 
-		project.undo_redo.add_do_method(project, "swap_layers", a, b)
+		project.undo_redo.add_do_method(Callable(project, "swap_layers").bind(a, b))
 		project.undo_redo.add_undo_method(
-			project,
-			"swap_layers",
-			{"from": a.to, "to": a.from, "to_parents": a_from_parents},
-			{"from": b.to, "to": drop_from_indices, "to_parents": drop_from_parents}
+			Callable(project, "swap_layers").bind(
+				{"from": a.to, "to": a.from, "to_parents": a_from_parents},
+				{"from": b.to, "to": drop_from_indices, "to_parents": drop_from_parents}
+			)
 		)
 
 	else:  # Move layers
@@ -333,18 +333,18 @@ func _drop_data(_pos, data) -> void:
 		to_parents[-1] = to_parent
 
 		project.undo_redo.add_do_method(
-			project, "move_layers", drop_from_indices, drop_to_indices, to_parents
+			Callable(project, "move_layers").bind(drop_from_indices, drop_to_indices, to_parents)
 		)
 		project.undo_redo.add_undo_method(
-			project, "move_layers", drop_to_indices, drop_from_indices, drop_from_parents
+			Callable(project, "move_layers").bind(drop_to_indices, drop_from_indices, drop_from_parents)
 		)
 	if project.current_layer == drop_layer:
-		project.undo_redo.add_do_method(project, "change_cel", -1, layer)
+		project.undo_redo.add_do_method(Callable(project, "change_cel").bind(-1, layer))
 	else:
-		project.undo_redo.add_do_method(project, "change_cel", -1, project.current_layer)
-	project.undo_redo.add_undo_method(project, "change_cel", -1, project.current_layer)
-	project.undo_redo.add_undo_method(Global, "undo_or_redo", true)
-	project.undo_redo.add_do_method(Global, "undo_or_redo", false)
+		project.undo_redo.add_do_method(Callable(project, "change_cel").bind(-1, project.current_layer))
+	project.undo_redo.add_undo_method(Callable(project, "change_cel").bind(-1, project.current_layer))
+	project.undo_redo.add_undo_method(Callable(Global, "undo_or_redo").bind(true))
+	project.undo_redo.add_do_method(Callable(Global, "undo_or_redo").bind(false))
 	project.undo_redo.commit_action()
 
 

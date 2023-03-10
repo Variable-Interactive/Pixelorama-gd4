@@ -146,6 +146,6 @@ visible = false
 [connection signal="close_requested" from="Dialogs/ErrorDialog" to="." method="_can_draw_true"]
 [connection signal="confirmed" from="Dialogs/ErrorDialog" to="." method="_can_draw_true"]
 [connection signal="canceled" from="Dialogs/BackupConfirmation" to="." method="_can_draw_true"]
-[connection signal="close_requested" from="Dialogs/BackupConfirmation" to="." method="_can_draw_true"]
 [connection signal="close_requested" from="Dialogs/BackupConfirmation" to="." method="_on_BackupConfirmation_close_requested"]
+[connection signal="close_requested" from="Dialogs/BackupConfirmation" to="." method="_can_draw_true"]
 [connection signal="confirmed" from="Dialogs/BackupConfirmation" to="." method="_can_draw_true"]

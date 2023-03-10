@@ -134,8 +134,8 @@ func remove_brush(brush_button: Node) -> void:
 	project.undo_redo.create_action("Delete Custom Brush")
 	project.undo_redo.add_do_property(project, "brushes", project.brushes)
 	project.undo_redo.add_undo_property(project, "brushes", undo_brushes)
-	project.undo_redo.add_do_method(self, "redo_custom_brush", brush_button)
-	project.undo_redo.add_undo_method(self, "undo_custom_brush", brush_button)
+	project.undo_redo.add_do_method(Callable(self, "redo_custom_brush").bind(brush_button))
+	project.undo_redo.add_undo_method(Callable(self, "undo_custom_brush").bind(brush_button))
 	project.undo_redo.add_undo_reference(brush_button)
 	project.undo_redo.commit_action()
 

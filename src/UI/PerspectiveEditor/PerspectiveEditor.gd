@@ -13,8 +13,8 @@ func _on_AddPoint_pressed() -> void:
 	var project = Global.current_project
 	project.undos += 1
 	project.undo_redo.create_action("Add Vanishing Point")
-	project.undo_redo.add_do_method(self, "add_vanishing_point", true)
-	project.undo_redo.add_undo_method(self, "undo_add_vanishing_point")
+	project.undo_redo.add_do_method(Callable(self, "add_vanishing_point").bind(true))
+	project.undo_redo.add_undo_method(Callable(self, "undo_add_vanishing_point"))
 	project.undo_redo.commit_action()
 
 
@@ -45,8 +45,8 @@ func delete_point(idx):
 	var project = Global.current_project
 	project.undos += 1
 	project.undo_redo.create_action("Delete Vanishing Point")
-	project.undo_redo.add_do_method(self, "do_delete_point", idx)
-	project.undo_redo.add_undo_method(self, "undo_delete_point", idx)
+	project.undo_redo.add_do_method(Callable(self, "do_delete_point").bind(idx))
+	project.undo_redo.add_undo_method(Callable(self, "undo_delete_point").bind(idx))
 	project.undo_redo.commit_action()
 
 

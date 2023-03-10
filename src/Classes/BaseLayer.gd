@@ -176,7 +176,8 @@ func can_layer_get_drawn() -> bool:
 	return false
 
 
-func accepts_child(_layer: BaseLayer) -> bool:
+#func accepts_child(_layer: BaseLayer) -> bool:
+func accepts_child(_layer) -> bool:
 	return false
 
 

@@ -173,8 +173,6 @@ class Tool:
 		display_name = _display_name
 		shortcut = _shortcut
 		scene = _scene
-		# Line added by Variable (Cause: Debugging)
-		print(name, " ", scene.can_instantiate())
 		extra_hint = _extra_hint
 		extra_shortcuts = _extra_shortucts
 		icon = load("res://assets/graphics/tools/%s.png" % name.to_lower())
