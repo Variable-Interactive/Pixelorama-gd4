@@ -1,48 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dh8echi5nanik"]
+[gd_scene load_steps=2 format=3 uid="uid://c4agvbnl12nsg"]
 
-[ext_resource type="PackedScene" path="res://src/UI/Timeline/BaseLayerButton.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://ciqfwht0fr6vc" path="res://src/UI/Timeline/BaseLayerButton.tscn" id="1_bua73"]
 
-[node name="GroupLayerButton" instance=ExtResource("1")]
+[node name="GroupLayerButton" instance=ExtResource("1_bua73")]
 hide_expand_button = false
-
-[node name="HBoxContainer" parent="." index="0"]
-layout_mode = 0
-
-[node name="EmptySpacer" parent="HBoxContainer" index="0"]
-layout_mode = 2
-
-[node name="LayerButtons" parent="HBoxContainer" index="1"]
-layout_mode = 2
-
-[node name="ExpandButton" parent="HBoxContainer/LayerButtons" index="0"]
-layout_mode = 2
-
-[node name="TextureRect" parent="HBoxContainer/LayerButtons/ExpandButton" index="0"]
-layout_mode = 0
-
-[node name="VisibilityButton" parent="HBoxContainer/LayerButtons" index="1"]
-layout_mode = 2
-
-[node name="TextureRect" parent="HBoxContainer/LayerButtons/VisibilityButton" index="0"]
-layout_mode = 0
-
-[node name="LockButton" parent="HBoxContainer/LayerButtons" index="2"]
-layout_mode = 2
-
-[node name="TextureRect" parent="HBoxContainer/LayerButtons/LockButton" index="0"]
-layout_mode = 0
-
-[node name="LayerName" parent="HBoxContainer" index="2"]
-layout_mode = 2
-
-[node name="HierarchySpacer" parent="HBoxContainer/LayerName" index="0"]
-layout_mode = 2
-
-[node name="Label" parent="HBoxContainer/LayerName" index="1"]
-layout_mode = 2
-
-[node name="LineEdit" parent="HBoxContainer/LayerName" index="2"]
-layout_mode = 2
-
-[node name="EmptySpacer" parent="HBoxContainer/LayerName" index="3"]
-layout_mode = 2

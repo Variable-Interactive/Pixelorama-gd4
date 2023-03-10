@@ -97,6 +97,7 @@ size_flags_vertical = 0
 texture = ExtResource("2")
 
 [node name="AddGroup" type="Button" parent="TimelineContainer/TimelineButtons/LayerTools/VBoxContainer/LayerButtons" groups=["UIButtons"]]
+visible = false
 texture_filter = 1
 custom_minimum_size = Vector2(22, 22)
 layout_mode = 2
