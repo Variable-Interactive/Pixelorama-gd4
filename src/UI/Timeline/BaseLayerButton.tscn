@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://ciqfwht0fr6vc"]
 
-[ext_resource type="Texture2D" uid="uid://6kk6itggo35k" path="res://assets/graphics/layers/group_expanded.png" id="1_quqbr"]
 [ext_resource type="Script" path="res://src/UI/Timeline/LayerButton.gd" id="1_yykf1"]
-[ext_resource type="Texture2D" uid="uid://cl3nm76qrxuj8" path="res://assets/graphics/layers/layer_visible.png" id="2_eub5r"]
-[ext_resource type="Texture2D" uid="uid://ekrl04malgdo" path="res://assets/graphics/layers/unlock.png" id="3_tx2i4"]
+[ext_resource type="Texture2D" uid="uid://6kk6itggo35k" path="res://assets/graphics/layers/group_expanded.png" id="2_bevkv"]
+[ext_resource type="Texture2D" uid="uid://cl3nm76qrxuj8" path="res://assets/graphics/layers/layer_visible.png" id="3_q0xxl"]
+[ext_resource type="Texture2D" uid="uid://ekrl04malgdo" path="res://assets/graphics/layers/unlock.png" id="4_qf47u"]
 
 [node name="BaseLayerButton" type="Button"]
 custom_minimum_size = Vector2(205, 36)
@@ -26,7 +26,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(118, 0)
 layout_mode = 2
 
-[node name="ExpandButton" type="Button" parent="HBoxContainer/LayerButtons"]
+[node name="ExpandButton" type="Button" parent="HBoxContainer/LayerButtons" groups=["UIButtons"]]
 texture_filter = 1
 custom_minimum_size = Vector2(22, 22)
 layout_mode = 2
@@ -43,9 +43,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_quqbr")
+texture = ExtResource("2_bevkv")
 
-[node name="VisibilityButton" type="Button" parent="HBoxContainer/LayerButtons"]
+[node name="VisibilityButton" type="Button" parent="HBoxContainer/LayerButtons" groups=["UIButtons"]]
 texture_filter = 1
 custom_minimum_size = Vector2(22, 22)
 layout_mode = 2
@@ -62,9 +62,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_eub5r")
+texture = ExtResource("3_q0xxl")
 
-[node name="LockButton" type="Button" parent="HBoxContainer/LayerButtons"]
+[node name="LockButton" type="Button" parent="HBoxContainer/LayerButtons" groups=["UIButtons"]]
 texture_filter = 1
 custom_minimum_size = Vector2(22, 22)
 layout_mode = 2
@@ -81,7 +81,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_tx2i4")
+texture = ExtResource("4_qf47u")
 
 [node name="LayerName" type="HBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -112,4 +112,7 @@ caret_blink_interval = 0.5
 layout_mode = 2
 
 [connection signal="gui_input" from="." to="." method="_on_LayerContainer_gui_input"]
+[connection signal="pressed" from="HBoxContainer/LayerButtons/ExpandButton" to="." method="_on_ExpandButton_pressed"]
+[connection signal="pressed" from="HBoxContainer/LayerButtons/VisibilityButton" to="." method="_on_VisibilityButton_pressed"]
+[connection signal="pressed" from="HBoxContainer/LayerButtons/LockButton" to="." method="_on_LockButton_pressed"]
 [connection signal="focus_exited" from="HBoxContainer/LayerName/LineEdit" to="." method="_on_LineEdit_focus_exited"]
