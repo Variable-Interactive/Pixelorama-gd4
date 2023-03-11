@@ -58,7 +58,8 @@ func set_name_to_default(number: int) -> void:
 	name = tr("Group") + " %s" % number
 
 
-func accepts_child(_layer: BaseLayer) -> bool:
+#func accepts_child(_layer: BaseLayer) -> bool:
+func accepts_child(_layer) -> bool:
 	return true
 
 

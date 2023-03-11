@@ -163,7 +163,8 @@ var palettes := {}
 
 # Nodes
 var pixel_layer_button_node: PackedScene = preload("res://src/UI/Timeline/PixelLayerButton.tscn")
-var group_layer_button_node: PackedScene = preload("res://src/UI/Timeline/GroupLayerButton.tscn")
+# a hacky solution (if i add it's preload here then pixelorama crashes so i added it in _ready)
+var group_layer_button_node: PackedScene
 var pixel_cel_button_node: PackedScene = preload("res://src/UI/Timeline/PixelCelButton.tscn")
 var group_cel_button_node: PackedScene = preload("res://src/UI/Timeline/GroupCelButton.tscn")
 
@@ -236,6 +237,7 @@ var group_cel_button_node: PackedScene = preload("res://src/UI/Timeline/GroupCel
 
 
 func _ready() -> void:
+	group_layer_button_node = preload("res://src/UI/Timeline/GroupLayerButton.tscn")
 	_initialize_keychain()
 
 	if OS.has_feature("standalone"):
