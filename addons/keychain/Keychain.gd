@@ -104,7 +104,7 @@ class InputGroup:
 	var folded := true
 	var tree_item: TreeItem
 
-	func _init(_parent_group := "",_folded := true):
+	func _init(_parent_group := "", _folded := true) -> void:
 		parent_group = _parent_group
 		folded = _folded
 
@@ -118,10 +118,8 @@ func _ready() -> void:
 	set_process_input(multiple_menu_accelerators)
 
 	# Load shortcut profiles
-	DirAccess.make_dir_absolute(PROFILES_PATH)
+	DirAccess.make_dir_recursive_absolute(PROFILES_PATH)
 	var profile_dir := DirAccess.open(PROFILES_PATH)
-	profile_dir.include_hidden = true  # alternative of skip_hidden: bool = false in Godot 3.x
-	profile_dir.include_navigational = true  # alternative of include_hidden: bool = false in Godot 3.x
 	profile_dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	var file_name = profile_dir.get_next()
 	while file_name != "":
@@ -145,8 +143,6 @@ func _ready() -> void:
 		profile.fill_bindings()
 
 	var l18n_dir := DirAccess.open(TRANSLATIONS_PATH)
-	l18n_dir.include_hidden = true  # alternative of skip_hidden: bool = false in Godot 3.x
-	l18n_dir.include_navigational = true  # alternative of include_hidden: bool = false in Godot 3.x
 	l18n_dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	file_name = l18n_dir.get_next()
 	while file_name != "":
@@ -162,8 +158,7 @@ func _ready() -> void:
 	for action in actions:
 		var input_action: InputAction = actions[action]
 		if input_action is MenuInputAction:
-			# Below line has been modified
-			input_action.get_node(Global.top_menu_container.get_node("MenuItems"))
+			input_action.get_node(get_tree().current_scene)
 
 
 func _input(event: InputEvent) -> void:
@@ -186,8 +181,6 @@ func change_profile(index: int) -> void:
 		action_erase_events(action)
 		for event in selected_profile.bindings[action]:
 			action_add_event(action, event)
-	# NOTE: Following line not present in the plugin itself, be careful not to overwrite
-	Global.update_hint_tooltips()
 
 
 func action_add_event(action: String, event: InputEvent) -> void:

@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" path="res://src/Preferences/PreferencesDialog.gd" id="1"]
 [ext_resource type="Script" path="res://src/Preferences/HandleExtensions.gd" id="2"]
-[ext_resource type="PackedScene" uid="uid://i68scyjugi7w" path="res://addons/keychain/ShortcutEdit.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://bq7ibhm0txl5p" path="res://addons/keychain/ShortcutEdit.tscn" id="3"]
 [ext_resource type="Script" path="res://src/Preferences/HandleLanguages.gd" id="4"]
 [ext_resource type="Script" path="res://src/Preferences/HandleThemes.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://bp5q28e2nu60e" path="res://src/UI/Nodes/ValueSlider.tscn" id="6"]
 
 [node name="PreferencesDialog" type="AcceptDialog"]
-size = Vector2i(600, 400)
+size = Vector2i(558, 400)
 script = ExtResource("1")
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
@@ -34,6 +34,7 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+horizontal_scroll_mode = 0
 
 [node name="RightSide" type="VBoxContainer" parent="HSplitContainer/VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true

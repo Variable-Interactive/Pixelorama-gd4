@@ -1,12 +1,12 @@
 class_name ShortcutProfile
 extends Resource
 
-@export var name: String = ""
-@export var customizable: bool = true
-@export var bindings: Dictionary = {}
+@export var name := ""
+@export var customizable := true
+@export var bindings := {}
 
 
-func _init():
+func _init() -> void:
 	bindings = bindings.duplicate(true)
 
 

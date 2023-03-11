@@ -1,4 +1,4 @@
-extends Control
+extends PanelContainer
 
 enum { KEYBOARD, MOUSE, JOY_BUTTON, JOY_AXIS }
 
@@ -121,7 +121,7 @@ func _construct_tree() -> void:
 	for action in InputMap.get_actions():  # Fill the tree with actions and their events
 		if action in Keychain.ignore_actions:
 			continue
-		if Keychain.ignore_ui_actions and action.begins_with("ui_"):
+		if Keychain.ignore_ui_actions and (action as String).begins_with("ui_"):
 			continue
 
 		var display_name := get_action_name(action)
@@ -131,7 +131,7 @@ func _construct_tree() -> void:
 			group_name = input_action.group
 
 		var tree_item: TreeItem
-		if (group_name != "") and (group_name in Keychain.groups):
+		if not group_name.is_empty() and group_name in Keychain.groups:
 			var input_group: Keychain.InputGroup = Keychain.groups[group_name]
 			var group_root: TreeItem = input_group.tree_item
 			tree_item = tree.create_item(group_root)
@@ -209,7 +209,7 @@ func _humanize_snake_case(text: String) -> String:
 	text = text.replace("_", " ")
 	var first_letter := text.left(1)
 	first_letter = first_letter.capitalize()
-	text = text.substr(1, text.length())
+	text = text.right(-1)
 	text = text.insert(0, first_letter)
 	return text
 
@@ -236,8 +236,8 @@ func add_event_tree_item(event: InputEvent, action_tree_item: TreeItem) -> void:
 	event_tree_item.set_metadata(0, event)
 	match event_class:
 		"InputEventKey":
-			var keycode: int = event.get_keycode_with_modifiers()
-			if keycode > 0:
+			var scancode: int = event.get_keycode_with_modifiers()
+			if scancode > 0:
 				event_tree_item.set_icon(0, key_tex)
 			else:
 				event_tree_item.set_icon(0, key_phys_tex)
@@ -254,12 +254,14 @@ func add_event_tree_item(event: InputEvent, action_tree_item: TreeItem) -> void:
 func event_to_str(event: InputEvent) -> String:
 	var output := ""
 	if event is InputEventKey:
-		var keycode: int = event.get_keycode_with_modifiers()
+		var scancode := 0
+		if event.keycode != 0:
+			scancode = event.get_keycode_with_modifiers()
 		var physical_str := ""
-		if keycode == 0:
-			keycode = event.get_physical_keycode_with_modifiers()
+		if scancode == 0:
+			scancode = event.get_physical_keycode_with_modifiers()
 			physical_str = " " + tr("(Physical)")
-		output = OS.get_keycode_string(keycode) + physical_str
+		output = OS.get_keycode_string(scancode) + physical_str
 
 	elif event is InputEventMouseButton:
 		output = tr(MOUSE_BUTTON_NAMES[event.button_index - 1])
@@ -281,10 +283,10 @@ func event_to_str(event: InputEvent) -> String:
 	return output
 
 
-func _on_ShortcutTree_button_pressed(item: TreeItem, _column: int, id: int) -> void:
+func _on_shortcut_tree_button_clicked(item: TreeItem, _column: int, id: int, _mbi: int) -> void:
 	var action = item.get_metadata(0)
 	currently_editing_tree_item = item
-	if action is String:
+	if action is StringName:
 		if id == 0:  # Add
 			var rect: Rect2 = tree.get_item_area_rect(item, 0)
 			rect.position.x = rect.end.x - 42
@@ -296,8 +298,7 @@ func _on_ShortcutTree_button_pressed(item: TreeItem, _column: int, id: int) -> v
 			Keychain.action_erase_events(action)
 			Keychain.selected_profile.change_action(action)
 			for child in item.get_children():
-				while child != null:
-					child.free()
+				child.free()
 
 	elif action is InputEvent:
 		var parent_action = item.get_parent().get_metadata(0)
@@ -311,7 +312,7 @@ func _on_ShortcutTree_button_pressed(item: TreeItem, _column: int, id: int) -> v
 			elif action is InputEventJoypadMotion:
 				joy_axis_shortcut_selector.popup_centered()
 		elif id == 1:  # Delete
-			if not parent_action is String:
+			if not parent_action is StringName:
 				return
 			Keychain.action_erase_event(parent_action, action)
 			Keychain.selected_profile.change_action(parent_action)
@@ -321,7 +322,7 @@ func _on_ShortcutTree_button_pressed(item: TreeItem, _column: int, id: int) -> v
 func _on_ShortcutTree_item_activated() -> void:
 	var selected_item: TreeItem = tree.get_selected()
 	if selected_item.get_button_count(0) > 0 and !selected_item.is_button_disabled(0, 0):
-		_on_ShortcutTree_button_pressed(tree.get_selected(), 0, 0)
+		_on_shortcut_tree_button_clicked(tree.get_selected(), 0, 0, 0)
 
 
 func _on_ShortcutTypeMenu_id_pressed(id: int) -> void:
@@ -396,7 +397,12 @@ func _on_ProfileSettings_confirmed() -> void:
 
 
 func _delete_profile_file(file_name: String) -> void:
-	DirAccess.remove_absolute(file_name)
+	var dir := DirAccess.open(file_name.get_base_dir())
+	var err := dir.get_open_error()
+	if err != OK:
+		print("Error deleting shortcut profile %s. Error code: %s" % [file_name, err])
+		return
+	dir.remove(file_name)
 
 
 func _on_DeleteConfirmation_confirmed() -> void:

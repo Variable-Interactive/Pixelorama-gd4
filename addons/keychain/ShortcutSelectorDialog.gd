@@ -2,7 +2,7 @@ extends ConfirmationDialog
 
 enum InputTypes { KEYBOARD, MOUSE, JOY_BUTTON, JOY_AXIS }
 
-@export var input_type: int = InputTypes.KEYBOARD
+@export var input_type: InputTypes = InputTypes.KEYBOARD
 var listened_input: InputEvent
 
 @onready var root: Node = get_parent()
@@ -23,7 +23,6 @@ func _ready() -> void:
 		get_cancel_button().focus_neighbor_top = option_button.get_path()
 		option_button.focus_neighbor_bottom = get_ok_button().get_path()
 
-	# Disabled by Variable (cause: get_close_button())
 #	get_close_button().focus_mode = Control.FOCUS_NONE
 
 
@@ -41,7 +40,7 @@ func _show_assigned_state(event: InputEvent) -> void:
 	var action := ""
 	if metadata is InputEvent:  # Editing an input event
 		action = root.currently_editing_tree_item.get_parent().get_metadata(0)
-	elif metadata is String:  # Adding a new input event to an action
+	elif metadata is StringName:  # Adding a new input event to an action
 		action = metadata
 
 	var matching_pair: Array = _find_matching_event_in_map(action, event)
@@ -66,14 +65,14 @@ func _apply_shortcut_change(input_event: InputEvent) -> void:
 			return
 		root.currently_editing_tree_item.set_metadata(0, input_event)
 		root.currently_editing_tree_item.set_text(0, root.event_to_str(input_event))
-	elif metadata is String:  # Adding a new input event to an action
+	elif metadata is StringName:  # Adding a new input event to an action
 		var changed: bool = _set_shortcut(metadata, null, input_event)
 		if !changed:
 			return
 		root.add_event_tree_item(input_event, root.currently_editing_tree_item)
 
 
-func _set_shortcut(action: String, old_event: InputEvent, new_event: InputEvent) -> bool:
+func _set_shortcut(action: StringName, old_event: InputEvent, new_event: InputEvent) -> bool:
 	if InputMap.action_has_event(action, new_event):  # If the current action already has that event
 		return false
 	if old_event:
@@ -87,7 +86,7 @@ func _set_shortcut(action: String, old_event: InputEvent, new_event: InputEvent)
 		if action in Keychain.actions:
 			group = Keychain.actions[action].group
 
-		var action_to_replace: String = matching_pair[0]
+		var action_to_replace: StringName = matching_pair[0]
 		var input_to_replace: InputEvent = matching_pair[1]
 		Keychain.action_erase_event(action_to_replace, input_to_replace)
 		Keychain.selected_profile.change_action(action_to_replace)
@@ -97,7 +96,7 @@ func _set_shortcut(action: String, old_event: InputEvent, new_event: InputEvent)
 			var metadata = tree_item.get_metadata(0)
 			if metadata is InputEvent:
 				if input_to_replace.is_match(metadata):
-					var map_action: String = tree_item.get_parent().get_metadata(0)
+					var map_action: StringName = tree_item.get_parent().get_metadata(0)
 					if map_action == action_to_replace:
 						tree_item.free()
 						break
@@ -111,8 +110,8 @@ func _set_shortcut(action: String, old_event: InputEvent, new_event: InputEvent)
 
 # Based on https://github.com/godotengine/godot/blob/master/scene/gui/tree.cpp#L685
 func _get_next_tree_item(current: TreeItem) -> TreeItem:
-	if current.get_children()[0]:
-		current = current.get_children()[0]
+	if current.get_first_child():
+		current = current.get_first_child()
 	elif current.get_next():
 		current = current.get_next()
 	else:
@@ -123,7 +122,7 @@ func _get_next_tree_item(current: TreeItem) -> TreeItem:
 	return current
 
 
-func _find_matching_event_in_map(action: String, event: InputEvent) -> Array:
+func _find_matching_event_in_map(action: StringName, event: InputEvent) -> Array:
 	var group := ""
 	if action in Keychain.actions:
 		group = Keychain.actions[action].group
@@ -131,7 +130,7 @@ func _find_matching_event_in_map(action: String, event: InputEvent) -> Array:
 	for map_action in InputMap.get_actions():
 		if map_action in Keychain.ignore_actions:
 			continue
-		if Keychain.ignore_ui_actions and map_action.begins_with("ui_"):
+		if Keychain.ignore_ui_actions and (map_action as String).begins_with("ui_"):
 			continue
 		for map_event in InputMap.action_get_events(map_action):
 			if !event.is_match(map_event):
@@ -169,9 +168,13 @@ func _on_ShortcutSelectorDialog_about_to_show() -> void:
 			option_button.select(index)
 			_on_OptionButton_item_selected(index)
 
-		elif metadata is String:  # Adding a new input event to an action
+		elif metadata is StringName:  # Adding a new input event to an action
 			option_button.select(0)
 			_on_OptionButton_item_selected(0)
+
+
+func _on_ShortcutSelectorDialog_popup_hide() -> void:
+	set_process_input(false)
 
 
 func _on_OptionButton_item_selected(index: int) -> void:
